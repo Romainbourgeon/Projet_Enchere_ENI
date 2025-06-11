@@ -1,8 +1,8 @@
-package controller;
+package controller; // Adaptez selon votre structure
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class AccueilController {
@@ -14,7 +14,7 @@ public class AccueilController {
 
     @GetMapping("/connexion")
     public String connexion() {
-        return "view/view-connexion";
-    }
 
+        return "view-connexion";
+    }
 }

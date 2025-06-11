@@ -1,9 +1,10 @@
-<!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org"
-      th:replace="fragments/layout :: layout(
-          titrePage='Accueil - Les objets sont nos amis',
+      th:replace="~{fragments/layout :: layout(
+          title='Accueil - Les objets sont nos amis',
+          header='',
+          footer='',
           ressourcesSupp=''
-      )">
+      )}">
 <body>
 <div data-th-fragment="content">
     <main>
