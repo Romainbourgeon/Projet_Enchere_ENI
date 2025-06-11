@@ -1,13 +1,17 @@
-package bll;
+package org.example.super_projet_eni.bll;
 
-import bo.Adresse;
-import bo.ArticleAVendre;
-import bo.Categorie;
-import bo.Utilisateur;
-import dal.UtilisateurDao;
+
+import org.example.super_projet_eni.bo.Adresse;
+import org.example.super_projet_eni.bo.ArticleAVendre;
+import org.example.super_projet_eni.bo.Categorie;
+import org.example.super_projet_eni.bo.Utilisateur;
+import org.example.super_projet_eni.dal.AdresseDao;
+import org.example.super_projet_eni.dal.ArticleAVendreDao;
+import org.example.super_projet_eni.dal.CategorieDao;
+import org.example.super_projet_eni.dal.UtilisateurDao;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
+
 import java.util.List;
 
 

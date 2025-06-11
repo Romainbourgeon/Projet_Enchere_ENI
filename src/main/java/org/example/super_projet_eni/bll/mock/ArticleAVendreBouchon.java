@@ -1,6 +1,6 @@
-package bll.mock;
+package org.example.super_projet_eni.bll.mock;
 
-import bll.ArticleAVendreService;
+import org.example.super_projet_eni.bll.ArticleAVendreService;
 import bo.Adresse;
 import bo.ArticleAVendre;
 import bo.Categorie;

@@ -19,10 +19,15 @@ public class UtilisateurDaoImpl implements UtilisateurDao{
 
     // requêtes SQL
     private final String SELECT_BY_PSEUDO = "select * from UTILISATEURS where pseudo = :pseudo";
-
+    private final String SELECT_ALL = "SELECT * FROM UTILISATEURS";
+//    private final String INSERT = "INSERT INTO UTILISATEURS(pseudo, nom, prenom, email, telephone, mot_de_passe) "
+//            + " VALUES (:titre, :annee, :duree, :synopsis, :idRealisateur, :idGenre)";
+//    private final String FIND_TITRE = "SELECT TITRE FROM FILM WHERE  id = :id";
 
     @Override
     public void create(Utilisateur utilisateur) {
+
+
 
     }
 
@@ -35,7 +40,7 @@ public class UtilisateurDaoImpl implements UtilisateurDao{
 
     @Override
     public List<Utilisateur> readAll() {
-        return null;
+        return jdbcTemplate.query(SELECT_ALL, new UtilisateurRowMapper());
     }
 
     @Override

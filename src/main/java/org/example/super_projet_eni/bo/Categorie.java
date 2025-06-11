@@ -5,6 +5,9 @@ public class Categorie {
    private String libelle;
 
 
+    public Categorie() {
+    }
+
     public Categorie(String libelle) {
         this.libelle = libelle;
     }

@@ -1,4 +1,4 @@
-package bll;
+package org.example.super_projet_eni.bll;
 
 import bo.Adresse;
 import bo.ArticleAVendre;
