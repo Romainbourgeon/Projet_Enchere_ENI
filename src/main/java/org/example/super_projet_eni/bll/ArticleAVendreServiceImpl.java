@@ -6,14 +6,14 @@ import org.example.super_projet_eni.bo.ArticleAVendre;
 import org.example.super_projet_eni.bo.Categorie;
 import org.example.super_projet_eni.bo.Utilisateur;
 import org.example.super_projet_eni.dal.UtilisateurDao;
-import org.springframework.context.annotation.Primary;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 
 @Service
-@Primary
+
 public class ArticleAVendreServiceImpl implements ArticleAVendreService {
 
 
