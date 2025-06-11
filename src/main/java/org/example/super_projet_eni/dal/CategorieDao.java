@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface CategorieDao {
 
-    Long create (Categorie categorie);
+    long create (Categorie categorie);
     Categorie read (long id);
     List<Categorie> readAll ();
     void update (Categorie categorie);
