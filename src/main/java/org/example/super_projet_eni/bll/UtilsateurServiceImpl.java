@@ -2,9 +2,13 @@ package org.example.super_projet_eni.bll;
 
 import org.example.super_projet_eni.bo.Utilisateur;
 import org.example.super_projet_eni.dal.UtilisateurDAO;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
+
+@Service
 public class UtilisateurServiceImpl implements UtilisateurService {
 
     private final UtilisateurDAO utilisateurDAO;

@@ -14,22 +14,22 @@ import java.util.List;
 
 @Service
 @Primary
-public class ArticleAVendreImpl implements ArticleAVendreService {
+public class ArticleAVendreServiceImpl implements ArticleAVendreService {
 
 
-     private UtilisateurDao utilisateurDao ;
-     private ArticleAVendreDao articleAVendreDao ;
-     private AdresseDao adresseDao;
-     private CategorieDao categorieDao;
+    private UtilisateurDao utilisateurDao ;
+    private ArticleAVendreDao articleAVendreDao ;
+    private AdresseDao adresseDao;
+    private CategorieDao categorieDao;
 
 
-public ArticleAVendreImpl(UtilisateurDao utilisateurDao, ArticleAVendreDao articleAVendreDao,AdresseDao adresseDao,CategorieDao categorieDao) {
-    this.utilisateurDao = utilisateurDao;
-    this.articleAVendreDao = articleAVendreDao;
-    this.adresseDao = adresseDao;
-    this.categorieDao = categorieDao;
+    public ArticleAVendreServiceImpl(UtilisateurDao utilisateurDao, ArticleAVendreDao articleAVendreDao,AdresseDao adresseDao,CategorieDao categorieDao) {
+        this.utilisateurDao = utilisateurDao;
+        this.articleAVendreDao = articleAVendreDao;
+        this.adresseDao = adresseDao;
+        this.categorieDao = categorieDao;
 
-}
+    }
 
 
     @Override

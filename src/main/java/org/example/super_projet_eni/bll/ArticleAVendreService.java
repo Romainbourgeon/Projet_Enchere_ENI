@@ -5,9 +5,9 @@ import org.example.super_projet_eni.bo.Adresse;
 import org.example.super_projet_eni.bo.ArticleAVendre;
 import org.example.super_projet_eni.bo.Categorie;
 import org.example.super_projet_eni.bo.Utilisateur;
-
-
 import java.util.List;
+
+
 
 public interface ArticleAVendreService {
 
