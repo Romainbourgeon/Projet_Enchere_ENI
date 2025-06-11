@@ -1,10 +1,11 @@
-package bll.mock;
+package org.example.super_projet_eni.bll.mock;
 
-import bll.ArticleAVendreService;
-import bo.Adresse;
-import bo.ArticleAVendre;
-import bo.Categorie;
-import bo.Utilisateur;
+import org.example.super_projet_eni.bll.ArticleAVendreService;
+
+import org.example.super_projet_eni.bo.Adresse;
+import org.example.super_projet_eni.bo.ArticleAVendre;
+import org.example.super_projet_eni.bo.Categorie;
+import org.example.super_projet_eni.bo.Utilisateur;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
