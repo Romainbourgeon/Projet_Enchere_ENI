@@ -1,14 +1,18 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<body>
-<!-- Injecte dans le layout le titre et le contenu de la section -->
-<div data-th-replace="fragments/layout :: layout(~{::title}, ~{::section})">
-    <title>Accueil</title>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      data-th-replace="~{fragments/layout :: layout-encheres(
+          titrePage=~{::title},
+          ressourcesSupp=~{}
+      )}">
 
-    <section>
-        <h1 class="mt-4">Bienvenue sur MonSite</h1>
-        <p class="lead">Ceci est une page d'accueil avec Bootstrap et Thymeleaf.</p>
-    </section>
-</div>
+<head>
+    <title>Accueil - Les objets sont nos amis</title>
+</head>
+
+<body>
+<main>
+    <h1>Liste des enchères</h1>
+</main>
 </body>
+
 </html>
