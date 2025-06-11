@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org"
       th:replace="fragments/layout :: layout(
-          titrePage='Accueil - Les objets sont nos amis',
+          titrePage='Page de connexion',
           ressourcesSupp=''
       )">
-<body>
-<div data-th-fragment="content">
+
+<div th:fragment="content">
     <main>
-        <h1>Liste des enchères</h1>
+        <h1>Page de connection</h1>
         <!-- Le contenu spécifique de ta page -->
     </main>
 </div>
-</body>
 </html>

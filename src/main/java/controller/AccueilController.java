@@ -12,4 +12,9 @@ public class AccueilController {
         return "index";
     }
 
+    @GetMapping("/connexion")
+    public String connexion() {
+        return "view/view-connexion";
+    }
+
 }
