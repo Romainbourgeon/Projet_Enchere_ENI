@@ -1,4 +1,4 @@
-package bo;
+package org.example.super_projet_eni.bo;
 
 import java.time.LocalDateTime;
 

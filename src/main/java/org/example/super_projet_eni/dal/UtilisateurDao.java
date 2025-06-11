@@ -1,6 +1,6 @@
-package dal;
+package org.example.super_projet_eni.dal;
 
-import bo.Utilisateur;
+import org.example.super_projet_eni.bo.Utilisateur;
 
 import java.util.List;
 

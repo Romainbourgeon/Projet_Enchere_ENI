@@ -1,10 +1,14 @@
-package dal;
+package org.example.super_projet_eni.dal;
 
-import bo.Utilisateur;
+import org.example.super_projet_eni.bo.Utilisateur;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+
+@Repository
 public class UtilisateurDaoImpl implements UtilisateurDao{
 
     private NamedParameterJdbcTemplate jdbcTemplate;
@@ -13,6 +17,10 @@ public class UtilisateurDaoImpl implements UtilisateurDao{
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    // requêtes SQL
+    private final String SELECT_BY_PSEUDO = "select * from UTILISATEURS where pseudo = :pseudo";
+
+
     @Override
     public void create(Utilisateur utilisateur) {
 
@@ -20,7 +28,9 @@ public class UtilisateurDaoImpl implements UtilisateurDao{
 
     @Override
     public Utilisateur read(String pseudo) {
-        return null;
+        MapSqlParameterSource namedParameters = new MapSqlParameterSource();
+        namedParameters.addValue("pseudo", pseudo);
+        return jdbcTemplate.queryForObject(SELECT_BY_PSEUDO, namedParameters, new UtilisateurRowMapper());
     }
 
     @Override
@@ -37,4 +47,8 @@ public class UtilisateurDaoImpl implements UtilisateurDao{
     public void delete(String pseudo) {
 
     }
+
+
+
+
 }
