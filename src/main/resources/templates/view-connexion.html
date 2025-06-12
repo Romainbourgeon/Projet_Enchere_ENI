@@ -1,0 +1,25 @@
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(
+          title='Connection - Les objets sont nos amis',
+          header='',
+          footer='',
+          ressourcesSupp=''
+      )}">
+
+<!-- Ce fragment sera injecté dans le layout à la place de ~{::content} -->
+    <div data-th-fragment="content">
+        <main>
+            <h1>Connexion</h1>
+
+            <form method="post" th:action="@{/connexion}">
+                <label for="email">Email :</label><br>
+                <input type="email" id="email" name="email" required><br><br>
+
+                <label for="password">Mot de passe :</label><br>
+                <input type="password" id="password" name="password" required><br><br>
+
+                <button type="submit">Se connecter</button>
+            </form>
+        </main>
+    </div>
+</html>
