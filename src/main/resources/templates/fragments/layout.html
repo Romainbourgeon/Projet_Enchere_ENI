@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="layout(title, header, footer, ressourcesSupp)">
+<head>
+    <meta charset="UTF-8">
+    <title data-th-text="${title}">Titre par défaut</title>
+
+    <link rel="icon" data-th-href="@{/images/marteau.png}" sizes="32x32">
+    <link rel="stylesheet" data-th-href="@{/css/layout.css}">
+
+    <th:block th:utext="${ressourcesSupp}"></th:block> <!-- Pour ressources supplémentaires -->
+</head>
+<body>
+<div data-th-fragment="header">
+    <nav>
+        <img data-th-src="@{/images/marteau.png}" alt="Logo marteau">
+        <p>Les objets sont nos amis</p>
+        <ul>
+            <li><a data-th-href="@{/}">Accueil</a></li>
+            <li><a data-th-href="@{/inscription}">S'inscrire</a></li>
+            <li><a data-th-href="@{/connexion}">Se connecter</a></li>
+        </ul>
+    </nav>
+</div>
+
+<!-- On injecte le contenu spécifique de chaque page -->
+<div data-th-replace="~{::content}"></div>
+
+<div data-th-fragment="footer">
+    <footer class="text-center text-muted py-3 mt-5 border-top">
+        &copy; 2025 Les objets sont nos amis. Tous droits réservés.
+    </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,113 @@
+/* layout.css */
+
+/* Reset simple */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Structure générale */
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* NAVIGATION */
+nav {
+    display: flex;
+    align-items: center;
+    background-color: #004aad;  /* bleu foncé */
+    padding: 10px 20px;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+nav img {
+    height: 40px;
+    width: 40px;
+    margin-right: 15px;
+}
+
+nav p {
+    font-weight: 700;
+    font-size: 1.3rem;
+    flex-grow: 1;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+nav ul li a:hover,
+nav ul li a:focus {
+    background-color: #003580; /* bleu plus foncé */
+    outline: none;
+}
+
+/* MAIN CONTENT */
+main {
+    flex-grow: 1;
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 0 15px;
+    width: 100%;
+}
+
+main h1 {
+    font-size: 2.5rem;
+    color: #004aad;
+    text-align: center;
+}
+
+/* FOOTER : collé en bas */
+footer {
+    background-color: #004aad;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    font-size: 0.9rem;
+    margin-top: auto;
+    border-top: 1px solid #ddd;
+    width: 100%;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    nav {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    nav ul {
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    nav ul li a {
+        display: block;
+        width: 100%;
+    }
+}
