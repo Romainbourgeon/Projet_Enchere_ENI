@@ -7,14 +7,19 @@
     box-sizing: border-box;
 }
 
+/* Structure générale */
+html, body {
+    height: 100%;
+}
+
 body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f9f9f9;
     color: #333;
     line-height: 1.6;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
 }
 
 /* NAVIGATION */
@@ -66,6 +71,7 @@ main {
     max-width: 900px;
     margin: 30px auto;
     padding: 0 15px;
+    width: 100%;
 }
 
 main h1 {
@@ -74,18 +80,16 @@ main h1 {
     text-align: center;
 }
 
-/* FOOTER */
-.footer {
+/* FOOTER : collé en bas */
+footer {
     background-color: #004aad;
-    border-top: 1px solid #ddd;
-    padding: 15px 0;
-    margin-top: auto;
-}
-
-.footer footer {
     color: white;
-    font-size: 0.9rem;
     text-align: center;
+    padding: 15px 0;
+    font-size: 0.9rem;
+    margin-top: auto;
+    border-top: 1px solid #ddd;
+    width: 100%;
 }
 
 /* Responsive */
