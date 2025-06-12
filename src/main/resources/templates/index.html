@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org"  th:replace="fragments/layout :: layout('Accueil - Les objets sont nos amis', '', '', '')">
-<head>
-    <title>Accueil - Les objets sont nos amis</title>
-</head>
-<body>
-<div th:insert="fragments/layout :: layout(
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" th:replace="fragments/layout :: layout(
     title='Accueil - Les objets sont nos amis',
     header='',
     footer='',
     ressourcesSupp=''
 )">
+
+<head>
+    <title>Accueil - Les objets sont nos amis</title>
+</head>
+
+<body>
     <div data-th-fragment="content">
         <main>
             <h1>Liste des enchères</h1>
@@ -26,6 +27,5 @@
             </ul>
         </main>
     </div>
-</div>
 </body>
 </html>

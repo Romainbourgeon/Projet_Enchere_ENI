@@ -11,6 +11,7 @@ public class Utilisateur  {
     private String email;
     private String telephone;
     private String motDePasse;
+    private String confirmeMotDePasse;
     private int credit;
     private boolean admin;
     private Adresse adresse;
@@ -20,13 +21,14 @@ public class Utilisateur  {
     public Utilisateur() {
     }
 
-    public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String motDePasse, int credit, boolean admin, Adresse adresse) {
+    public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String motDePasse, String confirmeMotDePasse, int credit, boolean admin, Adresse adresse) {
         this.pseudo = pseudo;
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
         this.telephone = telephone;
         this.motDePasse = motDePasse;
+        this.confirmeMotDePasse = confirmeMotDePasse;
         this.credit = credit;
         this.admin = admin;
         this.adresse = adresse;
@@ -41,6 +43,7 @@ public class Utilisateur  {
                 ", email='" + email + '\'' +
                 ", telephone='" + telephone + '\'' +
                 ", motDePasse='" + motDePasse + '\'' +
+                ", confirmeMotDePasse='" + confirmeMotDePasse + '\'' +
                 ", credit=" + credit +
                 ", admin=" + admin +
                 ", adresse=" + adresse +
@@ -95,6 +98,10 @@ public class Utilisateur  {
     public void setMotDePasse(String motDePasse) {
         this.motDePasse = motDePasse;
     }
+
+    public String getConfirmeMotDePasse() {return confirmeMotDePasse;}
+
+    public void setConfirmeMotDePasse(String confirmeMotDePasse) {this.confirmeMotDePasse = confirmeMotDePasse;}
 
     public int getCredit() {
         return credit;
