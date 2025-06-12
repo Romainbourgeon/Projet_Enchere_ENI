@@ -1,6 +1,6 @@
 package org.example.super_projet_eni.dal;
 
-import org.example.super_projet_eni.bo.Categorie;
+import org.example.super_projet_eni.bo.Adresse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,21 +18,23 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class CategorieDaoImplTest {
+class AdresseDaoImplTest {
 
     @Mock
     private NamedParameterJdbcTemplate jdbcTemplate;
 
-    private CategorieDaoImpl categorieDao;
-    private Categorie categorie;
+    private AdresseDaoImpl adresseDao;
+    private Adresse adresse;
 
     @BeforeEach
     void setUp() {
-        categorieDao = new CategorieDaoImpl(jdbcTemplate);
+        adresseDao = new AdresseDaoImpl(jdbcTemplate);
 
-        categorie = new Categorie();
-        categorie.setId(1L);
-        categorie.setLibelle("Informatique");
+        adresse = new Adresse();
+        adresse.setId(1L);
+        adresse.setRue("123 Rue Test");
+        adresse.setCodePostal("75001");
+        adresse.setVille("Paris");
     }
 
     @Test
@@ -45,7 +47,7 @@ class CategorieDaoImplTest {
                     return 1;
                 });
 
-        long result = categorieDao.create(categorie);
+        long result = adresseDao.create(adresse);
 
         assertEquals(1L, result);
         verify(jdbcTemplate).update(anyString(), any(MapSqlParameterSource.class), any(KeyHolder.class));
@@ -53,26 +55,26 @@ class CategorieDaoImplTest {
 
     @Test
     void testRead() {
-        when(jdbcTemplate.queryForObject(anyString(), any(MapSqlParameterSource.class), any(CategorieRowMapper.class)))
-                .thenReturn(categorie);
+        when(jdbcTemplate.queryForObject(anyString(), any(MapSqlParameterSource.class), any(AdresseRowMapper.class)))
+                .thenReturn(adresse);
 
-        Categorie result = categorieDao.read(1L);
+        Adresse result = adresseDao.read(1L);
 
         assertNotNull(result);
-        assertEquals(categorie.getId(), result.getId());
-        verify(jdbcTemplate).queryForObject(anyString(), any(MapSqlParameterSource.class), any(CategorieRowMapper.class));
+        assertEquals(adresse.getId(), result.getId());
+        verify(jdbcTemplate).queryForObject(anyString(), any(MapSqlParameterSource.class), any(AdresseRowMapper.class));
     }
 
     @Test
     void testReadAll() {
-        when(jdbcTemplate.query(anyString(), any(CategorieRowMapper.class)))
-                .thenReturn(List.of(categorie));
+        when(jdbcTemplate.query(anyString(), any(AdresseRowMapper.class)))
+                .thenReturn(List.of(adresse));
 
-        List<Categorie> result = categorieDao.readAll();
+        List<Adresse> result = adresseDao.readAll();
 
         assertNotNull(result);
         assertEquals(1, result.size());
-        verify(jdbcTemplate).query(anyString(), any(CategorieRowMapper.class));
+        verify(jdbcTemplate).query(anyString(), any(AdresseRowMapper.class));
     }
 
     @Test
@@ -80,7 +82,7 @@ class CategorieDaoImplTest {
         when(jdbcTemplate.update(anyString(), any(MapSqlParameterSource.class)))
                 .thenReturn(1);
 
-        assertDoesNotThrow(() -> categorieDao.update(categorie));
+        assertDoesNotThrow(() -> adresseDao.update(adresse));
         verify(jdbcTemplate).update(anyString(), any(MapSqlParameterSource.class));
     }
 
@@ -89,7 +91,7 @@ class CategorieDaoImplTest {
         when(jdbcTemplate.update(anyString(), any(MapSqlParameterSource.class)))
                 .thenReturn(1);
 
-        assertDoesNotThrow(() -> categorieDao.delete(1L));
+        assertDoesNotThrow(() -> adresseDao.delete(1L));
         verify(jdbcTemplate).update(anyString(), any(MapSqlParameterSource.class));
     }
 }

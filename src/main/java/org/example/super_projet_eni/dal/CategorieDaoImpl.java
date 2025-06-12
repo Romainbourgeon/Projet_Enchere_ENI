@@ -21,7 +21,7 @@ public class CategorieDaoImpl implements CategorieDao{
     private final String SELECT_ALL = "SELECT * FROM CATEGORIES";
     private final String SELECT_BY_ID = "SELECT * FROM CATEGORIES WHERE id = :id";
     private final String INSERT = "INSERT INTO CATEGORIES (libelle) VALUES (:libelle)";
-    private final String UPDATE = "UPDATE table CATEGORIES libelle = :libelle WHERE id = :id";
+    private final String UPDATE = "UPDATE CATEGORIES SET libelle = :libelle WHERE id = :id";
     final static String DELETE = "delete from CATEGORIES where id=:id";
 
     @Override
@@ -49,6 +49,7 @@ public class CategorieDaoImpl implements CategorieDao{
     public void update(Categorie categorie) {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
         namedParameters.addValue("libelle", categorie.getLibelle());
+        namedParameters.addValue("id", categorie.getId());
         jdbcTemplate.update(UPDATE, namedParameters);
     }
 
