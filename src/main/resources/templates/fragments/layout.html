@@ -10,8 +10,7 @@
     <th:block th:utext="${ressourcesSupp}"></th:block> <!-- Pour ressources supplémentaires -->
 </head>
 <body>
-<div data-th-fragment="header">
-
+<div th:replace="${header}"></div>
 
     <nav>
         <img data-th-src="@{/images/marteau.png}" alt="Logo marteau">
@@ -23,15 +22,16 @@
         </ul>
     </nav>
 
-</div>
+
 
 <!-- On injecte le contenu spécifique de chaque page -->
-<div data-th-replace="${content} ?: ~{}"></div>
+<div th:replace="${content}"></div>
 
-<div data-th-fragment="footer">
+<div th:replace="${footer}"></div>
     <footer class="text-center text-muted py-3 mt-5 border-top">
         &copy; 2025 Les objets sont nos amis. Tous droits réservés.
     </footer>
-</div>
+
+
 </body>
 </html>

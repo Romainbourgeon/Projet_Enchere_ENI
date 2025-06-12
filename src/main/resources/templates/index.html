@@ -1,17 +1,39 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org"
-      th:replace="fragments/layout :: layout('Accueil - Les objets sont nos amis')">
-<!-- On remplace tout <html> par le fragment layout -->
-
-th:insert="fragments/layout :: layout(    title='Accueil - Les objets sont nos amis',    header='',    footer='',    ressourcesSupp='')"
-
-
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(
+        'Accueil - Les objets sont nos amis',
+        ~{},
+        ~{::content},
+        ~{},
+        ~{}
+      )}">
+<!-- Ne rien mettre ici, tout est injecté via les fragments -->
 <div th:fragment="content">
 
 
     <main>
         <h1>Liste des enchères</h1>
         <ul>
+            <form method="get" action="#" th:action="@{/accueil}">
+                <input type="text" name="motCle" placeholder="Le nom de l'article contient" th:value="${motCle}">
+<!--${motCle} = variable de modèle Thymeleaf correspondant au mot-clé de recherche.-->
+<!--                Ça permet de garder la saisie visible après soumission du formulaire.-->
+
+
+
+
+                <select name="categorie" th:value="${categorieActive}">
+                    <option value="">Toutes les catégories</option>
+                    <option th:each="cat : ${categories}"
+                            th:value="${cat.id}"
+                            th:text="${cat.nom}"
+                            th:selected="${cat.id == categorieActive}"></option>
+                </select>
+
+                <button type="submit">Rechercher</button>
+                <a th:href="@{/accueil}"><button type="button">Annuler</button></a>
+            </form>
+
             <li th:each="article : ${articles}">
                 <h3 th:text="${article.nom}">Nom de l'article</h3>
                 <p th:text="${article.description}">Description</p>
