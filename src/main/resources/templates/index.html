@@ -1,31 +1,28 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org"  th:replace="fragments/layout :: layout('Accueil - Les objets sont nos amis', '', '', '')">
-<head>
-    <title>Accueil - Les objets sont nos amis</title>
-</head>
-<body>
-<div th:insert="fragments/layout :: layout(
-    title='Accueil - Les objets sont nos amis',
-    header='',
-    footer='',
-    ressourcesSupp=''
-)">
-    <div data-th-fragment="content">
-        <main>
-            <h1>Liste des enchères</h1>
-            <ul>
-                <li th:each="article : ${articles}">
-                    <h3 th:text="${article.nom}">Nom de l'article</h3>
-                    <p th:text="${article.description}">Description</p>
-                    <p>Enchères ouvertes : <span th:text="${article.dateDebutEncheres}">date</span></p>
-                    <p>Fin enchères : <span th:text="${article.dateFinEncheres}">date</span></p>
-                    <p>Statut : <span th:text="${article.statut}">0</span></p>
-                    <p>Prix initial : <span th:text="${article.prixInitial}">0</span> €</p>
-                    <p>Prix de vente : <span th:text="${article.prixVente}">0</span> €</p>
-                </li>
-            </ul>
-        </main>
-    </div>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="fragments/layout :: layout('Accueil - Les objets sont nos amis')">
+<!-- On remplace tout <html> par le fragment layout -->
+
+th:insert="fragments/layout :: layout(    title='Accueil - Les objets sont nos amis',    header='',    footer='',    ressourcesSupp='')"
+
+
+<div th:fragment="content">
+
+
+    <main>
+        <h1>Liste des enchères</h1>
+        <ul>
+            <li th:each="article : ${articles}">
+                <h3 th:text="${article.nom}">Nom de l'article</h3>
+                <p th:text="${article.description}">Description</p>
+                <p>Enchères ouvertes : <span th:text="${article.dateDebutEncheres}">date</span></p>
+                <p>Fin enchères : <span th:text="${article.dateFinEncheres}">date</span></p>
+                <p>Statut : <span th:text="${article.statut}">0</span></p>
+                <p>Prix initial : <span th:text="${article.prixInitial}">0</span> €</p>
+                <p>Prix de vente : <span th:text="${article.prixVente}">0</span> €</p>
+            </li>
+        </ul>
+    </main>
 </div>
-</body>
+
 </html>

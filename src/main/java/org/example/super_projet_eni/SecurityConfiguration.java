@@ -60,7 +60,7 @@ public class SecurityConfiguration {
 
 
 
-            auth.anyRequest().authenticated();
+            auth.anyRequest().permitAll();//authenticated
         });
 
         //version de pages de login par defaut du framework (spring)
