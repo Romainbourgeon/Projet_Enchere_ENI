@@ -64,8 +64,8 @@ public class SecurityConfiguration {
         });
 
         //version de pages de login par defaut du framework (spring)
-        http.formLogin(Customizer.withDefaults());
-        http.csrf(c -> c.disable());
+        http.formLogin(Customizer.withDefaults());  //Cette ligne active l'authentification par formulaire HTML (form login).
+        http.csrf(c -> c.disable()); //Cela désactive la protection CSRF (Cross-Site Request Forgery).(API REST, tests, outils comme Postman)
 
         return http.build();
     }
