@@ -12,6 +12,6 @@ public interface UtilisateurService {
 
     void ajouterUtilisateur(Utilisateur utilisateur);
 
-    boolean supprimerUtilisateur(String pseudo);
+    void supprimerUtilisateur(String pseudo);
 
 }

@@ -25,7 +25,7 @@ public class CategorieDaoImpl implements CategorieDao{
     final static String DELETE = "delete from CATEGORIES where id=:id";
 
     @Override
-    public Long create(Categorie categorie) {
+    public long create(Categorie categorie) {
         var keyHolder = new GeneratedKeyHolder();
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
         namedParameters.addValue("libelle", categorie.getLibelle());

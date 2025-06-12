@@ -1,31 +1,30 @@
 package org.example.super_projet_eni.dal;
 
-import org.example.super_projet_eni.bo.Adresse;
+import org.example.super_projet_eni.bo.ArticleAVendre;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public class AdresseDaoImpl implements AdresseDao {
-
+public class ArticleAVendreDaoImpl implements ArticleAVendreDao{
 
     @Override
-    public long create(Adresse adresse) {
+    public long create(ArticleAVendre articleAVendre) {
         return 0;
     }
 
     @Override
-    public Adresse read(long id) {
+    public ArticleAVendre read(long id) {
         return null;
     }
 
     @Override
-    public List<Adresse> readAll() {
+    public List<ArticleAVendre> readAll() {
         return List.of();
     }
 
     @Override
-    public void update(Adresse adresse) {
+    public void update(ArticleAVendre articleAVendre) {
 
     }
 
@@ -33,4 +32,5 @@ public class AdresseDaoImpl implements AdresseDao {
     public void delete(long id) {
 
     }
+
 }

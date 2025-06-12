@@ -5,23 +5,27 @@ import org.example.super_projet_eni.bo.Adresse;
 import org.example.super_projet_eni.bo.ArticleAVendre;
 import org.example.super_projet_eni.bo.Categorie;
 import org.example.super_projet_eni.bo.Utilisateur;
-import java.util.List;
 
+import java.util.List;
 
 
 public interface ArticleAVendreService {
 
     List<ArticleAVendre> listeArticleAVendre();
-ArticleAVendre consulterArticleAVendreById(long id);
 
-List<Adresse> listeAdresse();
-Adresse consulterAdresseById(long id);
+    ArticleAVendre consulterArticleAVendreById(long id);
 
-List<Utilisateur> listeUtilisateur();
-Utilisateur consulterUtilisateurById(String pseudo);
+    List<Adresse> listeAdresse();
+
+    Adresse consulterAdresseById(long id);
+
+    List<Utilisateur> listeUtilisateur();
+
+    Utilisateur consulterUtilisateurById(String pseudo);
 
 
     List<Categorie> listeCategorie();
+
     Categorie consulterCategorieById(long id);
 
     void creerArticleAVendre(ArticleAVendre articleAVendre);

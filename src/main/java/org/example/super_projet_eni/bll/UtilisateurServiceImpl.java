@@ -1,7 +1,7 @@
 package org.example.super_projet_eni.bll;
 
 import org.example.super_projet_eni.bo.Utilisateur;
-import org.example.super_projet_eni.dal.UtilisateurDAO;
+import org.example.super_projet_eni.dal.UtilisateurDao;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,20 +11,20 @@ import java.util.List;
 @Service
 public class UtilisateurServiceImpl implements UtilisateurService {
 
-    private final UtilisateurDAO utilisateurDAO;
+    private final UtilisateurDao utilisateurDao;
 
 
-    public UtilisateurServiceImpl(UtilisateurDAO utilisateurDAO) {
-        this.utilisateurDAO = utilisateurDAO;
+    public UtilisateurServiceImpl(UtilisateurDao utilisateurDao) {
+        this.utilisateurDao = utilisateurDao;
     }
 
     @Override
     public List<Utilisateur> listeUtilisateurs() {
-        return utilisateurDAO.readAll();
+        return utilisateurDao.readAll();
     }
     @Override
     public Utilisateur consulterUtilisateurByPseudo(String pseudo) {
-        return utilisateurDAO.read(pseudo);
+        return utilisateurDao.read(pseudo);
     }
 
 
@@ -33,11 +33,11 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         if (consulterUtilisateurByPseudo(utilisateur.getPseudo()) != null) {
             throw new IllegalArgumentException("Pseudo déjà utilisé."); //IllegalArgumentException : C’est une exception pré-définie dans Java,
         }                                                              //qui signifie que l’argument passé à une méthode est invalide ou interdit.
-        utilisateurDAO.create(utilisateur);
+        utilisateurDao.create(utilisateur);
     }
 
     @Override
-    public boolean supprimerUtilisateur(String pseudo) {
-        return utilisateurDAO.delete(pseudo);
+    public void supprimerUtilisateur(String pseudo) {
+        utilisateurDao.delete(pseudo);
     }
 }

@@ -5,6 +5,9 @@ import org.example.super_projet_eni.bo.Adresse;
 import org.example.super_projet_eni.bo.ArticleAVendre;
 import org.example.super_projet_eni.bo.Categorie;
 import org.example.super_projet_eni.bo.Utilisateur;
+import org.example.super_projet_eni.dal.AdresseDao;
+import org.example.super_projet_eni.dal.ArticleAVendreDao;
+import org.example.super_projet_eni.dal.CategorieDao;
 import org.example.super_projet_eni.dal.UtilisateurDao;
 
 import org.springframework.stereotype.Service;
@@ -17,13 +20,13 @@ import java.util.List;
 public class ArticleAVendreServiceImpl implements ArticleAVendreService {
 
 
-    private UtilisateurDao utilisateurDao ;
-    private ArticleAVendreDao articleAVendreDao ;
+    private UtilisateurDao utilisateurDao;
+    private ArticleAVendreDao articleAVendreDao;
     private AdresseDao adresseDao;
     private CategorieDao categorieDao;
 
 
-    public ArticleAVendreServiceImpl(UtilisateurDao utilisateurDao, ArticleAVendreDao articleAVendreDao,AdresseDao adresseDao,CategorieDao categorieDao) {
+    public ArticleAVendreServiceImpl(UtilisateurDao utilisateurDao, ArticleAVendreDao articleAVendreDao, AdresseDao adresseDao, CategorieDao categorieDao) {
         this.utilisateurDao = utilisateurDao;
         this.articleAVendreDao = articleAVendreDao;
         this.adresseDao = adresseDao;
@@ -34,7 +37,7 @@ public class ArticleAVendreServiceImpl implements ArticleAVendreService {
 
     @Override
     public List<ArticleAVendre> listeArticleAVendre() {
-        return articleAVendreDao.readdAll();
+        return articleAVendreDao.readAll();
     }
 
     @Override
