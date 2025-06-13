@@ -1,9 +1,15 @@
 package org.example.super_projet_eni.controller; // Adaptez selon votre structure
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.example.super_projet_eni.bll.UtilisateurService;
 import org.example.super_projet_eni.bo.Adresse;
 import org.example.super_projet_eni.bo.Utilisateur;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,7 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class ConnectionController {
 
-private UtilisateurService utilisateurService;
+    private UtilisateurService utilisateurService;
+    private final MotDePassedEncoder motDePasseEncoder;
 
     public ConnectionController(UtilisateurService utilisateurService) {
         this.utilisateurService = utilisateurService;
@@ -32,25 +39,37 @@ private UtilisateurService utilisateurService;
     }
 
     @GetMapping("/inscription")
-    public String afficherFormulaireInscription(Model model) {
-        Utilisateur utilisateur = new Utilisateur();
-        utilisateur.setAdresse(new Adresse());
-        model.addAttribute("utilisateur", utilisateur);
+    public String formulaireGet(Model model) {
+        model.addAttribute("utilisateur", new Utilisateur());
         return "view-inscription";
     }
 
-    @PostMapping("/inscription")
-    public String traiterInscription(@ModelAttribute("utilisateur") Utilisateur utilisateur, BindingResult result, Model model) {
-        utilisateur.setCredit(10); // valeur par défaut
-        utilisateur.setAdmin(false); // par défaut non admin
+// Traiter la soumission du formulaire
+@PostMapping("/inscription")
+public String formulairePost(@ModelAttribute Utilisateur utilisateur, Model model, HttpServletRequest request) {
+    var motDePasse = utilisateur.getMotDePasse(); // je save le mdp en clair car besoin plus bas
+    utilisateur.setMotDePasse(motDePasseEncoder.encode(motDePasse));
+    utilisateurService.registerNewUser(utilisateur);
 
-        try {
-            utilisateurService.ajouterUtilisateur(utilisateur);
-        } catch (IllegalArgumentException e) {
-            result.rejectValue("pseudo", "error.utilisateur", e.getMessage());
-            return "view-inscription";
-        }
 
-        return "redirect:/connexion";
+    // 3. Authentifier via HttpServletRequest
+    try {
+        request.login(personne.getUsername(), password);
+    } catch (ServletException e) {
+        // Gérer l'erreur (par exemple, mot de passe incorrect)
+        return "redirect:/register?error";
     }
+
+    // 2. Authentifier automatiquement l'utilisateur
+    Authentication authentication = authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(
+                    personne.getUsername(),
+                    password // la c'est le mdp en clair qu'il nous faut
+            )
+    );
+
+    SecurityContextHolder.getContext().setAuthentication(authentication);
+
+    return "redirect:/moutons";
+}
 }
