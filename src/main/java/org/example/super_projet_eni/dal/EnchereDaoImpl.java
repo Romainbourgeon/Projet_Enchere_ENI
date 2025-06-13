@@ -19,14 +19,13 @@ public class EnchereDaoImpl implements EnchereDao {
     }
 
     //Requêtes SQL
-    private final String SELECT_ALL = "SELECT * FROM ENCHERES";
-    private final String SELECT_BY_USER_AND_ARTICLE_AND_PRICE = "SELECT * FROM ENCHERES WHERE (id_utilisateur = :id_utilisateur " +
-            "AND no_article = :no_article AND montant_enchere = :montant_enchere)";
+    //private final String SELECT_ALL = "SELECT * FROM ENCHERES";
+    private final String SELECT_BY_USER = "SELECT * FROM ENCHERES WHERE id_utilisateur = :id_utilisateur";
+    private final String SELECT_BY_ARTICLE = "SELECT * FROM ENCHERES WHERE no_article = :no_article";
     private final String INSERT = "INSERT INTO ENCHERES (id_utilisateur, no_article, montant_enchere, date_enchere)" +
             " VALUES (:id_utilisateur, :no_article, :montant_enchere, :date_enchere)";
-    final static String DELETE = "delete from ENCHERES WHERE (id_utilisateur = :id_utilisateur " +
-            "AND no_article = :no_article AND montant_enchere = :montant_enchere)";
-
+    /*final static String DELETE = "delete from ENCHERES WHERE (id_utilisateur = :id_utilisateur " +
+            "AND no_article = :no_article AND montant_enchere = :montant_enchere)";*/
 
 
     @Override
@@ -40,17 +39,17 @@ public class EnchereDaoImpl implements EnchereDao {
     }
 
     @Override
-    public Enchere read(ArticleAVendre articleAVendre) {
-        return null;
+    public List<Enchere> readAllByUtilisateur(Utilisateur acquereur) {
+        MapSqlParameterSource namedParameters = new MapSqlParameterSource();
+        namedParameters.addValue("id_utilisateur", acquereur.getPseudo());
+        return jdbcTemplate.query(SELECT_BY_USER, namedParameters, new EnchereRowMapper());
     }
 
     @Override
-    public List<Enchere> readAll() {
-        return List.of();
+    public List<Enchere> readAllByArticle(ArticleAVendre articleAVendre) {
+        MapSqlParameterSource namedParameters = new MapSqlParameterSource();
+        namedParameters.addValue("no_article", articleAVendre.getId());
+        return jdbcTemplate.query(SELECT_BY_ARTICLE, namedParameters, new EnchereRowMapper());
     }
 
-    @Override
-    public void delete(ArticleAVendre articleAVendre) {
-
-    }
 }

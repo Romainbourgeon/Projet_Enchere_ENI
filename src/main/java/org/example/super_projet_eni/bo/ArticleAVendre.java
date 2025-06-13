@@ -2,15 +2,16 @@ package org.example.super_projet_eni.bo;
 
 import java.time.LocalDate;
 
-public class ArticleAVendre  {
-    private  long id;
-    private  String  nom ;
-    private  String  description ;
-    private  LocalDate dateDebutEncheres ;
-    private  LocalDate  dateFinEncheres ;
-    private  int  statut ;
-    private  int  prixInitial ;
-    private int  prixVente;
+public class ArticleAVendre {
+    private long id;
+    private String nom;
+    private String description;
+    private LocalDate dateDebutEncheres;
+    private LocalDate dateFinEncheres;
+    private int statut;
+    private int prixInitial;
+    private int prixVente;
+    private int photo;
     private Adresse retrait;
     private Categorie categorie;
     private Utilisateur vendeur;
@@ -46,6 +47,20 @@ public class ArticleAVendre  {
         this.vendeur = vendeur;
     }
 
+    public ArticleAVendre(String nom, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres, int statut, int prixInitial, int prixVente, int photo, Adresse retrait, Categorie categorie, Utilisateur vendeur) {
+        this.nom = nom;
+        this.description = description;
+        this.dateDebutEncheres = dateDebutEncheres;
+        this.dateFinEncheres = dateFinEncheres;
+        this.statut = statut;
+        this.prixInitial = prixInitial;
+        this.prixVente = prixVente;
+        this.photo = photo;
+        this.retrait = retrait;
+        this.categorie = categorie;
+        this.vendeur = vendeur;
+    }
+
     @Override
     public String toString() {
         return "ArticleAVendre{" +
@@ -61,6 +76,14 @@ public class ArticleAVendre  {
                 ", categorie=" + categorie +
                 ", vendeur=" + vendeur +
                 '}';
+    }
+
+    public int getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(int photo) {
+        this.photo = photo;
     }
 
     public long getId() {
