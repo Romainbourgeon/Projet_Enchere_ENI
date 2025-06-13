@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.example.super_projet_eni.bll.UtilisateurService;
 import org.example.super_projet_eni.bo.Adresse;
 import org.example.super_projet_eni.bo.Utilisateur;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,16 +22,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class ConnectionController {
 
-    private UtilisateurService utilisateurService;
-    private final MotDePassedEncoder motDePasseEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final UtilisateurService utilisateurService;
+    private final PasswordEncoder motDePasseEncoder;
 
-    public ConnectionController(UtilisateurService utilisateurService) {
+    public ConnectionController(AuthenticationManager authenticationManager, UtilisateurService utilisateurService, PasswordEncoder motDePasseEncoder) {
+        this.authenticationManager = authenticationManager;
         this.utilisateurService = utilisateurService;
+        this.motDePasseEncoder = motDePasseEncoder;
     }
 
     @GetMapping("/")
     public String accueil() {
-        return "index.html";
+        return "index";
     }
 
     @GetMapping("/connexion")
@@ -38,38 +42,46 @@ public class ConnectionController {
         return "view-connexion";
     }
 
-    @GetMapping("/inscription")
-    public String formulaireGet(Model model) {
+    @GetMapping("/register")
+    public String registerGet(Model model) {
         model.addAttribute("utilisateur", new Utilisateur());
         return "view-inscription";
     }
 
-// Traiter la soumission du formulaire
-@PostMapping("/inscription")
-public String formulairePost(@ModelAttribute Utilisateur utilisateur, Model model, HttpServletRequest request) {
-    var motDePasse = utilisateur.getMotDePasse(); // je save le mdp en clair car besoin plus bas
-    utilisateur.setMotDePasse(motDePasseEncoder.encode(motDePasse));
-    utilisateurService.registerNewUser(utilisateur);
+    // Traiter la soumission du formulaire
+    @PostMapping("/register")
+    public String registerPost(@ModelAttribute Utilisateur utilisateur, Model model, HttpServletRequest request) {
+        // validation du mot de passe égal à la confirmation à faire ici
+        if (!utilisateur.getMotDePasse().equals(utilisateur.getConfirmeMotDePasse())) {
+            model.addAttribute("error", "Les mots de passe ne correspondent pas.");
+            return "view-inscription";
+        }
 
+        String motDePasseEnClair = utilisateur.getMotDePasse();
+        utilisateur.setMotDePasse(motDePasseEncoder.encode(motDePasseEnClair));
 
-    // 3. Authentifier via HttpServletRequest
-    try {
-        request.login(personne.getUsername(), password);
-    } catch (ServletException e) {
-        // Gérer l'erreur (par exemple, mot de passe incorrect)
-        return "redirect:/register?error";
+        // gérer insertion adresse et utilisateur (adresse dans utilisateur)
+        utilisateurService.ajouterUtilisateur(utilisateur, utilisateur.getAdresse());
+
+        try {
+            // Authentification via request.login()
+            request.login(utilisateur.getPseudo(), motDePasseEnClair);
+        } catch (ServletException e) {
+            // erreur d’authentification
+            return "redirect:/register?error";
+        }
+
+        // 2. Authentifier automatiquement l'utilisateur
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        utilisateur.getPseudo(),
+                        motDePasseEnClair // la c'est le mdp en clair qu'il nous faut
+                )
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        return "redirect:/view-connexion"; // ou page d’accueil connectée
     }
-
-    // 2. Authentifier automatiquement l'utilisateur
-    Authentication authentication = authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(
-                    personne.getUsername(),
-                    password // la c'est le mdp en clair qu'il nous faut
-            )
-    );
-
-    SecurityContextHolder.getContext().setAuthentication(authentication);
-
-    return "redirect:/moutons";
 }
-}
+
