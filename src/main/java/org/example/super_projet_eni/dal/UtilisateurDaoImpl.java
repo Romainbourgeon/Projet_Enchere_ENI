@@ -18,11 +18,11 @@ public class UtilisateurDaoImpl implements UtilisateurDao{
         this.jdbcTemplate = jdbcTemplate;
     }
 
-// requêtes SQL
+    // requêtes SQL
     private final String SELECT_BY_PSEUDO = "select * from UTILISATEURS where pseudo = :pseudo";
     private final String SELECT_ALL = "SELECT * FROM UTILISATEURS";
     private final String INSERT = "INSERT INTO UTILISATEURS(pseudo, nom, prenom, email, telephone, mot_de_passe, credit, administrateur, no_adresse) "
-            + " VALUES (:pseudo, :nom, :prenom, :email, :telephone, :mot_de_passe, :credit, :administrateur, :no_adresse)";
+    + " VALUES (:pseudo, :nom, :prenom, :email, :telephone, :mot_de_passe, :credit, :administrateur, :no_adresse)";
 //    private final String FIND_TITRE = "SELECT TITRE FROM FILM WHERE  id = :id";
 
     @Override
