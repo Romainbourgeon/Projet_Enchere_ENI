@@ -20,20 +20,6 @@ public class ArticleAVendreController {
     }
 
     @GetMapping("/accueil")
-    public String accueil(Model model, @RequestParam(required = false) String categorie) {
-        List<ArticleAVendre> articles;
-        if (categorie != null) {
-            articles = articleService.listeArticleAVendre(); // à remplacer par getByCategorie si disponible
-        } else {
-            articles = articleService.listeArticleAVendre();
-        }
-        model.addAttribute("articles", articles);
-        model.addAttribute("categorieActive", categorie);
-        return "index"; // le nom du template Thymeleaf sans extension
-    }
-
-
-    @GetMapping("/accueil")      // Liste avec flitre mot clé/ créer methodes
     public String accueil(
             Model model,
             @RequestParam(required = false) String motCle,
@@ -61,11 +47,13 @@ public class ArticleAVendreController {
         return "index";
     }
 
-
-
-
-
-
-
 }
+
+
+
+
+
+
+
+
 

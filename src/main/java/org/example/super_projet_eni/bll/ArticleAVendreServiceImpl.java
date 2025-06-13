@@ -79,4 +79,26 @@ public class ArticleAVendreServiceImpl implements ArticleAVendreService {
     public void creerArticleAVendre(ArticleAVendre articleAVendre) {
 
     }
+
+    @Override
+    public List<ArticleAVendre> findByNomAndCategorie(String motCle, Long categorieId) {
+        return articleAVendreDao.readAll().stream()
+                .filter(a -> a.getNom() != null && a.getNom().toLowerCase().contains(motCle.toLowerCase()))
+                .filter(a -> a.getCategorie() != null && a.getCategorie().getId() == categorieId)
+                .toList();
+    }
+
+    @Override
+    public List<ArticleAVendre> findByNom(String motCle) {
+        return articleAVendreDao.readAll().stream()
+                .filter(a -> a.getNom() != null && a.getNom().toLowerCase().contains(motCle.toLowerCase()))
+                .toList();
+    }
+
+    @Override
+    public List<ArticleAVendre> findByCategorie(Long categorieId) {
+        return articleAVendreDao.readAll().stream()
+                .filter(a -> a.getCategorie() != null && a.getCategorie().getId() == categorieId)
+                .toList();
+    }
 }
