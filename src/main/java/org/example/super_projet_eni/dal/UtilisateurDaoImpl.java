@@ -1,5 +1,6 @@
 package org.example.super_projet_eni.dal;
 
+import org.example.super_projet_eni.bo.Adresse;
 import org.example.super_projet_eni.bo.Utilisateur;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -20,29 +21,24 @@ public class UtilisateurDaoImpl implements UtilisateurDao{
     // requêtes SQL
     private final String SELECT_BY_PSEUDO = "select * from UTILISATEURS where pseudo = :pseudo";
     private final String SELECT_ALL = "SELECT * FROM UTILISATEURS";
-//    private final String INSERT = "INSERT INTO UTILISATEURS(pseudo, nom, prenom, email, telephone, mot_de_passe) "
-//            + " VALUES (:titre, :annee, :duree, :synopsis, :idRealisateur, :idGenre)";
+    private final String INSERT = "INSERT INTO UTILISATEURS(pseudo, nom, prenom, email, telephone, mot_de_passe, credit, administrateur, no_adresse) "
+    + " VALUES (:pseudo, :nom, :prenom, :email, :telephone, :mot_de_passe, :credit, :administrateur, :no_adresse)";
 //    private final String FIND_TITRE = "SELECT TITRE FROM FILM WHERE  id = :id";
 
     @Override
-    public void create(Utilisateur utilisateur) {
-        String sql = "INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, telephone, mot_de_passe, credit, administrateur, rue, code_postal, ville) " +
-                    "VALUES (:pseudo, :nom, :prenom, :email, :telephone, :motDePasse, :credit, :administrateur, :rue, :codePostal, :ville)";
-
+    public void create(Utilisateur utilisateur, Adresse adresse) {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("pseudo", utilisateur.getPseudo());
         params.addValue("nom", utilisateur.getNom());
         params.addValue("prenom", utilisateur.getPrenom());
         params.addValue("email", utilisateur.getEmail());
         params.addValue("telephone", utilisateur.getTelephone());
-        params.addValue("motDePasse", utilisateur.getMotDePasse());
+        params.addValue("mot_de_passe", utilisateur.getMotDePasse());
         params.addValue("credit", utilisateur.getCredit()); // ou valeur par défaut ex: 0
-        params.addValue("admin", utilisateur.isAdmin());    // généralement false
-        params.addValue("rue", utilisateur.getAdresse().getRue());
-        params.addValue("codePostal", utilisateur.getAdresse().getCodePostal());
-        params.addValue("ville", utilisateur.getAdresse().getVille());
+        params.addValue("administrateur", utilisateur.isAdmin());    // généralement false
+        params.addValue("no_adresse", adresse.getId());
 
-        jdbcTemplate.update(sql, params);
+        jdbcTemplate.update(INSERT, params);
     }
 
     @Override
