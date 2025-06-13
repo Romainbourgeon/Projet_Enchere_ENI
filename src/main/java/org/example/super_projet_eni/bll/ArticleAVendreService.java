@@ -29,4 +29,6 @@ public interface ArticleAVendreService {
     Categorie consulterCategorieById(long id);
 
     void creerArticleAVendre(ArticleAVendre articleAVendre);
+
+
 }
