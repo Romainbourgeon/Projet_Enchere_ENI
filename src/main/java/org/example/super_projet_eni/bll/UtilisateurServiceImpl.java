@@ -28,13 +28,13 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     }
 
 
-    @Override
-    public void ajouterUtilisateur(Utilisateur utilisateur) {
-        if (consulterUtilisateurByPseudo(utilisateur.getPseudo()) != null) {
-            throw new IllegalArgumentException("Pseudo déjà utilisé."); //IllegalArgumentException : C’est une exception pré-définie dans Java,
-        }                                                              //qui signifie que l’argument passé à une méthode est invalide ou interdit.
-        utilisateurDao.create(utilisateur);
-    }
+   // @Override
+   // public void ajouterUtilisateur(Utilisateur utilisateur) {
+   //     if (consulterUtilisateurByPseudo(utilisateur.getPseudo()) != null) {
+   //         throw new IllegalArgumentException("Pseudo déjà utilisé."); //IllegalArgumentException : C’est une exception pré-définie dans Java,
+   //     }                                                              //qui signifie que l’argument passé à une méthode est invalide ou interdit.
+   //     utilisateurDao.create(utilisateur);
+   // }
 
     @Override
     public void supprimerUtilisateur(String pseudo) {

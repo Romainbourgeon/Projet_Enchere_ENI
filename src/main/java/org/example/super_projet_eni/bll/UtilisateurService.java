@@ -10,7 +10,7 @@ public interface UtilisateurService {
 
     Utilisateur consulterUtilisateurByPseudo(String pseudo);
 
-    void ajouterUtilisateur(Utilisateur utilisateur);
+    //void ajouterUtilisateur(Utilisateur utilisateur);
 
     void supprimerUtilisateur(String pseudo);
 

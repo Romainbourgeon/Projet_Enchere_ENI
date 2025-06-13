@@ -37,7 +37,7 @@ public class ArticleAVendreServiceImpl implements ArticleAVendreService {
 
     @Override
     public List<ArticleAVendre> listeArticleAVendre() {
-        return articleAVendreDao.readAll();
+        return articleAVendreDao.readAllEncheresActives();
     }
 
     @Override
