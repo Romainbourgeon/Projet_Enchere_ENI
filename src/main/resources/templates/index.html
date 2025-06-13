@@ -34,15 +34,29 @@
                 <a th:href="@{/accueil}"><button type="button">Annuler</button></a>
             </form>
 
-            <li th:each="article : ${articles}">
-                <h3 th:text="${article.nom}">Nom de l'article</h3>
-                <p th:text="${article.description}">Description</p>
-                <p>Enchères ouvertes : <span th:text="${article.dateDebutEncheres}">date</span></p>
-                <p>Fin enchères : <span th:text="${article.dateFinEncheres}">date</span></p>
-                <p>Statut : <span th:text="${article.statut}">0</span></p>
-                <p>Prix initial : <span th:text="${article.prixInitial}">0</span> €</p>
-                <p>Prix de vente : <span th:text="${article.prixVente}">0</span> €</p>
-            </li>
+
+
+            <div data-th-each="articleAVendres : ${articleAVendres}">
+                <h3 data-th-text="${articleAVendres.getNom()}"></h3>
+                <p data-th-text="' prix : '+ ${articleAVendres.getPrixVente()}"></p>
+                <p data-th-text="' date fin enchère : ' + ${articleAVendres.dateFinEncheres}"></p>
+
+
+
+            </div>
+
+
+
+            <!--
+           <li th:each="article : ${articles}">
+               <h3 th:text="${article.nom}">Nom de l'article</h3>
+               <p th:text="${article.description}">Description</p>
+               <p>Enchères ouvertes : <span th:text="${article.dateDebutEncheres}">date</span></p>
+               <p>Fin enchères : <span th:text="${article.dateFinEncheres}">date</span></p>
+               <p>Statut : <span th:text="${article.statut}">0</span></p>
+               <p>Prix initial : <span th:text="${article.prixInitial}">0</span> €</p>
+               <p>Prix de vente : <span th:text="${article.prixVente}">0</span> €</p>
+           </li>-->
         </ul>
     </main>
 </div>

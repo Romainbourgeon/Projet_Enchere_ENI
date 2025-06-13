@@ -19,21 +19,17 @@ public class ArticleAVendreController {
         this.articleService = articleService;
     }
 
-    @GetMapping("/accueil")
-    public String accueil(Model model, @RequestParam(required = false) String categorie) {
-        List<ArticleAVendre> articles;
-        if (categorie != null) {
-            articles = articleService.listeArticleAVendre(); // à remplacer par getByCategorie si disponible
-        } else {
-            articles = articleService.listeArticleAVendre();
-        }
-        model.addAttribute("articles", articles);
-        model.addAttribute("categorieActive", categorie);
-        return "index"; // le nom du template Thymeleaf sans extension
+
+
+    @GetMapping("/test")
+    public String test(Model model) {
+        List<ArticleAVendre> articleAVendres =articleService.listeArticleAVendre ();
+        System.out.println(articleAVendres + "article à vendre coucoucoucou");
+        model.addAttribute("articleAVendres",articleAVendres);
+        return "index";
     }
 
-
-    @GetMapping("/accueil")      // Liste avec flitre mot clé/ créer methodes
+    @GetMapping("/accueil")
     public String accueil(
             Model model,
             @RequestParam(required = false) String motCle,
@@ -61,11 +57,13 @@ public class ArticleAVendreController {
         return "index";
     }
 
-
-
-
-
-
-
 }
+
+
+
+
+
+
+
+
 

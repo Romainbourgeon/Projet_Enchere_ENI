@@ -30,5 +30,12 @@ public interface ArticleAVendreService {
 
     void creerArticleAVendre(ArticleAVendre articleAVendre);
 
+    List<ArticleAVendre> findByNomAndCategorie(String motCle, Long categorie);
 
+    List<ArticleAVendre> findByNom(String motCle);
+
+    List<ArticleAVendre> findByCategorie(Long categorie);
 }
+
+
+
