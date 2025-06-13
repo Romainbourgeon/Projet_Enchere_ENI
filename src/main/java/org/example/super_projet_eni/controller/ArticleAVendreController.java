@@ -19,6 +19,16 @@ public class ArticleAVendreController {
         this.articleService = articleService;
     }
 
+
+
+    @GetMapping("/test")
+    public String test(Model model) {
+        List<ArticleAVendre> articleAVendres =articleService.listeArticleAVendre ();
+        System.out.println(articleAVendres + "article à vendre coucoucoucou");
+        model.addAttribute("articleAVendres",articleAVendres);
+        return "index";
+    }
+
     @GetMapping("/accueil")
     public String accueil(
             Model model,
