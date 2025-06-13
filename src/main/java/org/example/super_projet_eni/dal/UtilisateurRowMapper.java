@@ -1,5 +1,6 @@
 package org.example.super_projet_eni.dal;
 
+import org.example.super_projet_eni.bo.Adresse;
 import org.example.super_projet_eni.bo.Utilisateur;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -20,6 +21,12 @@ public class UtilisateurRowMapper implements RowMapper<Utilisateur> {
         utilisateur.setMotDePasse(rs.getString("mot_de_passe"));
         utilisateur.setCredit(rs.getInt("credit"));
         utilisateur.setAdmin(rs.getBoolean("administrateur"));
+
+        // Association pour l'adresse
+        Adresse adresse = new Adresse();
+        adresse.setId(rs.getInt("no_adresse"));
+        utilisateur.setAdresse(adresse);
+
         return utilisateur;
     }
 }
