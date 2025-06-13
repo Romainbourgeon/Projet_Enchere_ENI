@@ -42,14 +42,14 @@ public class ConnectionController {
         return "view-connexion";
     }
 
-    @GetMapping("/register")
+    @GetMapping("/inscription")
     public String registerGet(Model model) {
         model.addAttribute("utilisateur", new Utilisateur());
         return "view-inscription";
     }
 
     // Traiter la soumission du formulaire
-    @PostMapping("/register")
+    @PostMapping("/inscription")
     public String registerPost(@ModelAttribute Utilisateur utilisateur, Model model, HttpServletRequest request) {
         // validation du mot de passe égal à la confirmation à faire ici
         if (!utilisateur.getMotDePasse().equals(utilisateur.getConfirmeMotDePasse())) {

@@ -1,16 +1,17 @@
-<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org"
       th:replace="~{fragments/layout :: layout(
-          title='Inscription - Les objets sont nos amis',
-          header='',
-          footer='',
-          ressourcesSupp=''
+        'Accueil - Les objets sont nos amis',
+        ~{},
+        ~{::content},
+        ~{},
+        ~{}
       )}">
-
-<body data-th-fragment="content">
+<!-- Ne rien mettre ici, tout est injecté via les fragments -->
+<div th:fragment="content">
 <main>
     <h1>Nouveau Profil</h1>
 
-    <form th:action="@{/register}" th:object="${utilisateur}" method="post">
+    <form th:action="@{/inscription}" th:object="${utilisateur}" method="post">
         <div class="form-group">
             <label for="username">Pseudo (*) :</label>
             <input type="text"
@@ -65,5 +66,5 @@
         </div>
     </form>
 </main>
-</body>
+</div>
 </html>
