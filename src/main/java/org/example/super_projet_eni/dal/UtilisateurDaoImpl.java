@@ -26,9 +26,23 @@ public class UtilisateurDaoImpl implements UtilisateurDao{
 
     @Override
     public void create(Utilisateur utilisateur) {
+        String sql = "INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, telephone, mot_de_passe, credit, administrateur, rue, code_postal, ville) " +
+                    "VALUES (:pseudo, :nom, :prenom, :email, :telephone, :motDePasse, :credit, :administrateur, :rue, :codePostal, :ville)";
 
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("pseudo", utilisateur.getPseudo());
+        params.addValue("nom", utilisateur.getNom());
+        params.addValue("prenom", utilisateur.getPrenom());
+        params.addValue("email", utilisateur.getEmail());
+        params.addValue("telephone", utilisateur.getTelephone());
+        params.addValue("motDePasse", utilisateur.getMotDePasse());
+        params.addValue("credit", utilisateur.getCredit()); // ou valeur par défaut ex: 0
+        params.addValue("admin", utilisateur.isAdmin());    // généralement false
+        params.addValue("rue", utilisateur.getAdresse().getRue());
+        params.addValue("codePostal", utilisateur.getAdresse().getCodePostal());
+        params.addValue("ville", utilisateur.getAdresse().getVille());
 
-
+        jdbcTemplate.update(sql, params);
     }
 
     @Override
@@ -52,8 +66,5 @@ public class UtilisateurDaoImpl implements UtilisateurDao{
     public void delete(String pseudo) {
 
     }
-
-
-
 
 }
