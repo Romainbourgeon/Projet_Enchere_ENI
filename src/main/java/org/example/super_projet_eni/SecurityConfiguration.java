@@ -33,8 +33,6 @@ public class SecurityConfiguration {
         return new BCryptPasswordEncoder();   // BCrypt pour hacher les mots de passe
     }
 
-
-
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 //GET est utilisé pour récupérer des données, afficher des informations sans modifier quoi que ce soit
@@ -69,7 +67,4 @@ public class SecurityConfiguration {
 
         return http.build();
     }
-
-
-
 }
