@@ -21,7 +21,7 @@ public class ArticleAVendreController {
 
 
 
-    @GetMapping("/test")
+    @GetMapping("/accueil")
     public String test(Model model) {
         List<ArticleAVendre> articleAVendres =articleService.listeArticleAVendre ();
         System.out.println(articleAVendres + "article à vendre coucoucoucou");
@@ -29,7 +29,10 @@ public class ArticleAVendreController {
         return "index";
     }
 
-    @GetMapping("/accueil")
+
+
+    // Bout de code à débuguer ou supprimer
+    /*@GetMapping("/test")
     public String accueil(
             Model model,
             @RequestParam(required = false) String motCle,
@@ -55,7 +58,7 @@ public class ArticleAVendreController {
         model.addAttribute("categorieActive", categorie);
 
         return "index";
-    }
+    }*/
 
 }
 

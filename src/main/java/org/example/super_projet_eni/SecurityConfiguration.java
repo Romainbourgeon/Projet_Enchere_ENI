@@ -1,12 +1,16 @@
 package org.example.super_projet_eni;
 
 
+import org.example.super_projet_eni.bll.UtilisateurService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
@@ -19,14 +23,28 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class SecurityConfiguration {
 
+    private UtilisateurService utilisateurService;
+
+    public SecurityConfiguration(UtilisateurService utilisateurService) {
+        this.utilisateurService = utilisateurService;
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+        AuthenticationManagerBuilder auth = http.getSharedObject(AuthenticationManagerBuilder.class);
+        auth.userDetailsService(utilisateurService) // ici utilisateurService implémente UserDetailsService
+                .passwordEncoder(passwordEncoder());
+        return auth.build();
+    }
 
     @Bean
     UserDetailsManager userDetailsManager(DataSource dataSource) {
         JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager(dataSource);
-        userDetailsManager.setUsersByUsernameQuery("SELECT pseudo,password,1  FROM MEMBRE where pseudo=?");// Prend le pseudo, mdp d'un compte actif (1) de la table membre et regarde si pseudo existe
-        userDetailsManager.setAuthoritiesByUsernameQuery("SELECT u.pseudo, u.mot_de_passe, r.role FROM UTILISATEURS u inner join ROLES r ON r.IS_ADMIN = u.administrateur WHERE u.pseudo=?");
-        return userDetailsManager;                      //Selectionne le pseudo,mdp,role de la table UTILISATEURS, il le lie avec ROLE, si est ADMIN  avec le pseudo alors admin
+        userDetailsManager.setUsersByUsernameQuery("SELECT pseudo,password,1 FROM MEMBRE where pseudo=?");
+        userDetailsManager.setAuthoritiesByUsernameQuery("SELECT role FROM utilisateur_roles WHERE pseudo=?");
+        return userDetailsManager;
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {  //BCryptPasswordEncoder est une implémentation de l'interface PasswordEncoder qui applique l'algorithme BCrypt pour hacher les mots de passe.
@@ -47,6 +65,7 @@ public class SecurityConfiguration {
             auth.requestMatchers(HttpMethod.GET, "/images/**").permitAll();
             auth.requestMatchers(HttpMethod.GET, "/css/**").permitAll();
             auth.requestMatchers(HttpMethod.GET, "/acceuil").permitAll();
+            auth.requestMatchers("/register").permitAll();
             auth.requestMatchers(HttpMethod.POST,"/login").hasAnyRole("USER","ADMIN");
             auth.requestMatchers(HttpMethod.GET,"/monProfil").hasAnyRole("USER","ADMIN");
             auth.requestMatchers(HttpMethod.POST,"/modifierProfil").hasAnyRole("USER","ADMIN");

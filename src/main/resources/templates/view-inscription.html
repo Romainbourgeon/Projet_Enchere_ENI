@@ -8,63 +8,63 @@
       )}">
 <!-- Ne rien mettre ici, tout est injecté via les fragments -->
 <div th:fragment="content">
-<main>
-    <h1>Nouveau Profil</h1>
+    <main>
+        <h1>Nouveau Profil</h1>
 
-    <form th:action="@{/inscription}" th:object="${utilisateur}" method="post">
-        <div class="form-group">
-            <label for="username">Pseudo (*) :</label>
-            <input type="text"
-                   id="username"
-                   th:field="*{pseudo}"
-                   required>
-        </div>
+        <form th:action="@{/inscription}" th:object="${utilisateur}" method="post">
+            <div class="form-group">
+                <label for="username">Pseudo (*) :</label>
+                <input type="text"
+                       id="username"
+                       th:field="*{pseudo}"
+                       required>
+            </div>
 
-        <div class="form-group">
-            <label for="name">Nom (*) :</label>
-            <input type="text" id="name" th:field="*{nom}" required>
-        </div>
+            <div class="form-group">
+                <label for="name">Nom (*) :</label>
+                <input type="text" id="name" th:field="*{nom}" required>
+            </div>
 
-        <div class="form-group">
-            <label for="firstName">Prénom (*) :</label>
-            <input type="text" id="firstName" th:field="*{prenom}" required>
-        </div>
+            <div class="form-group">
+                <label for="firstName">Prénom (*) :</label>
+                <input type="text" id="firstName" th:field="*{prenom}" required>
+            </div>
 
-        <div class="form-group">
-            <label for="email">Email (*) :</label>
-            <input type="email" id="email" th:field="*{email}" required>
-        </div>
+            <div class="form-group">
+                <label for="email">Email (*) :</label>
+                <input type="email" id="email" th:field="*{email}" required>
+            </div>
 
-        <div class="form-group">
-            <label for="phone">Téléphone :</label>
-            <input type="tel" id="phone" th:field="*{telephone}">
-        </div>
+            <div class="form-group">
+                <label for="phone">Téléphone :</label>
+                <input type="tel" id="phone" th:field="*{telephone}">
+            </div>
 
-        <div class="form-group">
-            <label>Adresse (*) :</label>
-            <input type="text" id="rue" th:field="*{adresse.rue}" placeholder="Rue" required>
-            <input type="number" id="codePostal" th:field="*{adresse.codePostal}" placeholder="Code Postal" required>
-            <input type="text" id="ville" th:field="*{adresse.ville}" placeholder="Ville" required>
-        </div>
+            <div class="form-group">
+                <label>Adresse (*) :</label>
+                <input type="text" id="rue" th:field="*{adresse.rue}" placeholder="Rue" required>
+                <input type="number" id="codePostal" th:field="*{adresse.codePostal}" placeholder="Code Postal" required>
+                <input type="text" id="ville" th:field="*{adresse.ville}" placeholder="Ville" required>
+            </div>
 
-        <div class="form-group">
-            <label for="password">Mot de passe (*) :</label>
-            <input type="password" id="password" th:field="*{motDePasse}" required>
-        </div>
+            <div class="form-group">
+                <label for="password">Mot de passe (*) :</label>
+                <input type="password" id="password" th:field="*{motDePasse}" required>
+            </div>
 
-        <div class="form-group">
-            <label for="confirmPassword">Confirmation (*) :</label>
-            <input type="password" id="confirmPassword" th:field="*{confirmeMotDePasse}" required>
-        </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirmation (*) :</label>
+                <input type="password" id="confirmPassword" th:field="*{confirmeMotDePasse}" required>
+            </div>
 
-        <div class="form-group">
-            <button type="submit">Créer</button>
-        </div>
+            <div class="form-group">
+                <button type="submit">Créer</button>
+            </div>
 
-        <div class="form-group">
-            <button type="reset">Annuler</button>
-        </div>
-    </form>
-</main>
+            <div class="form-group">
+                <button type="reset">Annuler</button>
+            </div>
+        </form>
+    </main>
 </div>
 </html>
