@@ -30,12 +30,13 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+    public AuthenticationManager authenticationManager(HttpSecurity http, UtilisateurService utilisateurService) throws Exception {
         AuthenticationManagerBuilder auth = http.getSharedObject(AuthenticationManagerBuilder.class);
         auth.userDetailsService(utilisateurService) // ici utilisateurService implémente UserDetailsService
                 .passwordEncoder(passwordEncoder());
         return auth.build();
     }
+
 
     @Bean
     UserDetailsManager userDetailsManager(DataSource dataSource) {
@@ -50,6 +51,7 @@ public class SecurityConfiguration {
     public PasswordEncoder passwordEncoder() {  //BCryptPasswordEncoder est une implémentation de l'interface PasswordEncoder qui applique l'algorithme BCrypt pour hacher les mots de passe.
         return new BCryptPasswordEncoder();   // BCrypt pour hacher les mots de passe
     }
+
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

@@ -24,7 +24,14 @@ public class UtilisateurRowMapper implements RowMapper<Utilisateur> {
 
         // Association pour l'adresse
         Adresse adresse = new Adresse();
-        adresse.setId(rs.getInt("no_adresse"));
+        if (rs.getObject("no_adresse") != null) {
+            adresse.setId((long) rs.getInt("no_adresse"));
+        }else {
+            adresse.setRue("Non spécifié");
+            adresse.setVille("Non spécifié");
+            adresse.setCodePostal("Non spécifié");
+
+        }
         utilisateur.setAdresse(adresse);
 
         return utilisateur;

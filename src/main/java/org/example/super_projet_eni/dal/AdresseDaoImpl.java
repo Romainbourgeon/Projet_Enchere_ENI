@@ -19,10 +19,10 @@ public class AdresseDaoImpl implements AdresseDao {
 
     //Requêtes SQL
     private final String SELECT_ALL = "SELECT * FROM ADRESSES";
-    private final String SELECT_BY_ID = "SELECT * FROM ADRESSES WHERE id = :id";
+    private final String SELECT_BY_ID = "SELECT * FROM ADRESSES WHERE no_adresse = :id";
     private final String INSERT = "INSERT INTO ADRESSES (rue, code_postal, ville) VALUES (:rue, :code_postal, :ville)";
-    private final String UPDATE = "UPDATE ADRESSES SET rue = :rue, code_postal = :code_postal, ville = :ville WHERE id = :id";
-    final static String DELETE = "delete from ADRESSES where id=:id";
+    private final String UPDATE = "UPDATE ADRESSES SET rue = :rue, code_postal = :code_postal, ville = :ville WHERE no_adresse = :id";
+    final static String DELETE = "delete from ADRESSES where no_adresse=:id";
 
 
     @Override
