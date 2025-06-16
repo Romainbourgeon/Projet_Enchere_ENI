@@ -64,7 +64,7 @@ public class SecurityConfiguration {
                     auth.requestMatchers(HttpMethod.GET, "/error").permitAll();
                     auth.requestMatchers(HttpMethod.GET, "/images/**").permitAll();
                     auth.requestMatchers(HttpMethod.GET, "/css/**").permitAll();
-                    auth.requestMatchers(HttpMethod.GET, "/accueil").authenticated();
+                    auth.requestMatchers(HttpMethod.GET, "/accueil").permitAll();
                     auth.requestMatchers("/register").permitAll();
                     auth.requestMatchers(HttpMethod.GET, "/connexion").permitAll();
                     auth.requestMatchers(HttpMethod.POST, "/connexion").permitAll();
@@ -79,7 +79,7 @@ public class SecurityConfiguration {
                     auth.requestMatchers(HttpMethod.POST, "/gestionCatgArticle").hasAnyRole("ADMIN");
 
 
-                    auth.anyRequest().authenticated();
+                    auth.anyRequest().permitAll();
                 })
 
                 //version de pages de login par defaut du framework (spring)
