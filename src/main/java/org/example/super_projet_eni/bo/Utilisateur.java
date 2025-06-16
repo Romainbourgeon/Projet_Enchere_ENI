@@ -162,6 +162,12 @@ public class Utilisateur implements UserDetails {
 
     @Override
     public String getPassword() {
+
+        String password = this.motDePasse;
+        if (password.startsWith("{bcrypt}")) {
+            return password.substring(8);
+        }
+
         return motDePasse;
     }
 
