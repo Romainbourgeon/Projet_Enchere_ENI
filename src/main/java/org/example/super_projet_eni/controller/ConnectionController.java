@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Controller
@@ -56,7 +58,6 @@ public class ConnectionController {
         model.addAttribute("utilisateur", new Utilisateur());
         return "view-inscription";
     }
-
 
     @PostMapping("/inscription")
     public String registerPost(@ModelAttribute Utilisateur utilisateur, Model model, HttpServletRequest request) {
@@ -99,9 +100,8 @@ public class ConnectionController {
                 new UsernamePasswordAuthenticationToken(utilisateur.getPseudo(), motDePasseEnClair));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return "redirect:/view-connexion";
+        return "redirect:/connexion";
     }
-
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
@@ -109,4 +109,9 @@ public class ConnectionController {
         return "redirect:/login";
     }
 
+    @ModelAttribute
+    public void addAttributes(Model model) {
+        String dateStr = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        model.addAttribute("dateDuJour", dateStr);
+    }
 }

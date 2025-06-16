@@ -92,6 +92,21 @@ footer {
     width: 100%;
 }
 
+.date-encadre {
+    border: 2px solid #004aad;        /* Bleu foncé comme ta nav */
+    background-color: #e6f0ff;        /* Fond bleu très clair */
+    color: #004aad;                   /* Texte bleu foncé */
+    padding: 12px 25px;
+    width: fit-content;
+    font-weight: 700;
+    font-size: 1.4rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 74, 173, 0.3);
+    margin: 20px auto;
+    text-align: right;
+}
+
 /* Responsive */
 @media (max-width: 600px) {
     nav {

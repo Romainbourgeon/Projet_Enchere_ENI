@@ -27,9 +27,10 @@
                 <li><a data-th-href="@{/connexion}" >Se connecter</a></li>
             </th:block>
         </ul>
+        <div class="date-encadre" th:text="${dateDuJour}">
+            <!-- La date s'affichera ici -->
+        </div>
     </nav>
-
-
 
 <!-- On injecte le contenu spécifique de chaque page -->
 <div th:replace="${content}"></div>
