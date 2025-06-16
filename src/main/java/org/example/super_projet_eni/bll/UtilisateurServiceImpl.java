@@ -44,11 +44,22 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         utilisateurDao.delete(pseudo);
     }
 
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        System.out.println("=== TENTATIVE DE CONNEXION ===");
+        System.out.println("Username recherché : " + username);
+
         Utilisateur utilisateur = utilisateurDao.read(username);
         if (utilisateur == null) {
+            System.out.println("❌ Utilisateur non trouvé en base !");
             throw new UsernameNotFoundException("Utilisateur non trouvé : " + username);
         }
+
+        System.out.println("✅ Utilisateur trouvé : " + utilisateur.getPseudo());
+        System.out.println("Mot de passe stocké : " + utilisateur.getMotDePasse());
+        System.out.println("Est admin ? " + utilisateur.isAdmin());
+        System.out.println("Rôle assigné : " + (utilisateur.isAdmin() ? "ADMIN" : "USER"));
         // Convertir ton objet Utilisateur en UserDetails (Spring Security)
         return org.springframework.security.core.userdetails.User.builder()
                 .username(utilisateur.getPseudo())
@@ -56,4 +67,5 @@ public class UtilisateurServiceImpl implements UtilisateurService {
                 .roles(utilisateur.isAdmin() ? "ADMIN" : "USER")  // adapter selon ton rôle
                 .build();
     }
+
 }

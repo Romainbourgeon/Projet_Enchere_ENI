@@ -37,13 +37,14 @@ public class SecurityConfiguration {
         return auth.build();
     }
 
-    @Bean
+    // A supprimer car authenticationManager gère déjà l'authentification
+    /*@Bean
     UserDetailsManager userDetailsManager(DataSource dataSource) {
         JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager(dataSource);
         userDetailsManager.setUsersByUsernameQuery("SELECT pseudo,password,1 FROM MEMBRE where pseudo=?");
         userDetailsManager.setAuthoritiesByUsernameQuery("SELECT role FROM utilisateur_roles WHERE pseudo=?");
         return userDetailsManager;
-    }
+    }*/
 
 
     @Bean
@@ -57,32 +58,43 @@ public class SecurityConfiguration {
 // POST est utilisé pour soumettre des données qui vont modifier l'état du serveur (par exemple, s'authentifier via /login)
 
         http.authorizeHttpRequests(auth ->
-        {
-            auth.requestMatchers(HttpMethod.GET, "/").permitAll();
-            auth.requestMatchers(HttpMethod.GET, "/error").permitAll();
-            auth.requestMatchers(HttpMethod.GET, "/images/**").permitAll();
-            auth.requestMatchers(HttpMethod.GET, "/css/**").permitAll();
-            auth.requestMatchers(HttpMethod.GET, "/acceuil").permitAll();
-            auth.requestMatchers("/register").permitAll();
-            auth.requestMatchers(HttpMethod.POST,"/login").hasAnyRole("USER","ADMIN");
-            auth.requestMatchers(HttpMethod.GET,"/monProfil").hasAnyRole("USER","ADMIN");
-            auth.requestMatchers(HttpMethod.POST,"/modifierProfil").hasAnyRole("USER","ADMIN");
-            auth.requestMatchers(HttpMethod.POST,"/deleteProfil").hasAnyRole("USER","ADMIN");
-            auth.requestMatchers(HttpMethod.POST,"/logout").hasAnyRole("USER","ADMIN");
-            auth.requestMatchers(HttpMethod.POST,"/vendreArticle").hasAnyRole("USER","ADMIN");
-            auth.requestMatchers(HttpMethod.POST,"/acheterArticle").hasAnyRole("USER","ADMIN");
-            auth.requestMatchers(HttpMethod.POST,"/deleteAccount").hasAnyRole("ADMIN");
-            auth.requestMatchers(HttpMethod.POST,"/desableAccount").hasAnyRole("ADMIN");
-            auth.requestMatchers(HttpMethod.POST,"/gestionCatgArticle").hasAnyRole("ADMIN");
+                {
+                    auth.requestMatchers(HttpMethod.GET, "/").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/error").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/images/**").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/css/**").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/accueil").authenticated();
+                    auth.requestMatchers("/register").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/connexion").permitAll();
+                    auth.requestMatchers(HttpMethod.POST, "/connexion").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/monProfil").hasAnyRole("USER", "ADMIN");
+                    auth.requestMatchers(HttpMethod.POST, "/modifierProfil").hasAnyRole("USER", "ADMIN");
+                    auth.requestMatchers(HttpMethod.POST, "/deleteProfil").hasAnyRole("USER", "ADMIN");
+                    auth.requestMatchers(HttpMethod.POST, "/logout").hasAnyRole("USER", "ADMIN");
+                    auth.requestMatchers(HttpMethod.POST, "/vendreArticle").hasAnyRole("USER", "ADMIN");
+                    auth.requestMatchers(HttpMethod.POST, "/acheterArticle").hasAnyRole("USER", "ADMIN");
+                    auth.requestMatchers(HttpMethod.POST, "/deleteAccount").hasAnyRole("ADMIN");
+                    auth.requestMatchers(HttpMethod.POST, "/desableAccount").hasAnyRole("ADMIN");
+                    auth.requestMatchers(HttpMethod.POST, "/gestionCatgArticle").hasAnyRole("ADMIN");
 
 
+                    auth.anyRequest().authenticated();
+                })
 
-            auth.anyRequest().permitAll();//authenticated
-        });
+                //version de pages de login par defaut du framework (spring)
+                /*http.formLogin(Customizer.withDefaults());  //Cette ligne active l'authentification par formulaire HTML (form login).
+                http.csrf(c -> c.disable()); //Cela désactive la protection CSRF (Cross-Site Request Forgery).(API REST, tests, outils comme Postman)*/
 
-        //version de pages de login par defaut du framework (spring)
-        http.formLogin(Customizer.withDefaults());  //Cette ligne active l'authentification par formulaire HTML (form login).
-        http.csrf(c -> c.disable()); //Cela désactive la protection CSRF (Cross-Site Request Forgery).(API REST, tests, outils comme Postman)
+                .csrf(Customizer.withDefaults())
+                .cors(Customizer.withDefaults())
+
+                // Permets d'utiliser notre page de connexion et de la lier à spring security
+                .formLogin(f ->
+                        f.loginPage("/connexion")
+                                .loginProcessingUrl("/connexion")
+                                .permitAll()
+                );
+
 
         return http.build();
     }

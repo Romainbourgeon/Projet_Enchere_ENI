@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:fragment="layout(title, header,content, footer, ressourcesSupp)">
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="layout(title, header,content, footer, ressourcesSupp)"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
     <title data-th-text="${title}">Titre par défaut</title>
@@ -18,7 +19,13 @@
         <ul>
             <li><a data-th-href="@{/accueil}">Accueil</a></li>
             <li><a data-th-href="@{/inscription}">S'inscrire</a></li>
-            <li><a data-th-href="@{/connexion}">Se connecter</a></li>
+            <th:block  sec:authorize="isAuthenticated()">
+                <p data-th-text="${#authentication.name}"></p>
+                <li><a data-th-href="@{/deconnexion}" >Se déconnecter</a></li>
+            </th:block>
+            <th:block data-th-if="${!#authorization.expression('isAuthenticated()')}">
+                <li><a data-th-href="@{/connexion}" >Se connecter</a></li>
+            </th:block>
         </ul>
     </nav>
 
