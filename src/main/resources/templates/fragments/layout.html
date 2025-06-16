@@ -18,17 +18,22 @@
         <p>Les objets sont nos amis</p>
         <ul>
             <li><a data-th-href="@{/accueil}">Accueil</a></li>
-            <li><a data-th-href="@{/inscription}">S'inscrire</a></li>
+            <th:block data-th-if="${!#authorization.expression('isAuthenticated()')}">
+                <li><a data-th-href="@{/inscription}">S'inscrire</a></li>
+            </th:block>
             <th:block  sec:authorize="isAuthenticated()">
-                <p data-th-text="${#authentication.name}"></p>
-                <li><a data-th-href="@{/deconnexion}" >Se déconnecter</a></li>
+                <li><a data-th-href="@{/logout}" >Se déconnecter</a></li>
             </th:block>
             <th:block data-th-if="${!#authorization.expression('isAuthenticated()')}">
                 <li><a data-th-href="@{/connexion}" >Se connecter</a></li>
             </th:block>
         </ul>
-        <div class="date-encadre" th:text="${dateDuJour}">
+        <div class="date-encadre">
+            <div th:text="${dateDuJour}"></div>
             <!-- La date s'affichera ici -->
+            <th:block  sec:authorize="isAuthenticated()">
+                <p data-th-text="${#authentication.name}"></p>
+            </th:block>
         </div>
     </nav>
 

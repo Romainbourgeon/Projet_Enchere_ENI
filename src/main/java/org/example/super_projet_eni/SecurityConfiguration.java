@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
 
@@ -93,6 +94,15 @@ public class SecurityConfiguration {
                 .formLogin(f ->
                         f.loginPage("/connexion")
                                 .loginProcessingUrl("/connexion")
+                                .defaultSuccessUrl("/accueil")
+                                .permitAll()
+                )
+
+                .logout(logout ->
+                        logout.logoutUrl("/logout")                    // URL pour se déconnecter
+                                .logoutSuccessUrl("/accueil")            // Redirection après déconnexion
+                                .invalidateHttpSession(true)             // Invalide la session
+                                .deleteCookies("JSESSIONID")             // Supprime les cookies
                                 .permitAll()
                 );
 

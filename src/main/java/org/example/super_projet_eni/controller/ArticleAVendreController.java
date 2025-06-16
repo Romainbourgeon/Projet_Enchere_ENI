@@ -6,8 +6,11 @@ import org.example.super_projet_eni.bo.Categorie;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -20,6 +23,11 @@ public class ArticleAVendreController {
     }
 
 
+    @ModelAttribute
+    public void addAttributes(Model model) {
+        String dateStr = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        model.addAttribute("dateDuJour", dateStr);
+    }
 
     @GetMapping("/accueil")
     public String test(Model model) {
