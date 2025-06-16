@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
@@ -35,6 +36,38 @@ public class ArticleAVendreController {
         model.addAttribute("articleAVendres",articleAVendres);
         return "index";
     }
+
+
+/*    @GetMapping("/articles/ajouter")
+    public String showForm(Model model) {
+        model.addAttribute("articleAVendre", new ArticleAVendre());
+        model.addAttribute("categories", articleService.listeCategorie());
+        model.addAttribute("adresses", articleService.listeAdresse());
+        return "article_form"; // nom de ta page Thymeleaf
+    }
+
+    @PostMapping("/articles/ajouter")
+    public String submitForm(@ModelAttribute ArticleAVendre articleAVendre,
+                             @AuthenticationPrincipal Utilisateur vendeur) {
+        // Associer le vendeur connecté à l'article
+        articleAVendre.setVendeur(vendeur);
+
+        // Assure-toi que les objets categorie et retrait sont bien chargés (si seulement id reçu)
+        Categorie categorie = articleService.consulterCategorieById(articleAVendre.getCategorie().getId());
+        articleAVendre.setCategorie(categorie);
+        Adresse adresse = articleService.consulterAdresseById(articleAVendre.getRetrait().getId());
+        articleAVendre.setRetrait(adresse);
+
+        // Initialisation de statut, prixVente, etc si besoin
+        articleAVendre.setStatut(1); // par exemple "En cours"
+        articleAVendre.setPrixVente(0); // prix de départ
+
+        articleService.creerArticleAVendre(articleAVendre);
+
+        return "redirect:/accueil"; // redirection vers la page d'accueil
+    }*/
+}
+
 
 
 
@@ -67,7 +100,6 @@ public class ArticleAVendreController {
         return "index";
     }*/
 
-}
 
 
 
