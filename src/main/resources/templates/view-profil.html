@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(
+        'Mon profil',
+        ~{},
+        ~{::content},
+        ~{},
+        ~{fragments/profilCss :: css},
+        'page-profil'
+      )}">
+<!-- Ne rien mettre ici, tout est injecté via les fragments -->
+
+<div th:fragment="content">
+  <main>
+    <h1>Mon Profil</h1>
+
+    <div class="profil-info">
+      <p><strong>Pseudo :</strong> <span th:text="${utilisateur.pseudo}">pseudo</span></p>
+      <p><strong>Prénom :</strong> <span th:text="${utilisateur.prenom}">Prénom</span></p>
+      <p><strong>Nom :</strong> <span th:text="${utilisateur.nom}">Nom</span></p>
+      <p><strong>Email :</strong> <span th:text="${utilisateur.email}">email@example.com</span></p>
+      <p><strong>Téléphone :</strong> <span th:text="${utilisateur.telephone}">0123456789</span></p>
+      <p><strong>Adresse :</strong> <span th:text="${utilisateur.adresse}">Adresse complète</span></p>
+      <p><strong>Crédit :</strong> <span th:text="${utilisateur.credit}">Mon crédit</span></p>
+
+      <div class="actions">
+        <a th:href="@{/profil/modifier}" class="btn btn-primary">Modifier</a>
+        <a th:href="@{/profil/modifier-mdp}" class="btn btn-secondary">Modifier mot de passe</a>
+        <a th:href="@{/profil/supprimer}" class="btn btn-danger"
+           onclick="return confirm('Êtes-vous sûr de vouloir supprimer votre compte ?');">
+          Supprimer mon compte
+        </a>
+        <a th:href="@{/}" class="btn btn-cancel">Annuler</a>
+      </div>
+    </div>
+  </main>
+</div>
+</html>

@@ -76,7 +76,7 @@ public class SecurityConfiguration {
             auth.requestMatchers(HttpMethod.POST,"/deleteAccount").hasAnyRole("ADMIN");
             auth.requestMatchers(HttpMethod.POST,"/desableAccount").hasAnyRole("ADMIN");
             auth.requestMatchers(HttpMethod.POST,"/gestionCatgArticle").hasAnyRole("ADMIN");
-
+            auth.requestMatchers(HttpMethod.GET,"/profil").permitAll();             //hasAnyRole("USER","ADMIN");
 
 
             auth.anyRequest().permitAll();//authenticated

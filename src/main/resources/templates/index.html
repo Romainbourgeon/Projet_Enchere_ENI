@@ -1,27 +1,21 @@
-<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       th:replace="~{fragments/layout :: layout(
         'Accueil - Les objets sont nos amis',
         ~{},
         ~{::content},
         ~{},
-        ~{}
+        ~{fragments/indexCss :: css},
+        ''
       )}">
 <!-- Ne rien mettre ici, tout est injecté via les fragments -->
-<div th:fragment="content">
 
+<div th:fragment="content">
 
     <main>
         <h1>Liste des enchères</h1>
         <ul>
             <form method="get" action="#" th:action="@{/accueil}">
                 <input type="text" name="motCle" placeholder="Le nom de l'article contient" th:value="${motCle}">
-<!--${motCle} = variable de modèle Thymeleaf correspondant au mot-clé de recherche.-->
-<!--                Ça permet de garder la saisie visible après soumission du formulaire.-->
-
-
-
-
                 <select name="categorie" th:value="${categorieActive}">
                     <option value="">Toutes les catégories</option>
                     <option th:each="cat : ${categories}"
@@ -29,36 +23,17 @@
                             th:text="${cat.nom}"
                             th:selected="${cat.id == categorieActive}"></option>
                 </select>
-
                 <button type="submit">Rechercher</button>
-                <a th:href="@{/accueil}"><button type="button">Annuler</button></a>
+                <a th:href="@{/accueil}" class="btn">Annuler</a>
             </form>
-
-
 
             <div data-th-each="articleAVendres : ${articleAVendres}">
                 <h3 data-th-text="${articleAVendres.getNom()}"></h3>
                 <p data-th-text="' prix : '+ ${articleAVendres.getPrixVente()}"></p>
                 <p data-th-text="' date fin enchère : ' + ${articleAVendres.dateFinEncheres}"></p>
-
-
-
             </div>
-
-
-
-            <!--
-           <li th:each="article : ${articles}">
-               <h3 th:text="${article.nom}">Nom de l'article</h3>
-               <p th:text="${article.description}">Description</p>
-               <p>Enchères ouvertes : <span th:text="${article.dateDebutEncheres}">date</span></p>
-               <p>Fin enchères : <span th:text="${article.dateFinEncheres}">date</span></p>
-               <p>Statut : <span th:text="${article.statut}">0</span></p>
-               <p>Prix initial : <span th:text="${article.prixInitial}">0</span> €</p>
-               <p>Prix de vente : <span th:text="${article.prixVente}">0</span> €</p>
-           </li>-->
         </ul>
     </main>
-</div>
 
+</div>
 </html>
