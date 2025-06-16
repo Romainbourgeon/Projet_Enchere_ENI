@@ -8,12 +8,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
+@SessionAttributes({ "categoriesEnSession"})
 public class ArticleAVendreController {
 
     private final ArticleAVendreService articleService;
@@ -29,17 +31,37 @@ public class ArticleAVendreController {
         model.addAttribute("dateDuJour", dateStr);
     }
 
+    @ModelAttribute("categoriesEnSession")
+    public List<Categorie> chargerCategories() {
+        return articleService.listeCategorie();
+    }
+
     @GetMapping("/accueil")
-    public String test(Model model) {
-        List<ArticleAVendre> articleAVendres =articleService.listeArticleAVendre ();
-        model.addAttribute("articleAVendres",articleAVendres);
+    public String test(Model model, @RequestParam(required = false) String motCle,
+                       @RequestParam(required = false) Long categorie) {
+
+        List<ArticleAVendre> articleAVendres = articleService.listeArticleAVendre();
+        List<ArticleAVendre> articleAAfficher = null ;
+
+        if (motCle != null && !motCle.isEmpty() && categorie != null) {
+            /*articleAVendres = articleService.findByNomAndCategorie(motCle, categorie);*/
+        } else if (motCle != null && !motCle.isEmpty()) {
+            /*articleAVendres = articleService.findByNom(motCle);*/
+        } else if (categorie != null) {
+            articleAAfficher = articleAVendres.stream().filter(a -> a.getCategorie().equals(articleService.consulterCategorieById(categorie))).toList();
+        } else {
+            articleAAfficher = articleAVendres;
+        }
+
+        model.addAttribute("articleAAfficher",articleAAfficher);
+
         return "index";
     }
 
 
 
-    // Bout de code à débuguer ou supprimer
-    /*@GetMapping("/test")
+
+   /* @GetMapping("/test")
     public String accueil(
             Model model,
             @RequestParam(required = false) String motCle,
@@ -60,9 +82,9 @@ public class ArticleAVendreController {
         List<Categorie> categories = articleService.listeCategorie();
 
         model.addAttribute("articles", articles);
-        model.addAttribute("categories", categories);
+        *//*model.addAttribute("categories", categories);*//*
         model.addAttribute("motCle", motCle);
-        model.addAttribute("categorieActive", categorie);
+        *//*model.addAttribute("categorieActive", categorie);*//*
 
         return "index";
     }*/

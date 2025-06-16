@@ -23,7 +23,7 @@ public class ArticleAVendreDaoImpl implements ArticleAVendreDao{
     //Requêtes SQL
     private final String SELECT_BY_ID = "SELECT * FROM ARTICLES_A_VENDRE WHERE no_article = :no_article";
     private final String SELECT_ALL = "SELECT * FROM ARTICLES_A_VENDRE";
-    private final String SELECT_ALL_WITH_ENCHERES_ACTIVES = "SELECT * FROM ARTICLES_A_VENDRE WHERE GETDATE() BETWEEN date_debut_encheres AND date_fin_encheres";
+    private final String SELECT_ALL_WITH_ENCHERES_ACTIVES = "SELECT * FROM ARTICLES_A_VENDRE WHERE statut_enchere = 1";
     private final String SELECT_ALL_WITH_ENCHERES_ACTIVES_BY_CATEGORIE = "SELECT * FROM ARTICLES_A_VENDRE WHERE ((GETDATE() BETWEEN date_debut_encheres AND date_fin_encheres) AND (no_categorie = :no_categorie))";
     private final String SELECT_ALL_BY_UTILISATEUR = "SELECT * FROM ARTICLES_A_VENDRE WHERE id_utilisateur = :id_utilisateur";
     private final String INSERT = "INSERT INTO ARTICLES_A_VENDRE (nom_article, description, photo, date_debut_encheres, date_fin_encheres, " +

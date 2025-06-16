@@ -20,13 +20,11 @@
 <!--                Ça permet de garder la saisie visible après soumission du formulaire.-->
 
 
-
-
-                <select name="categorie" th:value="${categorieActive}">
-                    <option value="">Toutes les catégories</option>
-                    <option th:each="cat : ${categories}"
+                <select id="inputCategorie" name="categorie" th:value="${categorieActive}">
+                    <option value="" selected disabled>Toutes les catégories</option>
+                    <option th:each="cat : ${categoriesEnSession}"
                             th:value="${cat.id}"
-                            th:text="${cat.nom}"
+                            th:text="${cat.libelle}"
                             th:selected="${cat.id == categorieActive}"></option>
                 </select>
 
@@ -36,10 +34,10 @@
 
 
 
-            <div data-th-each="articleAVendres : ${articleAVendres}">
-                <h3 data-th-text="${articleAVendres.getNom()}"></h3>
-                <p data-th-text="' prix : '+ ${articleAVendres.getPrixVente()}"></p>
-                <p data-th-text="' date fin enchère : ' + ${articleAVendres.dateFinEncheres}"></p>
+            <div data-th-each="articleAAfficher : ${articleAAfficher}">
+                <h3 data-th-text="${articleAAfficher.getNom()}"></h3>
+                <p data-th-text="' prix : '+ ${articleAAfficher.getPrixVente()}"></p>
+                <p data-th-text="' date fin enchère : ' + ${articleAAfficher.dateFinEncheres}"></p>
 
 
 
