@@ -1,10 +1,15 @@
 package org.example.super_projet_eni.bo;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 
-public class Utilisateur  {
+public class Utilisateur implements UserDetails {
     private String pseudo;
     private String nom;
     private String prenom;
@@ -12,16 +17,17 @@ public class Utilisateur  {
     private String telephone;
     private String motDePasse;
     private String confirmeMotDePasse;
-    private int credit;
+    private int credit = 10;
     private boolean admin;
+    private Collection<? extends GrantedAuthority> authorities = Collections.emptyList();
     private Adresse adresse;
     private final List<ArticleAVendre> articleAVendreList= new ArrayList<>();
-
 
     public Utilisateur() {
     }
 
-    public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String motDePasse, String confirmeMotDePasse, int credit, boolean admin, Adresse adresse) {
+
+    public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String motDePasse, String confirmeMotDePasse, int credit, boolean admin, Adresse adresse, Collection<? extends GrantedAuthority> authorities) {
         this.pseudo = pseudo;
         this.nom = nom;
         this.prenom = prenom;
@@ -32,7 +38,9 @@ public class Utilisateur  {
         this.credit = credit;
         this.admin = admin;
         this.adresse = adresse;
+        this.authorities = authorities;
     }
+
 
     @Override
     public String toString() {
@@ -46,9 +54,14 @@ public class Utilisateur  {
                 ", confirmeMotDePasse='" + confirmeMotDePasse + '\'' +
                 ", credit=" + credit +
                 ", admin=" + admin +
+                ", authorities=" + authorities +
                 ", adresse=" + adresse +
                 ", articleAVendreList=" + articleAVendreList +
                 '}';
+    }
+
+    // constructeur test
+    public Utilisateur(String user1, String password1, String mail) {
     }
 
     public String getPseudo() {
@@ -99,9 +112,13 @@ public class Utilisateur  {
         this.motDePasse = motDePasse;
     }
 
-    public String getConfirmeMotDePasse() {return confirmeMotDePasse;}
+    public String getConfirmeMotDePasse() {
+        return confirmeMotDePasse;
+    }
 
-    public void setConfirmeMotDePasse(String confirmeMotDePasse) {this.confirmeMotDePasse = confirmeMotDePasse;}
+    public void setConfirmeMotDePasse(String confirmeMotDePasse) {
+        this.confirmeMotDePasse = confirmeMotDePasse;
+    }
 
     public int getCredit() {
         return credit;
@@ -119,6 +136,15 @@ public class Utilisateur  {
         this.admin = admin;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+        this.authorities = authorities;
+    }
+
     public Adresse getAdresse() {
         return adresse;
     }
@@ -129,5 +155,41 @@ public class Utilisateur  {
 
     public List<ArticleAVendre> getArticleAVendreList() {
         return articleAVendreList;
+    }
+
+    public void setId(int idUtilisateur) {
+    }
+
+    @Override
+    public String getPassword() {
+        return motDePasse;
+    }
+
+    @Override
+    public String getUsername() {
+        return pseudo;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return UserDetails.super.isAccountNonExpired();
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return UserDetails.super.isAccountNonLocked();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return UserDetails.super.isCredentialsNonExpired();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return UserDetails.super.isEnabled();
+    }
+
+    public void setPassword(String encode) {
     }
 }

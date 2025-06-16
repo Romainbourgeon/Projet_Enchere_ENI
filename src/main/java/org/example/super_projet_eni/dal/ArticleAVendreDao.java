@@ -17,5 +17,4 @@ public interface ArticleAVendreDao {
     List<ArticleAVendre> readAllEncheresActivesByCategorie (Categorie categorie);
    /* void update (ArticleAVendre articleAVendre);
     void delete (long id);*/
-
 }
