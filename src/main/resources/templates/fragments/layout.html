@@ -25,6 +25,9 @@
             <th:block data-th-if="${!#authorization.expression('isAuthenticated()')}">
                 <li><a data-th-href="@{/inscription}">S'inscrire</a></li>
             </th:block>
+            <th:block sec:authorize="isAuthenticated()">
+                <li><a data-th-href="@{/articles/ajouter}">Vendre un article</a></li>
+            </th:block>
             <th:block  sec:authorize="isAuthenticated()">
                 <li><a data-th-href="@{/logout}" >Se déconnecter</a></li>
             </th:block>

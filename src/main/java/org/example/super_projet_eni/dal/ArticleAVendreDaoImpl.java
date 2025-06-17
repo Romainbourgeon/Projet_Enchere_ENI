@@ -77,6 +77,9 @@ public class ArticleAVendreDaoImpl implements ArticleAVendreDao{
 
     @Override
     public List<ArticleAVendre> readAllEncheresActivesByCategorie(Categorie categorie) {
-        return jdbcTemplate.query(SELECT_ALL_WITH_ENCHERES_ACTIVES_BY_CATEGORIE, new ArticleAVendreRowMapper());
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("no_categorie", categorie.getId());  // on fournit la valeur attendue
+        return jdbcTemplate.query(SELECT_ALL_WITH_ENCHERES_ACTIVES_BY_CATEGORIE, params, new ArticleAVendreRowMapper());
     }
+
 }

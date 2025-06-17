@@ -18,6 +18,8 @@ public class ArticleAVendre {
 
 
     public ArticleAVendre() {
+        this.categorie = new Categorie();
+        this.retrait = new Adresse();
     }
 
     public ArticleAVendre(String nom, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres, int statut, int prixInitial, int prixVente, Adresse retrait, Categorie categorie, Utilisateur vendeur) {

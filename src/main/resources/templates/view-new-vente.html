@@ -4,66 +4,52 @@
         ~{},
         ~{::content},
         ~{},
+        ~{},
         ~{}
       )}">
+
 <!-- Ne rien mettre ici, tout est injecté via les fragments -->
-<div th:fragment="content">
+<div data-th-fragment="content">
     <main>
+
         <h1>Nouvelle vente</h1>
-            <form th:action="@{/articles/ajouter}" th:object="${articleAVendre}" method="post">
-                <div class="form-group">
-                    <label for="nomArticle">Article (*) :</label>
-                    <input type="text" id="nomArticle" th:field="*{nom}" required />
-                </div>
 
-                <div class="form-group">
-                    <label for="categorieArticle">Catégorie (*) :</label>
-                    <select id="categorieArticle" th:field="*{categorie.id}" required>
-                        <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.nom}">Catégorie</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="descriptionArticle">Description (*) :</label>
-                    <textarea id="descriptionArticle" th:field="*{description}" required></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="prixInitialArticle">Mise à prix (*) :</label>
-                    <input type="number" id="prixInitialArticle" th:field="*{prixInitial}" required />
-                </div>
-
-                <div class="form-group">
-                    <label for="dateDebutEncheres">Début de l'enchère (*) :</label>
-                    <input type="date" id="dateDebutEncheres" th:field="*{dateDebutEncheres}" required />
-                </div>
-
-                <div class="form-group">
-                    <label for="dateFinEncheres">Fin de l'enchère (*) :</label>
-                    <input type="date" id="dateFinEncheres" th:field="*{dateFinEncheres}" required />
-                </div>
-
-<!--                <div class="form-group">
-                    <label for="retraitAdresse">Adresse de retrait (*) :</label>
-                    <select id="retraitAdresse" th:field="*{retrait.id}" required>
-                        <option th:each="adr : ${adresses}" th:value="${adr.id}" th:text="${adr.rue + ', ' + adr.codePostal + ' ' + adr.ville}">Adresse</option>
-                    </select>
-                </div>-->
-
-                <div class="form-group">
-                    <label for="retraitAdresse">Retrait (*) :</label>
-                    <input type="text" id="retraitAdresse" th:field="*{retrait}" required>
-                </div>
-
-                <div class="form-group">
-                    <button type="submit">Suivant</button>
-                </div>
-
-                <div class="form-group">
-                    <button type="reset"><a th:href="@{/index}">Annuler</a></button>
-                </div>
-            </form>
-
+        <form th:action="@{/articles/ajouter}" th:object="${articleAVendre}" method="post">
+            <div class="form-group">
+                <label for="nomArticle">Article (*) :</label>
+                <input type="text" id="nomArticle" th:field="*{nom}" required />
+            </div>
+            <div class="form-group">
+                <label for="categorieArticle">Catégorie (*) :</label>
+                <select id="categorieArticle" th:field="*{categorie.id}" required>
+                    <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.libelle}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="descriptionArticle">Description (*) :</label>
+                <textarea id="descriptionArticle" th:field="*{description}" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="prixInitialArticle">Mise à prix (*) :</label>
+                <input type="number" id="prixInitialArticle" th:field="*{prixInitial}" required />
+            </div>
+            <div class="form-group">
+                <label for="dateDebutEncheres">Début de l'enchère (*) :</label>
+                <input type="date" id="dateDebutEncheres" th:field="*{dateDebutEncheres}" required />
+            </div>
+            <div class="form-group">
+                <label for="dateFinEncheres">Fin de l'enchère (*) :</label>
+                <input type="date" id="dateFinEncheres" th:field="*{dateFinEncheres}" required />
+            </div>
+            <div class="form-group">
+                <label for="retraitAdresse">Adresse de retrait (*) :</label>
+                <select id="retraitAdresse" th:field="*{retrait.id}" required>
+                    <option th:each="adr : ${adresses}" th:value="${adr.id}" th:text="${adr.rue + ', ' + adr.codePostal + ' ' + adr.ville}"></option>
+                </select>
+            </div>
+            <button type="submit">Suivant</button>
+            <button type="reset">Annuler</button>
+        </form>
     </main>
 </div>
 </html>

@@ -77,7 +77,7 @@ public class ArticleAVendreServiceImpl implements ArticleAVendreService {
 
     @Override
     public void creerArticleAVendre(ArticleAVendre articleAVendre) {
-
+        articleAVendreDao.create(articleAVendre, articleAVendre.getVendeur(), articleAVendre.getCategorie());
     }
 
     @Override
