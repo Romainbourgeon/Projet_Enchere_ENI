@@ -21,7 +21,7 @@
 
 
                 <select id="inputCategorie" name="categorie" >
-                    <!--<option value="" th:selected="${categorieActive == null}">Toutes les catégories</option>-->
+                    <option value="" th:selected="${categorieActive == null}">Toutes les catégories</option>
                     <option th:each="cat : ${categoriesEnSession}"
                             th:value="${cat.id}"
                             th:text="${cat.libelle}"
