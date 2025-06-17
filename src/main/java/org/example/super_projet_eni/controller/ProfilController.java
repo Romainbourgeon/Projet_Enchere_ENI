@@ -4,9 +4,14 @@ import org.example.super_projet_eni.bll.UtilisateurService;
 import org.example.super_projet_eni.bo.Adresse;
 import org.example.super_projet_eni.bo.Utilisateur;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import java.security.Principal;
 
 @Controller
 public class ProfilController {
@@ -17,7 +22,7 @@ public class ProfilController {
   this.utilisateurService = utilisateurService;
  }
 
- @GetMapping("/profil")
+/* @GetMapping("/profil")
  public String afficherProfil(Model model) {
   Utilisateur utilisateur = new Utilisateur();
   utilisateur.setPseudo("mockUser");
@@ -39,13 +44,13 @@ public class ProfilController {
   model.addAttribute("utilisateur", utilisateur);
 
   return "view-profil"; // adapte selon ton fichier Thymeleaf
- }
+ }*/
 
 
 
 
 
- /*@GetMapping("/profil")
+ @GetMapping("/profil")
  public String afficherProfil(Model model) {
   // 🔐 Récupération du pseudo de l'utilisateur connecté
   String pseudo = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -56,5 +61,32 @@ public class ProfilController {
   // 📦 Injection dans le modèle
   model.addAttribute("utilisateur", utilisateur);
   return "view-profil";
- }*/
+ }
+
+
+ @GetMapping("/profil/modifier")
+ public String afficherFormulaireModification(Model model) {
+  String pseudo = SecurityContextHolder.getContext().getAuthentication().getName();
+  Utilisateur utilisateur = utilisateurService.consulterUtilisateurByPseudo(pseudo);
+
+  model.addAttribute("utilisateur", utilisateur);
+  return "view-modif-profil";  // le nom de ta vue Thymeleaf
+ }
+
+ @PostMapping("/profil/modifier")
+ public String enregistrerModifications(@ModelAttribute Utilisateur utilisateur, Principal principal) {
+  // Ici tu peux vérifier que l'utilisateur modifie bien son propre profil
+
+
+
+  utilisateurService.update(utilisateur);
+  return "redirect:/profil";
+ }
+
+
+
+
+
+
+
 }

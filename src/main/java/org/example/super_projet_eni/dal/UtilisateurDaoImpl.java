@@ -15,16 +15,19 @@ import java.util.Optional;
 public class UtilisateurDaoImpl implements UtilisateurDao{
 
     private NamedParameterJdbcTemplate jdbcTemplate;
-
+    private AdresseDao adresseDao;
     public UtilisateurDaoImpl(NamedParameterJdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+            this.jdbcTemplate = jdbcTemplate;
+        this.adresseDao = adresseDao;
     }
 
 // requêtes SQL
     private final String SELECT_BY_PSEUDO = "select * from UTILISATEURS where pseudo = :pseudo";
     private final String SELECT_ALL = "SELECT * FROM UTILISATEURS";
-    private final String INSERT = "INSERT INTO UTILISATEURS(pseudo, nom, prenom, email, telephone, mot_de_passe, credit, administrateur, no_adresse) "
+    private final String INSERT = "INSERT INTO UTILISATEURS(pseudo, nom, prenom, email, telephone, mot_de_passe, credit, administrateur, noAdresse) "
             + " VALUES (:pseudo, :nom, :prenom, :email, :telephone, :mot_de_passe, :credit, :administrateur, :no_adresse)";
+    private final String UPDATE = "UPDATE UTILISATEURS SET noAdresse = :noAdresse, telephone = :telephone, email = :email WHERE pseudo = :pseudo";
+    private final String DELETE = "DELETE FROM UTILISATEURS WHERE pseudo = :pseudo";
 
 //    private final String FIND_TITRE = "SELECT TITRE FROM FILM WHERE  id = :id";
 
@@ -32,6 +35,11 @@ public class UtilisateurDaoImpl implements UtilisateurDao{
 
     @Override
     public Utilisateur create(Utilisateur utilisateur) {
+//ligne if a supprimer si je fais de la merde
+        if (utilisateur.getAdresse() != null && utilisateur.getAdresse().getId() == 0) {
+            long idAdresse = adresseDao.create(utilisateur.getAdresse());
+            utilisateur.getAdresse().setId(idAdresse);
+        }
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("pseudo", utilisateur.getPseudo());
         params.addValue("nom", utilisateur.getNom());
@@ -44,7 +52,7 @@ public class UtilisateurDaoImpl implements UtilisateurDao{
         params.addValue("noAdresse", utilisateur.getAdresse() != null ? utilisateur.getAdresse().getId() : null);
 
         jdbcTemplate.update(
-                "INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, telephone, mot_de_passe, credit, administrateur, no_adresse) " +
+                "INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, telephone, motDePasse, credit, administrateur, noAdresse) " +
                         "VALUES (:pseudo, :nom, :prenom, :email, :telephone, :motDePasse, :credit, :administrateur, :noAdresse)",
                 params);
 
@@ -66,7 +74,11 @@ public class UtilisateurDaoImpl implements UtilisateurDao{
     public Utilisateur read(String pseudo) {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
         namedParameters.addValue("pseudo", pseudo);
+       try {
         return jdbcTemplate.queryForObject(SELECT_BY_PSEUDO, namedParameters, new UtilisateurRowMapper());
+    } catch (EmptyResultDataAccessException e) {
+       return null;
+       }
     }
 
     @Override
@@ -76,12 +88,19 @@ public class UtilisateurDaoImpl implements UtilisateurDao{
 
     @Override
     public void update(Utilisateur utilisateur) {
-
+        var parameters = new MapSqlParameterSource();
+        parameters.addValue("noAdresse", utilisateur.getAdresse()!= null ? utilisateur.getAdresse().getId() : null);
+        parameters.addValue("telephone", utilisateur.getTelephone());
+        parameters.addValue("email", utilisateur.getEmail());
+        parameters.addValue("pseudo", utilisateur.getPseudo());
+        jdbcTemplate.update(UPDATE, parameters);
     }
 
     @Override
     public void delete(String pseudo) {
-
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("pseudo", pseudo);
+        jdbcTemplate.update(DELETE, params);
     }
 
     @Override

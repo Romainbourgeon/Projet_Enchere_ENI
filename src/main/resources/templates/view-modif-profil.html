@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(
+        'Modifier mon profil',
+        ~{},
+        ~{::content},
+        ~{},
+        ~{fragments/profilCss :: css},
+        'view-modif-profil'
+      )}">
+
+<div th:fragment="content">
+  <main>
+    <h1>Modifier mon profil</h1>
+
+    <p><strong>Pseudo :</strong> <span th:text="${utilisateur.pseudo}">pseudo</span></p>
+    <p><strong>Prénom :</strong> <span th:text="${utilisateur.prenom}">Prénom</span></p>
+    <p><strong>Nom :</strong> <span th:text="${utilisateur.nom}">Nom</span></p>
+
+    <form th:action="@{/profil/modifier}" th:object="${utilisateur}" method="post">
+     <!-- <label for="prenom">Prénom :</label>
+      <input type="text" id="prenom" th:field="*{prenom}" />
+
+      <label for="nom">Nom :</label>
+      <input type="text" id="nom" th:field="*{nom}" />
+-->
+      <label for="email">Email :</label>
+      <input type="email" id="email" th:field="*{email}" />
+
+      <label for="telephone">Téléphone :</label>
+      <input type="text" id="telephone" th:field="*{telephone}" />
+
+      <label for="rue">Adresse :</label>
+      <input type="text" id="rue" th:field="*{adresse.rue}" />
+        <label for="codePostal"> </label>
+        <input type="text" id="codePostal" th:field="*{adresse.codePostal}" />
+        <label for="ville"> </label>
+        <input type="text" id="ville" th:field="*{adresse.ville}" />
+      <button type="submit" class="btn btn-primary">Enregistrer</button>
+      <a th:href="@{/profil}" class="btn btn-cancel">Annuler</a>
+    </form>
+  </main>
+</div>
+</html>

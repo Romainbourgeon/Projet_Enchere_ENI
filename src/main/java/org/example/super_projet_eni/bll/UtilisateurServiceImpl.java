@@ -55,6 +55,20 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         return utilisateurDao.create(utilisateur);
     }
 
+    @Override //NEWWWWWWWWWWWWWW
+    public void update(Utilisateur utilisateur) {
+        Adresse adresse = utilisateur.getAdresse();
+
+        // Si l'adresse n'a pas d'id, on la crée en base
+        if (adresse != null && adresse.getId() == 0) {
+            long idAdresse = adresseDao.create(adresse);
+            adresse.setId((int) idAdresse);
+        }
+
+        // Puis on met à jour l'utilisateur
+        utilisateurDao.update(utilisateur);
+    }
+
 
     @Override
     public List<Adresse> voirAdresses() {
@@ -78,6 +92,11 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     public void supprimerUtilisateur(String pseudo) {
         utilisateurDao.delete(pseudo);
     }
+
+    /*@Override //NEEEEEEEWW mais pas certain de la fonctionalité. plutot ça consulterUtilisateurByPseudo
+    public Optional<Utilisateur> voirUtilisateurByPseudo(String pseudo) {
+        return Optional.empty();
+    }*/
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

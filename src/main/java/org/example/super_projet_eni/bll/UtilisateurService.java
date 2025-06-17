@@ -18,11 +18,12 @@ public interface UtilisateurService extends UserDetailsService {
     Utilisateur consulterUtilisateurByPseudo(String pseudo);
 
     Utilisateur ajouterUtilisateur(Utilisateur utilisateur);
-
+    void update(Utilisateur utilisateur);
     void supprimerUtilisateur(String pseudo);
 
     Optional<Utilisateur> voirUtilisateurParPseudo(String pseudo);
     List<Adresse> voirAdresses();
     Adresse voirAdresseParId(int id);
     void creerAdresse(Adresse adresse);
+
 }
