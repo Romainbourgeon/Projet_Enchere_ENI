@@ -11,6 +11,7 @@ public class CategorieRowMapper implements RowMapper<Categorie> {
     @Override
     public Categorie mapRow(ResultSet rs, int rowNum) throws SQLException {
         var categorie = new Categorie();
+        categorie.setId(rs.getInt("no_categorie"));
         categorie.setLibelle(rs.getString("libelle"));
         return categorie;
     }

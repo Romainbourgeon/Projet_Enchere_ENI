@@ -39,22 +39,32 @@ public class ArticleAVendreController {
 
     @GetMapping("/accueil")
     public String test(Model model, @RequestParam(required = false) String motCle,
-                       @RequestParam(required = false) Long categorie) {
+                       @RequestParam(value = "categorie", required = false) Long categorie) {
 
         List<ArticleAVendre> articleAVendres = articleService.listeArticleAVendre();
         List<ArticleAVendre> articleAAfficher = null ;
+
+        List<Categorie> list = chargerCategories();
+        System.out.println(list);
 
         if (motCle != null && !motCle.isEmpty() && categorie != null) {
             /*articleAVendres = articleService.findByNomAndCategorie(motCle, categorie);*/
         } else if (motCle != null && !motCle.isEmpty()) {
             /*articleAVendres = articleService.findByNom(motCle);*/
         } else if (categorie != null) {
-            articleAAfficher = articleAVendres.stream().filter(a -> a.getCategorie().equals(articleService.consulterCategorieById(categorie))).toList();
+            articleAAfficher = articleAVendres.stream()
+                    .filter(a -> {
+                        Long articleCatId = a.getCategorie().getId();
+                        return articleCatId.equals(categorie);
+                    })
+                    .toList();
         } else {
             articleAAfficher = articleAVendres;
         }
 
         model.addAttribute("articleAAfficher",articleAAfficher);
+        model.addAttribute("motCle", motCle);
+        model.addAttribute("categorieActive", categorie);
 
         return "index";
     }

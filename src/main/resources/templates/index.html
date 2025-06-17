@@ -14,14 +14,14 @@
     <main>
         <h1>Liste des enchères</h1>
         <ul>
-            <form method="get" action="#" th:action="@{/accueil}">
+            <form method="get" th:action="@{/accueil}">
                 <input type="text" name="motCle" placeholder="Le nom de l'article contient" th:value="${motCle}">
 <!--${motCle} = variable de modèle Thymeleaf correspondant au mot-clé de recherche.-->
 <!--                Ça permet de garder la saisie visible après soumission du formulaire.-->
 
 
-                <select id="inputCategorie" name="categorie" th:value="${categorieActive}">
-                    <option value="" selected disabled>Toutes les catégories</option>
+                <select id="inputCategorie" name="categorie" >
+                    <!--<option value="" th:selected="${categorieActive == null}">Toutes les catégories</option>-->
                     <option th:each="cat : ${categoriesEnSession}"
                             th:value="${cat.id}"
                             th:text="${cat.libelle}"
@@ -31,15 +31,15 @@
                 <a th:href="@{/accueil}" class="btn">Annuler</a>
             </form>
 
+            <div th:if="${#lists.isEmpty(articleAAfficher)}">
+                <p>Aucun article trouvé avec ces critères.</p>
+            </div>
 
 
             <div data-th-each="articleAAfficher : ${articleAAfficher}">
                 <h3 data-th-text="${articleAAfficher.getNom()}"></h3>
                 <p data-th-text="' prix : '+ ${articleAAfficher.getPrixVente()}"></p>
                 <p data-th-text="' date fin enchère : ' + ${articleAAfficher.dateFinEncheres}"></p>
-
-
-
             </div>
 
 
