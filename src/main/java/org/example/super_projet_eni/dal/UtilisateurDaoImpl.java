@@ -10,32 +10,27 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-
 @Repository
-public class UtilisateurDaoImpl implements UtilisateurDao{
+public class UtilisateurDaoImpl implements UtilisateurDao {
 
     private NamedParameterJdbcTemplate jdbcTemplate;
     private AdresseDao adresseDao;
+
     public UtilisateurDaoImpl(NamedParameterJdbcTemplate jdbcTemplate) {
-            this.jdbcTemplate = jdbcTemplate;
+        this.jdbcTemplate = jdbcTemplate;
         this.adresseDao = adresseDao;
     }
 
-// requêtes SQL
+    // requêtes SQL
     private final String SELECT_BY_PSEUDO = "select * from UTILISATEURS where pseudo = :pseudo";
     private final String SELECT_ALL = "SELECT * FROM UTILISATEURS";
-    private final String INSERT = "INSERT INTO UTILISATEURS(pseudo, nom, prenom, email, telephone, mot_de_passe, credit, administrateur, noAdresse) "
-            + " VALUES (:pseudo, :nom, :prenom, :email, :telephone, :mot_de_passe, :credit, :administrateur, :no_adresse)";
-    private final String UPDATE = "UPDATE UTILISATEURS SET noAdresse = :noAdresse, telephone = :telephone, email = :email WHERE pseudo = :pseudo";
+    private final String INSERT = "INSERT INTO UTILISATEURS(pseudo, nom, prenom, email, telephone, mot_de_passe, credit, administrateur, no_adresse) "
+            + " VALUES (:pseudo, :nom, :prenom, :email, :telephone, :motDePasse, :credit, :administrateur, :no_adresse)";
+    private final String UPDATE = "UPDATE UTILISATEURS SET no_adresse = :no_adresse, telephone = :telephone, email = :email WHERE pseudo = :pseudo";
     private final String DELETE = "DELETE FROM UTILISATEURS WHERE pseudo = :pseudo";
-
-//    private final String FIND_TITRE = "SELECT TITRE FROM FILM WHERE  id = :id";
-
-
 
     @Override
     public Utilisateur create(Utilisateur utilisateur) {
-//ligne if a supprimer si je fais de la merde
         if (utilisateur.getAdresse() != null && utilisateur.getAdresse().getId() == 0) {
             long idAdresse = adresseDao.create(utilisateur.getAdresse());
             utilisateur.getAdresse().setId(idAdresse);
@@ -49,11 +44,10 @@ public class UtilisateurDaoImpl implements UtilisateurDao{
         params.addValue("motDePasse", utilisateur.getMotDePasse());
         params.addValue("credit", utilisateur.getCredit());
         params.addValue("administrateur", utilisateur.isAdmin());
-        params.addValue("noAdresse", utilisateur.getAdresse() != null ? utilisateur.getAdresse().getId() : null);
+        params.addValue("no_adresse", utilisateur.getAdresse() != null ? utilisateur.getAdresse().getId() : null);
 
         jdbcTemplate.update(
-                "INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, telephone, motDePasse, credit, administrateur, noAdresse) " +
-                        "VALUES (:pseudo, :nom, :prenom, :email, :telephone, :motDePasse, :credit, :administrateur, :noAdresse)",
+                INSERT,
                 params);
 
         var paramsRole = new MapSqlParameterSource();
@@ -69,16 +63,15 @@ public class UtilisateurDaoImpl implements UtilisateurDao{
         return utilisateur;
     }
 
-
     @Override
     public Utilisateur read(String pseudo) {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
         namedParameters.addValue("pseudo", pseudo);
-       try {
-        return jdbcTemplate.queryForObject(SELECT_BY_PSEUDO, namedParameters, new UtilisateurRowMapper());
-    } catch (EmptyResultDataAccessException e) {
-       return null;
-       }
+        try {
+            return jdbcTemplate.queryForObject(SELECT_BY_PSEUDO, namedParameters, new UtilisateurRowMapper());
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Override
@@ -89,7 +82,7 @@ public class UtilisateurDaoImpl implements UtilisateurDao{
     @Override
     public void update(Utilisateur utilisateur) {
         var parameters = new MapSqlParameterSource();
-        parameters.addValue("noAdresse", utilisateur.getAdresse()!= null ? utilisateur.getAdresse().getId() : null);
+        parameters.addValue("no_adresse", utilisateur.getAdresse() != null ? utilisateur.getAdresse().getId() : null);
         parameters.addValue("telephone", utilisateur.getTelephone());
         parameters.addValue("email", utilisateur.getEmail());
         parameters.addValue("pseudo", utilisateur.getPseudo());
