@@ -1,15 +1,15 @@
-<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       th:replace="~{fragments/layout :: layout(
         'Accueil - Les objets sont nos amis',
         ~{},
         ~{::content},
         ~{},
-        ~{}
+        ~{fragments/indexCss :: css},
+        ''
       )}">
 <!-- Ne rien mettre ici, tout est injecté via les fragments -->
-<div th:fragment="content">
 
+<div th:fragment="content">
 
     <main>
         <h1>Liste des enchères</h1>
@@ -27,9 +27,8 @@
                             th:text="${cat.libelle}"
                             th:selected="${cat.id == categorieActive}"></option>
                 </select>
-
                 <button type="submit">Rechercher</button>
-                <a th:href="@{/accueil}"><button type="button">Annuler</button></a>
+                <a th:href="@{/accueil}" class="btn">Annuler</a>
             </form>
 
 
@@ -58,5 +57,4 @@
         </ul>
     </main>
 </div>
-
 </html>

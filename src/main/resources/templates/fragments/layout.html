@@ -1,16 +1,20 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:fragment="layout(title, header, content, footer, ressourcesSupp, bodyClass)">
 <html xmlns:th="http://www.thymeleaf.org" th:fragment="layout(title, header,content, footer, ressourcesSupp)"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
-    <title data-th-text="${title}">Titre par défaut</title>
+    <title th:text="${title}">Titre par défaut</title>
 
-    <link rel="icon" data-th-href="@{/images/marteau.png}" sizes="32x32">
-    <link rel="stylesheet" data-th-href="@{/css/layout.css}">
+    <link rel="icon" th:href="@{/images/marteau.png}" sizes="32x32">
+    <link rel="stylesheet" th:href="@{/css/layout.css}">
+    <link rel="stylesheet" href="/css/index.css">
+    <th:block th:replace="${ressourcesSupp}"></th:block>
+    <!-- Injection CSS / ressources supplémentaires -->
 
-    <th:block th:utext="${ressourcesSupp}"></th:block> <!-- Pour ressources supplémentaires -->
 </head>
-<body>
+<body th:class="${bodyClass}">
 <div th:replace="${header}"></div>
 
     <nav>
@@ -41,10 +45,9 @@
 <div th:replace="${content}"></div>
 
 <div th:replace="${footer}"></div>
-    <footer class="text-center text-muted py-3 mt-5 border-top">
-        &copy; 2025 Les objets sont nos amis. Tous droits réservés.
-    </footer>
 
-
+<footer class="text-center text-muted py-3 mt-5 border-top">
+    &copy; 2025 Les objets sont nos amis. Tous droits réservés.
+</footer>
 </body>
 </html>

@@ -54,6 +54,8 @@ public class SecurityConfiguration {
     }
 
 
+
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 //GET est utilisé pour récupérer des données, afficher des informations sans modifier quoi que ce soit
@@ -78,10 +80,11 @@ public class SecurityConfiguration {
                     auth.requestMatchers(HttpMethod.POST, "/deleteAccount").hasAnyRole("ADMIN");
                     auth.requestMatchers(HttpMethod.POST, "/desableAccount").hasAnyRole("ADMIN");
                     auth.requestMatchers(HttpMethod.POST, "/gestionCatgArticle").hasAnyRole("ADMIN");
+                    auth.requestMatchers(HttpMethod.GET,"/profil").permitAll();             //hasAnyRole("USER","ADMIN");
 
 
-                    auth.anyRequest().permitAll();
-                })
+            auth.anyRequest().permitAll();//authenticated
+        })
 
                 //version de pages de login par defaut du framework (spring)
                 /*http.formLogin(Customizer.withDefaults());  //Cette ligne active l'authentification par formulaire HTML (form login).
@@ -109,4 +112,5 @@ public class SecurityConfiguration {
 
         return http.build();
     }
+
 }
