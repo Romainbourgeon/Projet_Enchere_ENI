@@ -1,18 +1,20 @@
 /* Page d'inscription - Styles spécifiques */
 .page-inscription main {
     background-color: var(--light-color);
-    padding: 2rem;
+    padding: 1.5rem;
     border-radius: 8px;
     box-shadow: var(--shadow);
-    margin: 2rem auto;
+    margin: 1rem auto;
     max-width: 500px;
+    width: 95%;
+    box-sizing: border-box;
 }
 
 main h1 {
     color: var(--dark-color);
     text-align: center;
-    margin-bottom: 2rem;
-    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
     position: relative;
     padding-bottom: 0.5rem;
 }
@@ -23,22 +25,22 @@ main h1::after {
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 100px;
+    width: 80px;
     height: 3px;
     background-color: var(--secondary-color);
 }
 
 form {
-    max-width: 600px;
+    max-width: 100%;
     margin: 0 auto;
-    padding: 1.5rem;
+    padding: 1.25rem;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
 .form-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
 }
 
 .form-group label {
@@ -67,6 +69,7 @@ form {
     border-radius: 4px;
     font-size: 1rem;
     transition: all 0.3s ease;
+    box-sizing: border-box;
 }
 
 .form-group input:focus {
@@ -84,9 +87,10 @@ form {
 /* Message d'accueil bonus */
 .welcome-message {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     color: var(--text-light);
     font-style: italic;
+    font-size: 0.95rem;
 }
 
 .welcome-message strong {
@@ -99,12 +103,14 @@ form {
     display: flex;
     justify-content: space-between;
     gap: 1rem;
-    margin-top: 2.5rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
 }
 
 .form-buttons .form-group {
     flex: 1;
     margin: 0;
+    min-width: 120px;
 }
 
 .form-buttons button {
@@ -148,13 +154,68 @@ form {
 
 /* Responsive */
 @media (max-width: 768px) {
+    .page-inscription main {
+        padding: 1rem;
+        margin: 0.5rem auto;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    form {
+        padding: 1rem;
+    }
+
+    main h1 {
+        font-size: 1.6rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="tel"],
+    .form-group input[type="password"],
+    .form-group input[type="number"] {
+        padding: 0.65rem;
+    }
+
     .form-buttons {
         flex-direction: column;
         gap: 0.75rem;
-        margin-top: 2rem;
+        margin-top: 1.5rem;
+    }
+
+    .form-buttons .form-group {
+        flex: auto;
+        width: 100%;
+    }
+
+    .welcome-message {
+        font-size: 0.9rem;
+        margin-bottom: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    main h1 {
+        font-size: 1.4rem;
+    }
+
+    .form-group label {
+        font-size: 0.9rem;
     }
 
     .form-buttons button {
-        padding: 0.75rem;
+        padding: 0.7rem;
+        font-size: 0.95rem;
+    }
+
+    /* Adresse sur 3 lignes */
+    .form-group > input[type="text"],
+    .form-group > input[type="number"] {
+        width: 100%;
     }
 }
