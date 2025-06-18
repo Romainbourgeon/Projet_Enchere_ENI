@@ -103,10 +103,6 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         utilisateurDao.delete(pseudo);
     }
 
-    /*@Override //NEEEEEEEWW mais pas certain de la fonctionalité. plutot ça consulterUtilisateurByPseudo
-    public Optional<Utilisateur> voirUtilisateurByPseudo(String pseudo) {
-        return Optional.empty();
-    }*/
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

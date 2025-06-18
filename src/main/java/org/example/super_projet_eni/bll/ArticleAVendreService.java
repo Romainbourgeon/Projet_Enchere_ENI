@@ -10,6 +10,8 @@ public interface ArticleAVendreService {
 
     List<ArticleAVendre> listeArticleAVendre();
 
+    List<ArticleAVendre> listeTousLesArticles();
+
     ArticleAVendre consulterArticleAVendreById(long id);
 
     List<Adresse> listeAdresse();
@@ -32,6 +34,12 @@ public interface ArticleAVendreService {
 
     List<ArticleAVendre> findByCategorie(Long categorie);
     List<Enchere> listeEnchereParUtilisateur(Utilisateur utilisateur);
+
+    List<ArticleAVendre> filtreMesVentesNonDebutees(Utilisateur utilisateur);
+
+    List<ArticleAVendre> filtreMesVentesTerminees(Utilisateur utilisateur);
+
+    List<ArticleAVendre> filtreMesEncheresEnCours(Utilisateur utilisateur);
 }
 
 

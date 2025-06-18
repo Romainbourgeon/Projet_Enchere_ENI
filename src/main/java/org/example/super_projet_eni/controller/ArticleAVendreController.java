@@ -46,6 +46,7 @@ public class ArticleAVendreController {
                        @RequestParam(value = "enchere", required = false) String enchere,
                        @RequestParam(value = "ventes", required = false) String ventes) {
 
+
         List<ArticleAVendre> articleAVendres = articleService.listeArticleAVendre();
         List<ArticleAVendre> articleAAfficher = null;
 
@@ -79,34 +80,50 @@ public class ArticleAVendreController {
             articleAAfficher = articleAVendres;
         }
 
-        model.addAttribute("articleAAfficher", articleAAfficher);
-        model.addAttribute("motCle", motCle);
-        model.addAttribute("categorieActive", categorie);
 
         /* Filtrage sur les enchères et les ventes */
 
-        if ((enchere != null && !enchere.isEmpty()) || (ventes != null && !ventes.isEmpty())) {
-            Utilisateur utilisateurConnecte = null;
+        List<Enchere> encheresAAfficher = null;
 
-            if (authentication != null) {
-                var principal = authentication.getPrincipal();
+        if (authentication != null) {
+            Utilisateur utilisateurConnecte;
+            var principal = authentication.getPrincipal();
 
-                if (principal != null && principal instanceof Utilisateur) {
-                    utilisateurConnecte = (Utilisateur) principal;
+            if (principal != null && principal instanceof Utilisateur) {
+                utilisateurConnecte = (Utilisateur) principal;
+            } else {
+                utilisateurConnecte = null;
+            }
+
+
+
+            if ((enchere != null && !enchere.isEmpty()) || (ventes != null && !ventes.isEmpty())) {
+
+                // A finir
+                /*if (enchere.equals("enCours")) {
+                    articleAAfficher = articleService.filtreMesEncheresEnCours(utilisateurConnecte);
+                }*/
+
+                if (ventes.equals("enCours")) {
+                    articleAAfficher = articleAVendres.stream()
+                            .filter(a -> a.getVendeur().getPseudo()
+                                    .equals(utilisateurConnecte.getPseudo())).toList();
+                }
+
+                if (ventes.equals("nonDebutees")) {
+                    articleAAfficher = articleService.filtreMesVentesNonDebutees(utilisateurConnecte);
+                }
+
+                if (ventes.equals("terminees")) {
+                    articleAAfficher = articleService.filtreMesVentesTerminees(utilisateurConnecte);
                 }
             }
-
-            List<Enchere> encheresUtilisateur = articleService.listeEnchereParUtilisateur(utilisateurConnecte);
-            List<Enchere> encheresAAfficher;
-
-            if (ventes.equals("enCours")){
-                //Pour chaque enchere : conserver sous forme de liste l'article concerné
-
-                //Filtrer la liste d'articles selon le statut enchere = 1
-                //Trouver le moyen d'afficher seulement les enchères
-            }
-
         }
+
+        model.addAttribute("articleAAfficher", articleAAfficher);
+        model.addAttribute("motCle", motCle);
+        model.addAttribute("categorieActive", categorie);
+        model.addAttribute("encheresAAfficher", encheresAAfficher);
 
         return "index";
     }

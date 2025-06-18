@@ -36,6 +36,11 @@ public class ArticleAVendreServiceImpl implements ArticleAVendreService {
     }
 
     @Override
+    public List<ArticleAVendre> listeTousLesArticles() {
+        return articleAVendreDao.readAll();
+    }
+
+    @Override
     public ArticleAVendre consulterArticleAVendreById(long id) {
         return articleAVendreDao.read(id);
     }
@@ -101,4 +106,46 @@ public class ArticleAVendreServiceImpl implements ArticleAVendreService {
     public List<Enchere> listeEnchereParUtilisateur(Utilisateur utilisateur) {
         return enchereDao.readAllByUtilisateur(utilisateur);
     }
+
+    @Override
+    public List<ArticleAVendre> filtreMesVentesNonDebutees(Utilisateur utilisateur) {
+
+        List<ArticleAVendre> tousLesArticles = articleAVendreDao.readAll();
+        List<ArticleAVendre> lesArticlesByUtilisateur = tousLesArticles.stream()
+                .filter(a -> a.getVendeur().getPseudo().equals(utilisateur.getPseudo())).toList();
+        List<ArticleAVendre> listeFiltree = lesArticlesByUtilisateur.stream()
+                .filter(a -> a.getStatut() == 0)
+                .toList();
+
+        return listeFiltree ;
+    }
+
+    @Override
+    public List<ArticleAVendre> filtreMesVentesTerminees(Utilisateur utilisateur) {
+
+        List<ArticleAVendre> tousLesArticles = articleAVendreDao.readAll();
+        List<ArticleAVendre> lesArticlesByUtilisateur = tousLesArticles.stream()
+                .filter(a -> a.getVendeur().getPseudo().equals(utilisateur.getPseudo())).toList();
+        List<ArticleAVendre> listeFiltree = lesArticlesByUtilisateur.stream()
+                .filter(a -> a.getStatut() == 3)
+                .toList();
+
+        return listeFiltree ;
+    }
+
+    @Override
+    public List<ArticleAVendre> filtreMesEncheresEnCours(Utilisateur utilisateur) {
+        List<Enchere> encheresDeUtilisateur = enchereDao.readAllByUtilisateur(utilisateur);
+        List<ArticleAVendre> listeArticles = null;
+
+        encheresDeUtilisateur.stream()
+                .forEach(e -> listeArticles.add(articleAVendreDao.read(e.getArticleAVendre().getId())));
+
+        List<ArticleAVendre> listeFiltree = listeArticles.stream()
+                .filter(a -> a.getStatut() == 1)
+                .toList();
+
+        return listeFiltree;
+    }
+
 }

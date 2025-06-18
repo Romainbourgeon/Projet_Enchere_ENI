@@ -50,7 +50,7 @@
 
                 <select id="inputVente" name="mesVentesSelect" style="display: none;">
                     <option value="" disabled selected>Mes ventes</option>
-                    <option value="enCours" selected >Mes ventes en cours</option>
+                    <option value="enCours" >Mes ventes en cours</option>
                     <option value="nonDebutees" >Mes ventes non débutées</option>
                     <option value="terminees" >Mes ventes terminées</option>
                 </select>
@@ -62,6 +62,12 @@
                 <p data-th-text="' Prix : '+ ${articleAAfficher.prixVente} + ' point(s)'"></p>
                 <p data-th-text="' Date fin enchère : ' + ${articleAAfficher.dateFinEncheres}"></p>
                 <p data-th-text="' Vendeur : ' + ${articleAAfficher.vendeur.pseudo}"></p>
+            </div>
+
+            <div data-th-each="enchereAAfficher : ${encheresAAfficher}">
+                <h3 data-th-text="${enchereAAfficher.articleAVendre.nom}"></h3>
+                <p data-th-text="' Prix proposé : '+ ${enchereAAfficher.montant} + ' point(s)'"></p>
+                <p data-th-text="' Date de l\'enchère : ' + ${enchereAAfficher.date}"></p>
             </div>
 
 
@@ -115,7 +121,16 @@
                     }
                 })
 
+                document.getElementById('inputVente').addEventListener("change", function(){
 
+                    if (this.value === 'enCours'){
+                        window.location.href = window.location.pathname + "?ventes=" + this.value;
+                    } else if (this.value === 'nonDebutees'){
+                        window.location.href = window.location.pathname + "?ventes=" + this.value;
+                    } else if (this.value === 'terminees'){
+                        window.location.href = window.location.pathname + "?ventes=" + this.value;
+                    }
+                })
 
             </script>
 
