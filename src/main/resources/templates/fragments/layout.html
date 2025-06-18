@@ -18,7 +18,9 @@
 <div th:replace="${header}"></div>
 
     <nav>
+        <a th:href="@{/accueil}">
         <img data-th-src="@{/images/logo.png}" alt="Logo marteau">
+        </a>
         <p>Les objets sont nos amis</p>
         <ul>
             <li><a data-th-href="@{/accueil}">Accueil</a></li>
@@ -55,6 +57,6 @@
 <footer class="text-center text-muted py-3 mt-5 border-top">
     &copy; 2025 Les objets sont nos amis. Tous droits réservés.
 </footer>
-<script src="/Javascript/JSFonction.js"></script>
+<script th:src="@{/Javascript/JSFonction.js}"></script>
 </body>
 </html>
