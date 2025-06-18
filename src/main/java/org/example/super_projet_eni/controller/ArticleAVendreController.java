@@ -8,11 +8,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -27,7 +23,6 @@ public class ArticleAVendreController {
     public ArticleAVendreController(ArticleAVendreService articleService) {
         this.articleService = articleService;
     }
-
 
     @ModelAttribute
     public void addAttributes(Model model) {
@@ -45,7 +40,6 @@ public class ArticleAVendreController {
                        @RequestParam(value = "categorie", required = false) Long categorie,
                        @RequestParam(value = "enchere", required = false) String enchere,
                        @RequestParam(value = "ventes", required = false) String ventes) {
-
 
         List<ArticleAVendre> articleAVendres = articleService.listeArticleAVendre();
         List<ArticleAVendre> articleAAfficher = null;
@@ -141,33 +135,27 @@ public class ArticleAVendreController {
     @PostMapping("/articles/ajouter")
     public String submitForm(@ModelAttribute ArticleAVendre articleAVendre,
                              @AuthenticationPrincipal Utilisateur vendeur) {
-        // Associer le vendeur connecté
-        articleAVendre.setVendeur(vendeur);
 
-        // Charger les objets complets catégorie et adresse
+        // Récupérer la catégorie complète avant de créer l'article
         Categorie categorie = articleService.consulterCategorieById(articleAVendre.getCategorie().getId());
         articleAVendre.setCategorie(categorie);
 
+        // Récupérer l'adresse complète
         Adresse adresse = articleService.consulterAdresseById(articleAVendre.getRetrait().getId());
         articleAVendre.setRetrait(adresse);
 
-        // Initialiser statut et prixVente
-        articleAVendre.setStatut(1); // statut "en cours"
+        // Associer le vendeur
+        articleAVendre.setVendeur(vendeur);
+
+        // Initialisation des champs
+        articleAVendre.setStatut(1);
         articleAVendre.setPrixVente(0);
 
-        // Créer l'article
-        articleService.creerArticleAVendre(articleAVendre); // sauvegarde en BDD
+        // Créer l'article et récupérer l'id généré
+        long idArticle = articleService.creerArticleAVendre(articleAVendre, vendeur, categorie);
 
+        // Rediriger vers la page d'accueil
         return "redirect:/accueil";
     }
 
 }
-
-
-
-
-
-
-
-
-

@@ -34,11 +34,12 @@ public class CategorieDaoImpl implements CategorieDao{
     }
 
     @Override
-    public Categorie read(long id) {
+    public Categorie read(long no_categorie) {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
-        namedParameters.addValue("id", id);
+        namedParameters.addValue("no_categorie", no_categorie);
         return jdbcTemplate.queryForObject(SELECT_BY_ID, namedParameters, new CategorieRowMapper());
     }
+
 
     @Override
     public List<Categorie> readAll() {

@@ -1,6 +1,7 @@
 package org.example.super_projet_eni.dal;
 
 import org.example.super_projet_eni.bo.Adresse;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -40,8 +41,14 @@ public class AdresseDaoImpl implements AdresseDao {
     public Adresse read(long id) {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
         namedParameters.addValue("id", id);
-        return jdbcTemplate.queryForObject(SELECT_BY_ID, namedParameters, new AdresseRowMapper());
+        try {
+            return jdbcTemplate.queryForObject(SELECT_BY_ID, namedParameters, new AdresseRowMapper());
+        } catch (EmptyResultDataAccessException e) {
+            // Aucun résultat trouvé, on retourne null
+            return null;
+        }
     }
+
 
     @Override
     public List<Adresse> readAll() {

@@ -7,6 +7,8 @@ import java.util.List;
 
 
 public interface ArticleAVendreService {
+    long creerArticleAVendre(ArticleAVendre articleAVendre, Utilisateur vendeur, Categorie categorie);
+
 
     List<ArticleAVendre> listeArticleAVendre();
 
@@ -26,7 +28,10 @@ public interface ArticleAVendreService {
 
     Categorie consulterCategorieById(long id);
 
-    void creerArticleAVendre(ArticleAVendre articleAVendre);
+
+
+
+
 
     List<ArticleAVendre> findByNomAndCategorie(String motCle, Long categorie);
 

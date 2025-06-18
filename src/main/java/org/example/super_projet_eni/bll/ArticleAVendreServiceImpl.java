@@ -76,9 +76,14 @@ public class ArticleAVendreServiceImpl implements ArticleAVendreService {
     }
 
     @Override
-    public void creerArticleAVendre(ArticleAVendre articleAVendre) {
-        articleAVendreDao.create(articleAVendre, articleAVendre.getVendeur(), articleAVendre.getCategorie());
+    public long creerArticleAVendre(ArticleAVendre articleAVendre, Utilisateur vendeur, Categorie categorie) {
+        articleAVendre.setVendeur(vendeur);
+        articleAVendre.setCategorie(categorie);
+
+        return articleAVendreDao.create(articleAVendre, vendeur, categorie);
     }
+
+
 
     @Override
     public List<ArticleAVendre> findByNomAndCategorie(String motCle, Long categorieId) {
