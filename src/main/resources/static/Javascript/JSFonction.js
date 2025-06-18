@@ -37,6 +37,8 @@ document.addEventListener('DOMContentLoaded', function () {
         index = (index + 1) % trailLength;
     });
 
+})
+
     // Deuxième écouteur DOMContentLoaded imbriqué (fonctionnalités pour afficher/masquer des sections)
     document.addEventListener('DOMContentLoaded', function() {
         // Récupération des boutons ou éléments pour filtres "mesAchats" et "mesVentes"
@@ -81,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
             window.location.href = window.location.pathname + "?ventes=" + this.value;
         }
     })
-})
+
 
 document.addEventListener('DOMContentLoaded', function() {
     const passwordInput = document.getElementById('password');
