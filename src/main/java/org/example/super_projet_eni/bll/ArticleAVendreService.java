@@ -1,10 +1,7 @@
 package org.example.super_projet_eni.bll;
 
 
-import org.example.super_projet_eni.bo.Adresse;
-import org.example.super_projet_eni.bo.ArticleAVendre;
-import org.example.super_projet_eni.bo.Categorie;
-import org.example.super_projet_eni.bo.Utilisateur;
+import org.example.super_projet_eni.bo.*;
 
 import java.util.List;
 
@@ -34,6 +31,7 @@ public interface ArticleAVendreService {
     List<ArticleAVendre> findByNom(String motCle);
 
     List<ArticleAVendre> findByCategorie(Long categorie);
+    List<Enchere> listeEnchereParUtilisateur(Utilisateur utilisateur);
 }
 
 

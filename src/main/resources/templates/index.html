@@ -65,13 +65,14 @@
             </div>
 
 
-            //Messages d'erreur
+          <!--Messages d'erreur-->
 
             <div th:if="${#lists.isEmpty(articleAAfficher)}">
                 <p>Aucun article trouvé avec ces critères.</p>
             </div>
 
 
+            <!--Reprendre exemple cidessus si liste obtenue dans le controller est vide-->
             <div id="pasEncheresEnCours" style="display: none;">
                 <p>Vous n'avez pas d'enchères en cours.</p>
             </div>
@@ -82,9 +83,7 @@
 
 
 
-
-
-            -----
+            <!--Javascript-->
 
 
             <script th:inline="javascript">
@@ -110,13 +109,10 @@
                 document.getElementById('inputEnchere').addEventListener("change", function(){
 
                     if (this.value === 'enCours'){
-                        // alors passer en paramètres 'enCours' via url
+                        window.location.href = window.location.pathname + "?enchere=" + this.value;
                     } else if (this.value === 'remportees'){
-                        // alors passer en paramètres 'remportees' via url
-                    } else {
-
+                        window.location.href = window.location.pathname + "?enchere=" + this.value;
                     }
-
                 })
 
 
