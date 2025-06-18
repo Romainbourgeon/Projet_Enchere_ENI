@@ -1,38 +1,41 @@
 <html xmlns:th="http://www.thymeleaf.org"
       th:replace="~{fragments/layout :: layout(
-        'Accueil - Les objets sont nos amis',
+        'Inscription - Les objets sont nos amis',
         ~{},
         ~{::content},
         ~{},
-        ~{},
-        ~{}
+         ~{fragments/inscriptionCSS :: css},
+        'page-inscription'
       )}">
+
 <!-- Ne rien mettre ici, tout est injecté via les fragments -->
 <div th:fragment="content">
     <main>
         <h1>Nouveau Profil</h1>
+        <p class="welcome-message">Rejoignez notre communauté et recevez
+            <strong>10 points</strong> offerts pour commencer à échanger !</p>
 
         <form th:action="@{/inscription}" th:object="${utilisateur}" method="post">
-            <div class="form-group">
-                <label for="username">Pseudo (*) :</label>
+            <div class="form-group required">
+                <label for="username">Pseudo :</label>
                 <input type="text"
                        id="username"
                        th:field="*{pseudo}"
                        required>
             </div>
 
-            <div class="form-group">
-                <label for="name">Nom (*) :</label>
+            <div class="form-group required">
+                <label for="name">Nom :</label>
                 <input type="text" id="name" th:field="*{nom}" required>
             </div>
 
-            <div class="form-group">
-                <label for="firstName">Prénom (*) :</label>
+            <div class="form-group required">
+                <label for="firstName">Prénom :</label>
                 <input type="text" id="firstName" th:field="*{prenom}" required>
             </div>
 
-            <div class="form-group">
-                <label for="email">Email (*) :</label>
+            <div class="form-group required">
+                <label for="email">Email :</label>
                 <input type="email" id="email" th:field="*{email}" required>
             </div>
 
@@ -41,29 +44,30 @@
                 <input type="tel" id="phone" th:field="*{telephone}">
             </div>
 
-            <div class="form-group">
-                <label>Adresse (*) :</label>
+            <div class="form-group required">
+                <label>Adresse :</label>
                 <input type="text" id="rue" th:field="*{adresse.rue}" placeholder="Rue" required>
                 <input type="number" id="codePostal" th:field="*{adresse.codePostal}" placeholder="Code Postal" required>
                 <input type="text" id="ville" th:field="*{adresse.ville}" placeholder="Ville" required>
             </div>
 
-            <div class="form-group">
-                <label for="password">Mot de passe (*) :</label>
+            <div class="form-group required">
+                <label for="password">Mot de passe :</label>
                 <input type="password" id="password" th:field="*{motDePasse}" required>
             </div>
 
-            <div class="form-group">
-                <label for="confirmPassword">Confirmation (*) :</label>
+            <div class="form-group required">
+                <label for="confirmPassword">Confirmation :</label>
                 <input type="password" id="confirmPassword" th:field="*{confirmeMotDePasse}" required>
             </div>
-
+            <div class="form-buttons">
             <div class="form-group">
                 <button type="submit">Créer</button>
             </div>
 
             <div class="form-group">
                 <button type="reset">Annuler</button>
+            </div>
             </div>
         </form>
     </main>

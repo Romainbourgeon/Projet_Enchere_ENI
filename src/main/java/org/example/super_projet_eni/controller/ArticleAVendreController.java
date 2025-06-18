@@ -1,8 +1,11 @@
 package org.example.super_projet_eni.controller;
 
 import org.example.super_projet_eni.bll.ArticleAVendreService;
+import org.example.super_projet_eni.bo.Adresse;
 import org.example.super_projet_eni.bo.ArticleAVendre;
 import org.example.super_projet_eni.bo.Categorie;
+import org.example.super_projet_eni.bo.Utilisateur;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,23 +47,13 @@ public class ArticleAVendreController {
         List<ArticleAVendre> articleAVendres = articleService.listeArticleAVendre();
         List<ArticleAVendre> articleAAfficher = null ;
 
+        List<Categorie> list = chargerCategories();
+        System.out.println(list);
+
         if (motCle != null && !motCle.isEmpty() && categorie != null) {
-           List<ArticleAVendre> filtreParCategorie = null;
-           filtreParCategorie = articleAVendres.stream()
-                   .filter(a -> {
-                       Long articleCatId = a.getCategorie().getId();
-                       return articleCatId.equals(categorie);
-                   })
-                   .toList();
-
-           articleAAfficher = filtreParCategorie.stream()
-                   .filter(a -> a.getNom().toLowerCase().contains(motCle.toLowerCase()))
-                   .toList();
-
+            /*articleAVendres = articleService.findByNomAndCategorie(motCle, categorie);*/
         } else if (motCle != null && !motCle.isEmpty()) {
-            articleAAfficher = articleAVendres.stream()
-                    .filter(a -> a.getNom().toLowerCase().contains(motCle.toLowerCase()))
-                    .toList();
+            /*articleAVendres = articleService.findByNom(motCle);*/
         } else if (categorie != null) {
             articleAAfficher = articleAVendres.stream()
                     .filter(a -> {
@@ -80,42 +73,68 @@ public class ArticleAVendreController {
     }
 
 
-/*    @GetMapping("/articles/ajouter")
-    public String showForm(Model model) {
+    @GetMapping("/articles/ajouter")
+    public String afficherFormVente(Model model) {
         model.addAttribute("articleAVendre", new ArticleAVendre());
         model.addAttribute("categories", articleService.listeCategorie());
         model.addAttribute("adresses", articleService.listeAdresse());
-        return "article_form"; // nom de ta page Thymeleaf
+        return "view-new-vente";
     }
+
 
     @PostMapping("/articles/ajouter")
     public String submitForm(@ModelAttribute ArticleAVendre articleAVendre,
                              @AuthenticationPrincipal Utilisateur vendeur) {
-        // Associer le vendeur connecté à l'article
+        // Associer le vendeur connecté
         articleAVendre.setVendeur(vendeur);
 
-        // Assure-toi que les objets categorie et retrait sont bien chargés (si seulement id reçu)
+        // Charger les objets complets catégorie et adresse
         Categorie categorie = articleService.consulterCategorieById(articleAVendre.getCategorie().getId());
         articleAVendre.setCategorie(categorie);
+
         Adresse adresse = articleService.consulterAdresseById(articleAVendre.getRetrait().getId());
         articleAVendre.setRetrait(adresse);
 
-        // Initialisation de statut, prixVente, etc si besoin
-        articleAVendre.setStatut(1); // par exemple "En cours"
-        articleAVendre.setPrixVente(0); // prix de départ
+        // Initialiser statut et prixVente
+        articleAVendre.setStatut(1); // statut "en cours"
+        articleAVendre.setPrixVente(0);
 
-        articleService.creerArticleAVendre(articleAVendre);
+        // Créer l'article
+        articleService.creerArticleAVendre(articleAVendre); // sauvegarde en BDD
 
-        return "redirect:/accueil"; // redirection vers la page d'accueil
-    }*/
+        return "redirect:/accueil";
+    }
+
 }
 
 
 
 
 
+   /* @GetMapping("/test")
+    public String accueil(
+            Model model,
+            @RequestParam(required = false) String motCle,
+            @RequestParam(required = false) Long categorie) {
 
+        List<ArticleAVendre> articles;
 
+        if (motCle != null && !motCle.isEmpty() && categorie != null) {
+            articles = articleService.findByNomAndCategorie(motCle, categorie);
+        } else if (motCle != null && !motCle.isEmpty()) {
+            articles = articleService.findByNom(motCle);
+        } else if (categorie != null) {
+            articles = articleService.findByCategorie(categorie);
+        } else {
+            articles = articleService.listeArticleAVendre();
+        }
 
+        List<Categorie> categories = articleService.listeCategorie();
 
+        model.addAttribute("articles", articles);
+        *//*model.addAttribute("categories", categories);*//*
+        model.addAttribute("motCle", motCle);
+        *//*model.addAttribute("categorieActive", categorie);*//*
 
+        return "index";
+    }*/

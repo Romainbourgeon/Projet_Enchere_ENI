@@ -23,7 +23,6 @@ public interface ArticleAVendreService {
 
     Utilisateur consulterUtilisateurById(String pseudo);
 
-
     List<Categorie> listeCategorie();
 
     Categorie consulterCategorieById(long id);
