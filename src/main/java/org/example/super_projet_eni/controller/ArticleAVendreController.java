@@ -48,7 +48,6 @@ public class ArticleAVendreController {
         List<ArticleAVendre> articleAAfficher = null ;
 
         List<Categorie> list = chargerCategories();
-        System.out.println(list);
 
         if (motCle != null && !motCle.isEmpty() && categorie != null) {
             /*articleAVendres = articleService.findByNomAndCategorie(motCle, categorie);*/
@@ -106,35 +105,3 @@ public class ArticleAVendreController {
     }
 
 }
-
-
-
-
-
-   /* @GetMapping("/test")
-    public String accueil(
-            Model model,
-            @RequestParam(required = false) String motCle,
-            @RequestParam(required = false) Long categorie) {
-
-        List<ArticleAVendre> articles;
-
-        if (motCle != null && !motCle.isEmpty() && categorie != null) {
-            articles = articleService.findByNomAndCategorie(motCle, categorie);
-        } else if (motCle != null && !motCle.isEmpty()) {
-            articles = articleService.findByNom(motCle);
-        } else if (categorie != null) {
-            articles = articleService.findByCategorie(categorie);
-        } else {
-            articles = articleService.listeArticleAVendre();
-        }
-
-        List<Categorie> categories = articleService.listeCategorie();
-
-        model.addAttribute("articles", articles);
-        *//*model.addAttribute("categories", categories);*//*
-        model.addAttribute("motCle", motCle);
-        *//*model.addAttribute("categorieActive", categorie);*//*
-
-        return "index";
-    }*/
