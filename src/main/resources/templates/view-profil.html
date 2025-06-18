@@ -20,7 +20,7 @@
       <p><strong>Nom :</strong> <span th:text="${utilisateur.nom}">Nom</span></p>
       <p><strong>Email :</strong> <span th:text="${utilisateur.email}">email@example.com</span></p>
       <p><strong>Téléphone :</strong> <span th:text="${utilisateur.telephone}">0123456789</span></p>
-      <p><strong>Adresse :</strong> <span th:text="${utilisateur.adresse}">Adresse complète</span></p>
+      <p><strong>Adresse :</strong> <span th:text="${adresse.rue.toLowerCase()} +' '+ ${adresse.codePostal} +' '+ ${adresse.ville}">Adresse complète</span></p>
       <p><strong>Crédit :</strong> <span th:text="${utilisateur.credit}">Mon crédit</span></p>
 
       <div class="actions">

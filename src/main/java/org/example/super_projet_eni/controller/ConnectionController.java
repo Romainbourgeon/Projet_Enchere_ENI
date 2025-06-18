@@ -43,10 +43,6 @@ public class ConnectionController {
         this.authenticationManager = authenticationManager;
     }
 
-    @GetMapping("/")
-    public String accueil() {
-        return "index";
-    }
 
     @GetMapping("/connexion")
     public String connexion() {

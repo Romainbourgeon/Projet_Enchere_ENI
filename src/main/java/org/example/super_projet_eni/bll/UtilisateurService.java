@@ -24,6 +24,7 @@ public interface UtilisateurService extends UserDetailsService {
     Optional<Utilisateur> voirUtilisateurParPseudo(String pseudo);
     List<Adresse> voirAdresses();
     Adresse voirAdresseParId(int id);
+    Adresse voirAdresseParUtilisateur(Utilisateur utilisateur);
     void creerAdresse(Adresse adresse);
 
 }

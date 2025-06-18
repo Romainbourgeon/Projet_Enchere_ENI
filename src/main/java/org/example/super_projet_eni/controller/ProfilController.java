@@ -58,8 +58,12 @@ public class ProfilController {
   // 🔍 Récupération des infos de l'utilisateur depuis la BDD
   Utilisateur utilisateur = utilisateurService.consulterUtilisateurByPseudo(pseudo);
 
+  long adresseID = utilisateur.getAdresse().getId();
+  Adresse adresse = utilisateurService.voirAdresseParId((int) adresseID);
+
   // 📦 Injection dans le modèle
   model.addAttribute("utilisateur", utilisateur);
+  model.addAttribute("adresse", adresse);
   return "view-profil";
  }
 

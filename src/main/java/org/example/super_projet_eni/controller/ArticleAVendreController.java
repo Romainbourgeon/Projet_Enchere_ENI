@@ -51,9 +51,22 @@ public class ArticleAVendreController {
         System.out.println(list);
 
         if (motCle != null && !motCle.isEmpty() && categorie != null) {
-            /*articleAVendres = articleService.findByNomAndCategorie(motCle, categorie);*/
+           List<ArticleAVendre> filtreParCategorie = null;
+           filtreParCategorie = articleAVendres.stream()
+                   .filter(a -> {
+                       Long articleCatId = a.getCategorie().getId();
+                       return articleCatId.equals(categorie);
+                   })
+                   .toList();
+
+           articleAAfficher = filtreParCategorie.stream()
+                   .filter(a -> a.getNom().toLowerCase().contains(motCle.toLowerCase()))
+                   .toList();
+
         } else if (motCle != null && !motCle.isEmpty()) {
-            /*articleAVendres = articleService.findByNom(motCle);*/
+            articleAAfficher = articleAVendres.stream()
+                    .filter(a -> a.getNom().toLowerCase().contains(motCle.toLowerCase()))
+                    .toList();
         } else if (categorie != null) {
             articleAAfficher = articleAVendres.stream()
                     .filter(a -> {
@@ -111,30 +124,7 @@ public class ArticleAVendreController {
 
 
 
-   /* @GetMapping("/test")
-    public String accueil(
-            Model model,
-            @RequestParam(required = false) String motCle,
-            @RequestParam(required = false) Long categorie) {
 
-        List<ArticleAVendre> articles;
 
-        if (motCle != null && !motCle.isEmpty() && categorie != null) {
-            articles = articleService.findByNomAndCategorie(motCle, categorie);
-        } else if (motCle != null && !motCle.isEmpty()) {
-            articles = articleService.findByNom(motCle);
-        } else if (categorie != null) {
-            articles = articleService.findByCategorie(categorie);
-        } else {
-            articles = articleService.listeArticleAVendre();
-        }
 
-        List<Categorie> categories = articleService.listeCategorie();
 
-        model.addAttribute("articles", articles);
-        *//*model.addAttribute("categories", categories);*//*
-        model.addAttribute("motCle", motCle);
-        *//*model.addAttribute("categorieActive", categorie);*//*
-
-        return "index";
-    }*/

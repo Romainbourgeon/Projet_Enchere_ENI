@@ -43,13 +43,13 @@
 
 
                 <select id="inputEnchere" name="mesEncheres" style="display: none;">
-                    <option value="" >Mes Enchères</option>
+                    <option value="" disabled selected>Mes Enchères</option>
                     <option value="enCours" >Mes enchères en cours</option>
                     <option value="remportees" >Mes enchères remportées</option>
                 </select>
 
                 <select id="inputVente" name="mesVentesSelect" style="display: none;">
-                    <option value="" >Mes ventes</option>
+                    <option value="" disabled selected>Mes ventes</option>
                     <option value="enCours" selected >Mes ventes en cours</option>
                     <option value="nonDebutees" >Mes ventes non débutées</option>
                     <option value="terminees" >Mes ventes terminées</option>
@@ -57,18 +57,34 @@
                 </form>
             </th:block>
 
+            <div data-th-each="articleAAfficher : ${articleAAfficher}">
+                <h3 data-th-text="${articleAAfficher.nom}"></h3>
+                <p data-th-text="' Prix : '+ ${articleAAfficher.prixVente} + ' point(s)'"></p>
+                <p data-th-text="' Date fin enchère : ' + ${articleAAfficher.dateFinEncheres}"></p>
+                <p data-th-text="' Vendeur : ' + ${articleAAfficher.vendeur.pseudo}"></p>
+            </div>
+
+
+            //Messages d'erreur
+
             <div th:if="${#lists.isEmpty(articleAAfficher)}">
                 <p>Aucun article trouvé avec ces critères.</p>
             </div>
 
 
-            <div data-th-each="articleAAfficher : ${articleAAfficher}">
-                <h3 data-th-text="${articleAAfficher.nom}"></h3>
-                <p data-th-text="' Prix : '+ ${articleAAfficher.prixVente}"></p>
-                <p data-th-text="' Date fin enchère : ' + ${articleAAfficher.dateFinEncheres}"></p>
-                <p data-th-text="' Vendeur : ' + ${articleAAfficher.vendeur.pseudo}"></p>
+            <div id="pasEncheresEnCours" style="display: none;">
+                <p>Vous n'avez pas d'enchères en cours.</p>
             </div>
 
+            <div id="pasEncheresRemportees" style="display: none;">
+                <p>Vous n'avez pas encore remporté d'enchères.</p>
+            </div>
+
+
+
+
+
+            -----
 
 
             <script th:inline="javascript">
@@ -90,21 +106,27 @@
                         });
                     }
                 });
+
+                document.getElementById('inputEnchere').addEventListener("change", function(){
+
+                    if (this.value === 'enCours'){
+                        // alors passer en paramètres 'enCours' via url
+                    } else if (this.value === 'remportees'){
+                        // alors passer en paramètres 'remportees' via url
+                    } else {
+
+                    }
+
+                })
+
+
+
             </script>
 
 
 
 
-            <!--
-           <li th:each="article : ${articles}">
-               <h3 th:text="${article.nom}">Nom de l'article</h3>
-               <p th:text="${article.description}">Description</p>
-               <p>Enchères ouvertes : <span th:text="${article.dateDebutEncheres}">date</span></p>
-               <p>Fin enchères : <span th:text="${article.dateFinEncheres}">date</span></p>
-               <p>Statut : <span th:text="${article.statut}">0</span></p>
-               <p>Prix initial : <span th:text="${article.prixInitial}">0</span> €</p>
-               <p>Prix de vente : <span th:text="${article.prixVente}">0</span> €</p>
-           </li>-->
+
         </ul>
     </main>
 </div>
