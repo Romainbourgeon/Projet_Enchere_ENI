@@ -55,17 +55,22 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         return utilisateurDao.create(utilisateur);
     }
 
-    @Override //NEWWWWWWWWWWWWWW
+    @Override
     public void update(Utilisateur utilisateur) {
         Adresse adresse = utilisateur.getAdresse();
 
-        // Si l'adresse n'a pas d'id, on la crée en base
-        if (adresse != null && adresse.getId() == 0) {
-            long idAdresse = adresseDao.create(adresse);
-            adresse.setId((int) idAdresse);
+        if (adresse != null) {
+            if (adresse.getId() == 0) {
+                // Nouvelle adresse → création
+                long idAdresse = adresseDao.create(adresse);
+                adresse.setId((int) idAdresse);
+            } else {
+                // Adresse existante → mise à jour
+                adresseDao.update(adresse);
+            }
         }
 
-        // Puis on met à jour l'utilisateur
+        // Mise à jour de l'utilisateur avec la référence à l'adresse (nouvelle ou mise à jour)
         utilisateurDao.update(utilisateur);
     }
 

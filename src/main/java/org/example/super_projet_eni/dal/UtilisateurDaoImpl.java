@@ -16,7 +16,7 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
     private NamedParameterJdbcTemplate jdbcTemplate;
     private AdresseDao adresseDao;
 
-    public UtilisateurDaoImpl(NamedParameterJdbcTemplate jdbcTemplate) {
+    public UtilisateurDaoImpl(NamedParameterJdbcTemplate jdbcTemplate,  AdresseDao adresseDao) {
         this.jdbcTemplate = jdbcTemplate;
         this.adresseDao = adresseDao;
     }
@@ -79,7 +79,7 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
         return jdbcTemplate.query(SELECT_ALL, new UtilisateurRowMapper());
     }
 
-    @Override
+    /*@Override
     public void update(Utilisateur utilisateur) {
         var parameters = new MapSqlParameterSource();
         parameters.addValue("no_adresse", utilisateur.getAdresse() != null ? utilisateur.getAdresse().getId() : null);
@@ -87,7 +87,7 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
         parameters.addValue("email", utilisateur.getEmail());
         parameters.addValue("pseudo", utilisateur.getPseudo());
         jdbcTemplate.update(UPDATE, parameters);
-    }
+    }*/
 
     @Override
     public void delete(String pseudo) {
@@ -111,5 +111,33 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
             return Optional.empty();
         }
     }
+
+
+    @Override
+    public void update(Utilisateur utilisateur) {
+        Adresse adresse = utilisateur.getAdresse();
+
+        // 1. Mise à jour ou création de l'adresse
+        if (adresse != null) {
+            if (adresse.getId() != 0) {
+                // L'adresse existe déjà => on la met à jour
+                adresseDao.update(adresse);
+            } else {
+                // Nouvelle adresse => on la crée et récupère l'id généré
+                long idAdresse = adresseDao.create(adresse);
+                adresse.setId(idAdresse);
+            }
+        }
+
+        // 2. Mise à jour des infos utilisateur en liant la bonne adresse
+        var parameters = new MapSqlParameterSource();
+        parameters.addValue("no_adresse", adresse != null ? adresse.getId() : null);
+        parameters.addValue("telephone", utilisateur.getTelephone());
+        parameters.addValue("email", utilisateur.getEmail());
+        parameters.addValue("pseudo", utilisateur.getPseudo());
+
+        jdbcTemplate.update(UPDATE, parameters);
+    }
+
 
 }
