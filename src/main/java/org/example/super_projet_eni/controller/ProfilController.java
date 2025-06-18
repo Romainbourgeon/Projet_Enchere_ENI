@@ -73,11 +73,15 @@ public class ProfilController {
   String pseudo = SecurityContextHolder.getContext().getAuthentication().getName();
   Utilisateur utilisateur = utilisateurService.consulterUtilisateurByPseudo(pseudo);
 
+  long adresseID = utilisateur.getAdresse().getId();
+  Adresse adresse = utilisateurService.voirAdresseParId((int) adresseID);
+
   model.addAttribute("utilisateur", utilisateur);
+  model.addAttribute("adresse", adresse);
   return "view-modif-profil";  // le nom de ta vue Thymeleaf
  }
 
- @PostMapping("/profil/modifier")
+ /*@PostMapping("/profil/modifier")
  public String enregistrerModifications(@ModelAttribute Utilisateur utilisateur, Principal principal) {
   // Ici tu peux vérifier que l'utilisateur modifie bien son propre profil
 
@@ -85,9 +89,29 @@ public class ProfilController {
 
   utilisateurService.update(utilisateur);
   return "redirect:/profil";
+ }*/
+
+ @PostMapping("/profil/modifier")
+ public String enregistrerModifications(@ModelAttribute Utilisateur utilisateurForm, Principal principal) {
+  String pseudo = principal.getName();
+  Utilisateur utilisateurEnBase = utilisateurService.consulterUtilisateurByPseudo(pseudo);
+
+  // Mise à jour des champs simples
+  utilisateurEnBase.setEmail(utilisateurForm.getEmail());
+  utilisateurEnBase.setTelephone(utilisateurForm.getTelephone());
+
+  // Mise à jour de l'adresse
+  Adresse adresseEnBase = utilisateurEnBase.getAdresse();
+  Adresse adresseForm = utilisateurForm.getAdresse();
+
+  adresseEnBase.setRue(adresseForm.getRue());
+  adresseEnBase.setCodePostal(adresseForm.getCodePostal());
+  adresseEnBase.setVille(adresseForm.getVille());
+
+  utilisateurService.update(utilisateurEnBase);
+
+  return "redirect:/profil";
  }
-
-
 
 
 
