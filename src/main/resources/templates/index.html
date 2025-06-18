@@ -6,7 +6,8 @@
         ~{},
         ~{fragments/indexCss :: css},
         ''
-      )}">
+      )}"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <!-- Ne rien mettre ici, tout est injecté via les fragments -->
 
 <div th:fragment="content">
@@ -14,33 +15,83 @@
     <main>
         <h1>Liste des enchères</h1>
         <ul>
-            <form method="get" action="#" th:action="@{/accueil}">
+            <form method="get" th:action="@{/accueil}">
                 <input type="text" name="motCle" placeholder="Le nom de l'article contient" th:value="${motCle}">
 <!--${motCle} = variable de modèle Thymeleaf correspondant au mot-clé de recherche.-->
 <!--                Ça permet de garder la saisie visible après soumission du formulaire.-->
 
 
-                <select id="inputCategorie" name="categorie" th:value="${categorieActive}">
-                    <option value="" selected disabled>Toutes les catégories</option>
+                <select id="inputCategorie" name="categorie" >
+                    <option value="" th:selected="${categorieActive == null}">Toutes les catégories</option>
                     <option th:each="cat : ${categoriesEnSession}"
                             th:value="${cat.id}"
                             th:text="${cat.libelle}"
                             th:selected="${cat.id == categorieActive}"></option>
                 </select>
+
                 <button type="submit">Rechercher</button>
                 <a th:href="@{/accueil}" class="btn">Annuler</a>
             </form>
 
+            <th:block  sec:authorize="isAuthenticated()">
+                <form>
+                <label for="mesAchats">Achats</label>
+                <input type="radio" name="achatsOuVentes" id="mesAchats" value="mesAchats">
+
+                <label for="mesVentes">Mes Ventes</label>
+                <input type="radio" name="achatsOuVentes" id="mesVentes" value="mesVentes">
+
+
+                <select id="inputEnchere" name="mesEncheres" style="display: none;">
+                    <option value="" >Mes Enchères</option>
+                    <option value="enCours" >Mes enchères en cours</option>
+                    <option value="remportees" >Mes enchères remportées</option>
+                </select>
+
+                <select id="inputVente" name="mesVentesSelect" style="display: none;">
+                    <option value="" >Mes ventes</option>
+                    <option value="enCours" selected >Mes ventes en cours</option>
+                    <option value="nonDebutees" >Mes ventes non débutées</option>
+                    <option value="terminees" >Mes ventes terminées</option>
+                </select>
+                </form>
+            </th:block>
+
+            <div th:if="${#lists.isEmpty(articleAAfficher)}">
+                <p>Aucun article trouvé avec ces critères.</p>
+            </div>
 
 
             <div data-th-each="articleAAfficher : ${articleAAfficher}">
-                <h3 data-th-text="${articleAAfficher.getNom()}"></h3>
-                <p data-th-text="' prix : '+ ${articleAAfficher.getPrixVente()}"></p>
-                <p data-th-text="' date fin enchère : ' + ${articleAAfficher.dateFinEncheres}"></p>
-
-
-
+                <h3 data-th-text="${articleAAfficher.nom}"></h3>
+                <p data-th-text="' Prix : '+ ${articleAAfficher.prixVente}"></p>
+                <p data-th-text="' Date fin enchère : ' + ${articleAAfficher.dateFinEncheres}"></p>
+                <p data-th-text="' Vendeur : ' + ${articleAAfficher.vendeur.pseudo}"></p>
             </div>
+
+
+
+            <script th:inline="javascript">
+                document.addEventListener('DOMContentLoaded', function() {
+                    const mesAchats = document.getElementById('mesAchats');
+                    const mesVentes = document.getElementById('mesVentes');
+
+                    if (mesAchats) {
+                        mesAchats.addEventListener('click', function() {
+                            document.getElementById('inputEnchere').style.display = 'block';
+                            document.getElementById('inputVente').style.display = 'none';
+                        });
+                    }
+
+                    if (mesVentes) {
+                        mesVentes.addEventListener('click', function() {
+                            document.getElementById('inputVente').style.display = 'block';
+                            document.getElementById('inputEnchere').style.display = 'none';
+                        });
+                    }
+                });
+            </script>
+
 
 
 

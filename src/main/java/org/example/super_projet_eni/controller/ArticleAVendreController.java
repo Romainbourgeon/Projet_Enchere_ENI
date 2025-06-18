@@ -39,22 +39,42 @@ public class ArticleAVendreController {
 
     @GetMapping("/accueil")
     public String test(Model model, @RequestParam(required = false) String motCle,
-                       @RequestParam(required = false) Long categorie) {
+                       @RequestParam(value = "categorie", required = false) Long categorie) {
 
         List<ArticleAVendre> articleAVendres = articleService.listeArticleAVendre();
         List<ArticleAVendre> articleAAfficher = null ;
 
         if (motCle != null && !motCle.isEmpty() && categorie != null) {
-            /*articleAVendres = articleService.findByNomAndCategorie(motCle, categorie);*/
+           List<ArticleAVendre> filtreParCategorie = null;
+           filtreParCategorie = articleAVendres.stream()
+                   .filter(a -> {
+                       Long articleCatId = a.getCategorie().getId();
+                       return articleCatId.equals(categorie);
+                   })
+                   .toList();
+
+           articleAAfficher = filtreParCategorie.stream()
+                   .filter(a -> a.getNom().toLowerCase().contains(motCle.toLowerCase()))
+                   .toList();
+
         } else if (motCle != null && !motCle.isEmpty()) {
-            /*articleAVendres = articleService.findByNom(motCle);*/
+            articleAAfficher = articleAVendres.stream()
+                    .filter(a -> a.getNom().toLowerCase().contains(motCle.toLowerCase()))
+                    .toList();
         } else if (categorie != null) {
-            articleAAfficher = articleAVendres.stream().filter(a -> a.getCategorie().equals(articleService.consulterCategorieById(categorie))).toList();
+            articleAAfficher = articleAVendres.stream()
+                    .filter(a -> {
+                        Long articleCatId = a.getCategorie().getId();
+                        return articleCatId.equals(categorie);
+                    })
+                    .toList();
         } else {
             articleAAfficher = articleAVendres;
         }
 
         model.addAttribute("articleAAfficher",articleAAfficher);
+        model.addAttribute("motCle", motCle);
+        model.addAttribute("categorieActive", categorie);
 
         return "index";
     }
@@ -89,38 +109,6 @@ public class ArticleAVendreController {
         return "redirect:/accueil"; // redirection vers la page d'accueil
     }*/
 }
-
-
-
-
-
-   /* @GetMapping("/test")
-    public String accueil(
-            Model model,
-            @RequestParam(required = false) String motCle,
-            @RequestParam(required = false) Long categorie) {
-
-        List<ArticleAVendre> articles;
-
-        if (motCle != null && !motCle.isEmpty() && categorie != null) {
-            articles = articleService.findByNomAndCategorie(motCle, categorie);
-        } else if (motCle != null && !motCle.isEmpty()) {
-            articles = articleService.findByNom(motCle);
-        } else if (categorie != null) {
-            articles = articleService.findByCategorie(categorie);
-        } else {
-            articles = articleService.listeArticleAVendre();
-        }
-
-        List<Categorie> categories = articleService.listeCategorie();
-
-        model.addAttribute("articles", articles);
-        *//*model.addAttribute("categories", categories);*//*
-        model.addAttribute("motCle", motCle);
-        *//*model.addAttribute("categorieActive", categorie);*//*
-
-        return "index";
-    }*/
 
 
 

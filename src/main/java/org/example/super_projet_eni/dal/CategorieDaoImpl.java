@@ -19,7 +19,7 @@ public class CategorieDaoImpl implements CategorieDao{
 
     //Requêtes SQL
     private final String SELECT_ALL = "SELECT * FROM CATEGORIES";
-    private final String SELECT_BY_ID = "SELECT * FROM CATEGORIES WHERE id = :id";
+    private final String SELECT_BY_ID = "SELECT * FROM CATEGORIES WHERE no_categorie = :no_categorie";
     private final String INSERT = "INSERT INTO CATEGORIES (libelle) VALUES (:libelle)";
     private final String UPDATE = "UPDATE CATEGORIES SET libelle = :libelle WHERE id = :id";
     final static String DELETE = "delete from CATEGORIES where id=:id";
