@@ -15,7 +15,7 @@
     <main>
         <h1>Liste des enchères</h1>
         <ul>
-            <form method="get" th:action="@{/accueil}">
+            <form method="get" th:action="@{/accueil}" class="search-form">
                 <input type="text" name="motCle" placeholder="Le nom de l'article contient" th:value="${motCle}">
 <!--${motCle} = variable de modèle Thymeleaf correspondant au mot-clé de recherche.-->
 <!--                Ça permet de garder la saisie visible après soumission du formulaire.-->
@@ -80,49 +80,6 @@
             <div id="pasEncheresRemportees" style="display: none;">
                 <p>Vous n'avez pas encore remporté d'enchères.</p>
             </div>
-
-
-
-            <!--Javascript-->
-
-
-            <script th:inline="javascript">
-                document.addEventListener('DOMContentLoaded', function() {
-                    const mesAchats = document.getElementById('mesAchats');
-                    const mesVentes = document.getElementById('mesVentes');
-
-                    if (mesAchats) {
-                        mesAchats.addEventListener('click', function() {
-                            document.getElementById('inputEnchere').style.display = 'block';
-                            document.getElementById('inputVente').style.display = 'none';
-                        });
-                    }
-
-                    if (mesVentes) {
-                        mesVentes.addEventListener('click', function() {
-                            document.getElementById('inputVente').style.display = 'block';
-                            document.getElementById('inputEnchere').style.display = 'none';
-                        });
-                    }
-                });
-
-                document.getElementById('inputEnchere').addEventListener("change", function(){
-
-                    if (this.value === 'enCours'){
-                        window.location.href = window.location.pathname + "?enchere=" + this.value;
-                    } else if (this.value === 'remportees'){
-                        window.location.href = window.location.pathname + "?enchere=" + this.value;
-                    }
-                })
-
-
-
-            </script>
-
-
-
-
-
         </ul>
     </main>
 </div>

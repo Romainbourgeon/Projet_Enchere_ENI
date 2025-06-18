@@ -152,6 +152,27 @@ form {
     background-color: #616161;
 }
 
+/* Barre de force du mot de passe */
+.password-strength-bar {
+    height: 4px;
+    margin-top: 8px;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    width: 0%;
+}
+
+.password-strength-bar.weak {
+    background-color: #ff5252; /* Rouge */
+}
+
+.password-strength-bar.medium {
+    background-color: #ffab40; /* Orange */
+}
+
+.password-strength-bar.strong {
+    background-color: #4caf50; /* Vert */
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .page-inscription main {
