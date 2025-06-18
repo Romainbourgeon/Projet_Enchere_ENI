@@ -33,8 +33,10 @@ public class EnchereDaoImpl implements EnchereDao {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
         namedParameters.addValue("id_utilisateur", acquereur.getPseudo());
         namedParameters.addValue("no_article", articleAVendre.getId());
+
         namedParameters.addValue("montant_enchere", enchere.getMontant());
         namedParameters.addValue("date_enchere", enchere.getDate());
+        namedParameters.addValue("no_enchere", articleAVendre.getId());
         jdbcTemplate.update(INSERT, namedParameters);
     }
 

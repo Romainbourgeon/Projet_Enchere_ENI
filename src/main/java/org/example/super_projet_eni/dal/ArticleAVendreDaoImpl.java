@@ -34,6 +34,13 @@ public class ArticleAVendreDaoImpl implements ArticleAVendreDao{
 
     @Override
     public long create(ArticleAVendre articleAVendre, Utilisateur vendeur, Categorie categorie) {
+        if (categorie == null || categorie.getId() == 0) {
+            throw new IllegalArgumentException("Catégorie invalide");
+        }
+        if (vendeur.getAdresse() == null || vendeur.getAdresse().getId() == 0) {
+            throw new IllegalArgumentException("Adresse de retrait invalide");
+        }
+
         var keyholder = new GeneratedKeyHolder();
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
         namedParameters.addValue("nom_article", articleAVendre.getNom());
@@ -45,13 +52,13 @@ public class ArticleAVendreDaoImpl implements ArticleAVendreDao{
         namedParameters.addValue("prix_initial", articleAVendre.getPrixInitial());
         namedParameters.addValue("prix_vente", articleAVendre.getPrixVente());
         namedParameters.addValue("id_utilisateur", vendeur.getPseudo());
-        namedParameters.addValue("no_categorie", categorie.getId());
-        namedParameters.addValue("no_adresse_retrait", vendeur.getAdresse());
+        namedParameters.addValue("no_categorie", categorie.getId()); // ✅
+        namedParameters.addValue("no_adresse_retrait", vendeur.getAdresse().getId()); // ✅
 
         jdbcTemplate.update(INSERT, namedParameters, keyholder);
-
         return keyholder.getKey().longValue();
     }
+
 
     @Override
     public ArticleAVendre read(long id) {

@@ -1,18 +1,11 @@
 package org.example.super_projet_eni.controller;
 
 import org.example.super_projet_eni.bll.ArticleAVendreService;
-import org.example.super_projet_eni.bll.UtilisateurService;
 import org.example.super_projet_eni.bo.*;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -28,7 +21,6 @@ public class ArticleAVendreController {
         this.articleService = articleService;
     }
 
-
     @ModelAttribute
     public void addAttributes(Model model) {
         String dateStr = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
@@ -41,39 +33,25 @@ public class ArticleAVendreController {
     }
 
     @GetMapping("/accueil")
-    public String test(Authentication authentication, Model model, @RequestParam(required = false) String motCle,
-                       @RequestParam(value = "categorie", required = false) Long categorie,
-                       @RequestParam(value = "enchere", required = false) String enchere,
-                       @RequestParam(value = "ventes", required = false) String ventes) {
+    public String test(Model model,
+                       @RequestParam(required = false) String motCle,
+                       @RequestParam(value = "categorie", required = false) Long categorieId) {
 
         List<ArticleAVendre> articleAVendres = articleService.listeArticleAVendre();
-        List<ArticleAVendre> articleAAfficher = null;
+        List<ArticleAVendre> articleAAfficher;
 
-        /* Filtrage sur le nom et la catégorie */
-
-        if (motCle != null && !motCle.isEmpty() && categorie != null) {
-            List<ArticleAVendre> filtreParCategorie = null;
-            filtreParCategorie = articleAVendres.stream()
-                    .filter(a -> {
-                        Long articleCatId = a.getCategorie().getId();
-                        return articleCatId.equals(categorie);
-                    })
+        if (motCle != null && !motCle.isEmpty() && categorieId != null) {
+            articleAAfficher = articleAVendres.stream()
+                    .filter(a -> a.getCategorie() != null && a.getCategorie().getId()==(categorieId))
+                    .filter(a -> a.getNom() != null && a.getNom().toLowerCase().contains(motCle.toLowerCase()))
                     .toList();
-
-            articleAAfficher = filtreParCategorie.stream()
-                    .filter(a -> a.getNom().toLowerCase().contains(motCle.toLowerCase()))
-                    .toList();
-
         } else if (motCle != null && !motCle.isEmpty()) {
             articleAAfficher = articleAVendres.stream()
-                    .filter(a -> a.getNom().toLowerCase().contains(motCle.toLowerCase()))
+                    .filter(a -> a.getNom() != null && a.getNom().toLowerCase().contains(motCle.toLowerCase()))
                     .toList();
-        } else if (categorie != null) {
+        } else if (categorieId != null) {
             articleAAfficher = articleAVendres.stream()
-                    .filter(a -> {
-                        Long articleCatId = a.getCategorie().getId();
-                        return articleCatId.equals(categorie);
-                    })
+                    .filter(a -> a.getCategorie() != null && a.getCategorie().getId()==(categorieId))
                     .toList();
         } else {
             articleAAfficher = articleAVendres;
@@ -81,36 +59,10 @@ public class ArticleAVendreController {
 
         model.addAttribute("articleAAfficher", articleAAfficher);
         model.addAttribute("motCle", motCle);
-        model.addAttribute("categorieActive", categorie);
-
-        /* Filtrage sur les enchères et les ventes */
-
-        if ((enchere != null && !enchere.isEmpty()) || (ventes != null && !ventes.isEmpty())) {
-            Utilisateur utilisateurConnecte = null;
-
-            if (authentication != null) {
-                var principal = authentication.getPrincipal();
-
-                if (principal != null && principal instanceof Utilisateur) {
-                    utilisateurConnecte = (Utilisateur) principal;
-                }
-            }
-
-            List<Enchere> encheresUtilisateur = articleService.listeEnchereParUtilisateur(utilisateurConnecte);
-            List<Enchere> encheresAAfficher;
-
-            if (ventes.equals("enCours")){
-                //Pour chaque enchere : conserver sous forme de liste l'article concerné
-
-                //Filtrer la liste d'articles selon le statut enchere = 1
-                //Trouver le moyen d'afficher seulement les enchères
-            }
-
-        }
+        model.addAttribute("categorieActive", categorieId);
 
         return "index";
     }
-
 
     @GetMapping("/articles/ajouter")
     public String afficherFormVente(Model model) {
@@ -120,37 +72,30 @@ public class ArticleAVendreController {
         return "view-new-vente";
     }
 
-
     @PostMapping("/articles/ajouter")
     public String submitForm(@ModelAttribute ArticleAVendre articleAVendre,
                              @AuthenticationPrincipal Utilisateur vendeur) {
-        // Associer le vendeur connecté
-        articleAVendre.setVendeur(vendeur);
 
-        // Charger les objets complets catégorie et adresse
+        // Récupérer la catégorie complète avant de créer l'article
         Categorie categorie = articleService.consulterCategorieById(articleAVendre.getCategorie().getId());
         articleAVendre.setCategorie(categorie);
 
+        // Récupérer l'adresse complète
         Adresse adresse = articleService.consulterAdresseById(articleAVendre.getRetrait().getId());
         articleAVendre.setRetrait(adresse);
 
-        // Initialiser statut et prixVente
-        articleAVendre.setStatut(1); // statut "en cours"
+        // Associer le vendeur
+        articleAVendre.setVendeur(vendeur);
+
+        // Initialisation des champs
+        articleAVendre.setStatut(1);
         articleAVendre.setPrixVente(0);
 
-        // Créer l'article
-        articleService.creerArticleAVendre(articleAVendre); // sauvegarde en BDD
+        // Créer l'article et récupérer l'id généré
+        long idArticle = articleService.creerArticleAVendre(articleAVendre, vendeur, categorie);
 
+        // Rediriger vers la page d'accueil
         return "redirect:/accueil";
     }
 
 }
-
-
-
-
-
-
-
-
-
