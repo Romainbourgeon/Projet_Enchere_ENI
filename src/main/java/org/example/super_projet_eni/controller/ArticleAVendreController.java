@@ -47,9 +47,6 @@ public class ArticleAVendreController {
         List<ArticleAVendre> articleAVendres = articleService.listeArticleAVendre();
         List<ArticleAVendre> articleAAfficher = null ;
 
-        List<Categorie> list = chargerCategories();
-        System.out.println(list);
-
         if (motCle != null && !motCle.isEmpty() && categorie != null) {
            List<ArticleAVendre> filtreParCategorie = null;
            filtreParCategorie = articleAVendres.stream()
