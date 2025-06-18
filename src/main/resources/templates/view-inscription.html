@@ -21,53 +21,94 @@
                 <input type="text"
                        id="username"
                        th:field="*{pseudo}"
+                       pattern="^[a-zA-Z0-9_]{4,16}$"
+                       title="4 à 16 (lettres, chiffres, tiret bas)"
                        required>
             </div>
 
             <div class="form-group required">
                 <label for="name">Nom :</label>
-                <input type="text" id="name" th:field="*{nom}" required>
+                <input type="text"
+                       id="name"
+                       th:field="*{nom}"
+                       pattern="^[a-zA-ZÀ-ÿ\- ]{2,30}$"
+                       title="2 à 30 lettres. Accents et tirets autorisés"
+                       required>
             </div>
 
             <div class="form-group required">
                 <label for="firstName">Prénom :</label>
-                <input type="text" id="firstName" th:field="*{prenom}" required>
+                <input type="text"
+                       id="firstName"
+                       th:field="*{prenom}"
+                       pattern="^[a-zA-ZÀ-ÿ\- ]{2,30}$"
+                       title="2 à 30 lettres. Accents et tirets autorisés"
+                       required>
             </div>
 
             <div class="form-group required">
                 <label for="email">Email :</label>
-                <input type="email" id="email" th:field="*{email}" required>
+                <input type="email"
+                       id="email"
+                       th:field="*{email}"
+                       pattern="[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+"
+                       title="Veuillez saisir une adresse email valide"
+                       required>
             </div>
 
             <div class="form-group">
                 <label for="phone">Téléphone :</label>
-                <input type="tel" id="phone" th:field="*{telephone}">
+                <input type="tel"
+                       id="phone"
+                       th:field="*{telephone}"
+                       pattern="^0[1-9](\d{2}){4}$"
+                       title="Format FR : 10 chiffres commençant par 0">
             </div>
 
             <div class="form-group required">
                 <label>Adresse :</label>
                 <input type="text" id="rue" th:field="*{adresse.rue}" placeholder="Rue" required>
-                <input type="number" id="codePostal" th:field="*{adresse.codePostal}" placeholder="Code Postal" required>
-                <input type="text" id="ville" th:field="*{adresse.ville}" placeholder="Ville" required>
+                <input type="number"
+                       id="codePostal"
+                       th:field="*{adresse.codePostal}"
+                       placeholder="Code Postal"
+                       min="1000" max="99999"
+                       title="Code postal à 5 chiffres"
+                       required>
+                <input type="text"
+                       id="ville"
+                       th:field="*{adresse.ville}"
+                       pattern="^[a-zA-ZÀ-ÿ\- ]{2,30}$"
+                       title="Nom de ville valide (lettres uniquement)"
+                       placeholder="Ville"
+                       required>
             </div>
 
             <div class="form-group required">
                 <label for="password">Mot de passe :</label>
-                <input type="password" id="password" th:field="*{motDePasse}" required>
+                <input type="password"
+                       id="password"
+                       th:field="*{motDePasse}"
+                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                       title="8 caractères min, avec majuscule, minuscule et chiffre"
+                       required>
             </div>
 
             <div class="form-group required">
                 <label for="confirmPassword">Confirmation :</label>
-                <input type="password" id="confirmPassword" th:field="*{confirmeMotDePasse}" required>
-            </div>
-            <div class="form-buttons">
-            <div class="form-group">
-                <button type="submit">Créer</button>
+                <input type="password"
+                       id="confirmPassword"
+                       th:field="*{confirmeMotDePasse}"
+                       required>
             </div>
 
-            <div class="form-group">
-                <button type="reset">Annuler</button>
-            </div>
+            <div class="form-buttons">
+                <div class="form-group">
+                    <button type="submit">Créer</button>
+                </div>
+                <div class="form-group">
+                    <button type="reset">Annuler</button>
+                </div>
             </div>
         </form>
     </main>

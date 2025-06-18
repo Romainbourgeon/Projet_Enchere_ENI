@@ -5,12 +5,12 @@
         ~{},
         ~{::content},
         ~{},
-        ~{fragments/profilCss :: css},
+        ~{fragments/modif-profilCSS :: css},
         'view-modif-profil'
       )}">
 
 <div th:fragment="content">
-    <main>
+    <main class="page-modif-profil">
         <h1>Modifier mon profil</h1>
 
         <p><strong>Pseudo :</strong> <span th:text="${utilisateur.pseudo}">pseudo</span></p>
@@ -43,5 +43,4 @@
         </form>
     </main>
 </div>
-
 </html>

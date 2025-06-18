@@ -55,43 +55,6 @@
 <footer class="text-center text-muted py-3 mt-5 border-top">
     &copy; 2025 Les objets sont nos amis. Tous droits réservés.
 </footer>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const trailLength = 30; // Nombre de particules dans la trainée
-        const trailElements = [];
-
-        // Créer les éléments de la trainée
-        for (let i = 0; i < trailLength; i++) {
-            const trail = document.createElement('div');
-            trail.className = 'trail';
-            document.body.appendChild(trail);
-            trailElements.push(trail);
-
-            // Style initial (invisible)
-            trail.style.opacity = 0;
-            trail.style.transform = 'translate(-50%, -50%) scale(0)';
-        }
-
-        let index = 0;
-
-        document.addEventListener('mousemove', function(e) {
-            // Mettre à jour la position de la particule actuelle
-            const trail = trailElements[index];
-            trail.style.left = e.pageX + 'px';
-            trail.style.top = e.pageY + 'px';
-            trail.style.opacity = '0.6';
-            trail.style.transform = 'translate(-50%, -50%) scale(1)';
-
-            // Réinitialiser la particule après un court délai
-            setTimeout(() => {
-                trail.style.opacity = '0';
-                trail.style.transform = 'translate(-50%, -50%) scale(0)';
-            }, 100);
-
-            // Passer à la particule suivante
-            index = (index + 1) % trailLength;
-        });
-    });
-</script>
+<script src="/Javascript/JSFonction.js"></script>
 </body>
 </html>
