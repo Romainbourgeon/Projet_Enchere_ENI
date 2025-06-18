@@ -6,6 +6,7 @@ import org.example.super_projet_eni.dal.*;
 
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -14,21 +15,20 @@ import java.util.List;
 public class ArticleAVendreServiceImpl implements ArticleAVendreService {
 
 
-    private UtilisateurDao utilisateurDao;
-    private ArticleAVendreDao articleAVendreDao;
-    private AdresseDao adresseDao;
-    private CategorieDao categorieDao;
-    private EnchereDao enchereDao;
+    private final UtilisateurDao utilisateurDao;
+    private final ArticleAVendreDao articleAVendreDao;
+    private final AdresseDao adresseDao;
+    private final CategorieDao categorieDao;
+    private final EnchereDao enchereDao;
 
 
-    public ArticleAVendreServiceImpl(UtilisateurDao utilisateurDao, ArticleAVendreDao articleAVendreDao, AdresseDao adresseDao, CategorieDao categorieDao) {
+    public ArticleAVendreServiceImpl(UtilisateurDao utilisateurDao, ArticleAVendreDao articleAVendreDao, AdresseDao adresseDao, CategorieDao categorieDao, EnchereDao enchereDao) {
         this.utilisateurDao = utilisateurDao;
         this.articleAVendreDao = articleAVendreDao;
         this.adresseDao = adresseDao;
         this.categorieDao = categorieDao;
-
+        this.enchereDao = enchereDao;
     }
-
 
     @Override
     public List<ArticleAVendre> listeArticleAVendre() {
@@ -84,7 +84,6 @@ public class ArticleAVendreServiceImpl implements ArticleAVendreService {
     }
 
 
-
     @Override
     public List<ArticleAVendre> findByNomAndCategorie(String motCle, Long categorieId) {
         return articleAVendreDao.readAll().stream()
@@ -122,7 +121,7 @@ public class ArticleAVendreServiceImpl implements ArticleAVendreService {
                 .filter(a -> a.getStatut() == 0)
                 .toList();
 
-        return listeFiltree ;
+        return listeFiltree;
     }
 
     @Override
@@ -135,21 +134,38 @@ public class ArticleAVendreServiceImpl implements ArticleAVendreService {
                 .filter(a -> a.getStatut() == 3)
                 .toList();
 
-        return listeFiltree ;
+        return listeFiltree;
     }
 
     @Override
-    public List<ArticleAVendre> filtreMesEncheresEnCours(Utilisateur utilisateur) {
+    public List<Enchere> filtreMesEncheresEnCours(Utilisateur utilisateur) {
         List<Enchere> encheresDeUtilisateur = enchereDao.readAllByUtilisateur(utilisateur);
-        List<ArticleAVendre> listeArticles = null;
+        List<ArticleAVendre> listeArticles = new ArrayList<>();
 
         encheresDeUtilisateur.stream()
                 .forEach(e -> listeArticles.add(articleAVendreDao.read(e.getArticleAVendre().getId())));
 
-        List<ArticleAVendre> listeFiltree = listeArticles.stream()
+        List<ArticleAVendre> listeArticleFiltree = listeArticles.stream()
                 .filter(a -> a.getStatut() == 1)
                 .toList();
 
+        List<Enchere> listeFiltree = new ArrayList<>();
+
+        /*listeArticleFiltree.forEach(a -> {
+           listeFiltree.addAll(enchereDao.readAllByArticle(a));
+                });*/
+
+
+
+        listeArticleFiltree.forEach(a -> {
+            encheresDeUtilisateur.forEach(e -> {
+                        if (a.getId() == e.getArticleAVendre().getId()) {
+                            listeFiltree.add(e);
+                            e.setArticleAVendre(a);
+                        }
+                    }
+            );
+        });
         return listeFiltree;
     }
 

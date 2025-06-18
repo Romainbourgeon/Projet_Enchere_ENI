@@ -35,6 +35,11 @@ public class ArticleAVendreController {
         return articleService.listeCategorie();
     }
 
+    @GetMapping("/")
+    public String redirectionAccueil (){
+        return "redirect:/accueil";
+    }
+
     @GetMapping("/accueil")
     public String test(Authentication authentication, Model model, @RequestParam(required = false) String motCle,
                        @RequestParam(value = "categorie", required = false) Long categorie,
@@ -93,22 +98,23 @@ public class ArticleAVendreController {
 
             if ((enchere != null && !enchere.isEmpty()) || (ventes != null && !ventes.isEmpty())) {
 
-                // A finir
-                /*if (enchere.equals("enCours")) {
-                    articleAAfficher = articleService.filtreMesEncheresEnCours(utilisateurConnecte);
-                }*/
+                articleAAfficher = null;
 
-                if (ventes.equals("enCours")) {
+                if ("enCours".equals(enchere)) {
+                    encheresAAfficher = articleService.filtreMesEncheresEnCours(utilisateurConnecte);
+                }
+
+                if ("enCours".equals(ventes)) {
                     articleAAfficher = articleAVendres.stream()
                             .filter(a -> a.getVendeur().getPseudo()
                                     .equals(utilisateurConnecte.getPseudo())).toList();
                 }
 
-                if (ventes.equals("nonDebutees")) {
+                if ("nonDebutees".equals(ventes)) {
                     articleAAfficher = articleService.filtreMesVentesNonDebutees(utilisateurConnecte);
                 }
 
-                if (ventes.equals("terminees")) {
+                if ("terminees".equals(ventes)) {
                     articleAAfficher = articleService.filtreMesVentesTerminees(utilisateurConnecte);
                 }
             }

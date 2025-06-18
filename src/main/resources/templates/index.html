@@ -67,25 +67,17 @@
             <div data-th-each="enchereAAfficher : ${encheresAAfficher}">
                 <h3 data-th-text="${enchereAAfficher.articleAVendre.nom}"></h3>
                 <p data-th-text="' Prix proposé : '+ ${enchereAAfficher.montant} + ' point(s)'"></p>
-                <p data-th-text="' Date de l\'enchère : ' + ${enchereAAfficher.date}"></p>
+                <p data-th-text="' Date de l\'enchère : ' + ${enchereAAfficher.date.toLocalDate()}"></p>
             </div>
 
 
           <!--Messages d'erreur-->
 
-            <div th:if="${#lists.isEmpty(articleAAfficher)}">
+            <div th:if="${#lists.isEmpty(articleAAfficher) and #lists.isEmpty(encheresAAfficher)}">
                 <p>Aucun article trouvé avec ces critères.</p>
             </div>
 
 
-            <!--Reprendre exemple cidessus si liste obtenue dans le controller est vide-->
-            <div id="pasEncheresEnCours" style="display: none;">
-                <p>Vous n'avez pas d'enchères en cours.</p>
-            </div>
-
-            <div id="pasEncheresRemportees" style="display: none;">
-                <p>Vous n'avez pas encore remporté d'enchères.</p>
-            </div>
         </ul>
     </main>
 </div>

@@ -10,6 +10,7 @@ public class ArticleAVendreRowMapper implements RowMapper<ArticleAVendre> {
     @Override
     public ArticleAVendre mapRow(ResultSet rs, int rowNum) throws SQLException {
         var articleAVendre = new ArticleAVendre();
+        articleAVendre.setId(rs.getInt("no_article"));
         articleAVendre.setNom(rs.getString("nom_article"));
         articleAVendre.setDescription(rs.getString("description"));
         articleAVendre.setDateDebutEncheres(rs.getDate("date_debut_encheres").toLocalDate());

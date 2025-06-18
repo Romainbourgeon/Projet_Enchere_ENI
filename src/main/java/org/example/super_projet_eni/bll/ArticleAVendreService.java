@@ -44,7 +44,7 @@ public interface ArticleAVendreService {
 
     List<ArticleAVendre> filtreMesVentesTerminees(Utilisateur utilisateur);
 
-    List<ArticleAVendre> filtreMesEncheresEnCours(Utilisateur utilisateur);
+    List<Enchere> filtreMesEncheresEnCours(Utilisateur utilisateur);
 }
 
 
