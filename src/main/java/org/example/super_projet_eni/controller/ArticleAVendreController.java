@@ -1,11 +1,11 @@
 package org.example.super_projet_eni.controller;
 
 import org.example.super_projet_eni.bll.ArticleAVendreService;
-import org.example.super_projet_eni.bo.Adresse;
-import org.example.super_projet_eni.bo.ArticleAVendre;
-import org.example.super_projet_eni.bo.Categorie;
-import org.example.super_projet_eni.bo.Utilisateur;
+import org.example.super_projet_eni.bll.UtilisateurService;
+import org.example.super_projet_eni.bo.*;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
-@SessionAttributes({ "categoriesEnSession"})
+@SessionAttributes({"categoriesEnSession"})
 public class ArticleAVendreController {
 
     private final ArticleAVendreService articleService;
@@ -41,18 +41,33 @@ public class ArticleAVendreController {
     }
 
     @GetMapping("/accueil")
-    public String test(Model model, @RequestParam(required = false) String motCle,
-                       @RequestParam(value = "categorie", required = false) Long categorie) {
+    public String test(Authentication authentication, Model model, @RequestParam(required = false) String motCle,
+                       @RequestParam(value = "categorie", required = false) Long categorie,
+                       @RequestParam(value = "enchere", required = false) String enchere,
+                       @RequestParam(value = "ventes", required = false) String ventes) {
 
         List<ArticleAVendre> articleAVendres = articleService.listeArticleAVendre();
-        List<ArticleAVendre> articleAAfficher = null ;
+        List<ArticleAVendre> articleAAfficher = null;
 
-        List<Categorie> list = chargerCategories();
+        /* Filtrage sur le nom et la catégorie */
 
         if (motCle != null && !motCle.isEmpty() && categorie != null) {
-            /*articleAVendres = articleService.findByNomAndCategorie(motCle, categorie);*/
+            List<ArticleAVendre> filtreParCategorie = null;
+            filtreParCategorie = articleAVendres.stream()
+                    .filter(a -> {
+                        Long articleCatId = a.getCategorie().getId();
+                        return articleCatId.equals(categorie);
+                    })
+                    .toList();
+
+            articleAAfficher = filtreParCategorie.stream()
+                    .filter(a -> a.getNom().toLowerCase().contains(motCle.toLowerCase()))
+                    .toList();
+
         } else if (motCle != null && !motCle.isEmpty()) {
-            /*articleAVendres = articleService.findByNom(motCle);*/
+            articleAAfficher = articleAVendres.stream()
+                    .filter(a -> a.getNom().toLowerCase().contains(motCle.toLowerCase()))
+                    .toList();
         } else if (categorie != null) {
             articleAAfficher = articleAVendres.stream()
                     .filter(a -> {
@@ -64,9 +79,34 @@ public class ArticleAVendreController {
             articleAAfficher = articleAVendres;
         }
 
-        model.addAttribute("articleAAfficher",articleAAfficher);
+        model.addAttribute("articleAAfficher", articleAAfficher);
         model.addAttribute("motCle", motCle);
         model.addAttribute("categorieActive", categorie);
+
+        /* Filtrage sur les enchères et les ventes */
+
+        if ((enchere != null && !enchere.isEmpty()) || (ventes != null && !ventes.isEmpty())) {
+            Utilisateur utilisateurConnecte = null;
+
+            if (authentication != null) {
+                var principal = authentication.getPrincipal();
+
+                if (principal != null && principal instanceof Utilisateur) {
+                    utilisateurConnecte = (Utilisateur) principal;
+                }
+            }
+
+            List<Enchere> encheresUtilisateur = articleService.listeEnchereParUtilisateur(utilisateurConnecte);
+            List<Enchere> encheresAAfficher;
+
+            if (ventes.equals("enCours")){
+                //Pour chaque enchere : conserver sous forme de liste l'article concerné
+
+                //Filtrer la liste d'articles selon le statut enchere = 1
+                //Trouver le moyen d'afficher seulement les enchères
+            }
+
+        }
 
         return "index";
     }
@@ -105,3 +145,12 @@ public class ArticleAVendreController {
     }
 
 }
+
+
+
+
+
+
+
+
+

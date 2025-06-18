@@ -83,6 +83,11 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     }
 
     @Override
+    public Adresse voirAdresseParUtilisateur(Utilisateur utilisateur) {
+        return null;
+    }
+
+    @Override
     public void creerAdresse(Adresse adresse) {
         adresseDao.create(adresse);
     }

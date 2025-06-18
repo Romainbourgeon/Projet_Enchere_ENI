@@ -26,6 +26,7 @@ public class UtilisateurRowMapper implements RowMapper<Utilisateur> {
         Adresse adresse = new Adresse();
         if (rs.getObject("no_adresse") != null) {
             adresse.setId((long) rs.getInt("no_adresse"));
+
         }else {
             adresse.setRue("Non spécifié");
             adresse.setVille("Non spécifié");

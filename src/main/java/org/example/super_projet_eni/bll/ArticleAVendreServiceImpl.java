@@ -1,14 +1,8 @@
 package org.example.super_projet_eni.bll;
 
 
-import org.example.super_projet_eni.bo.Adresse;
-import org.example.super_projet_eni.bo.ArticleAVendre;
-import org.example.super_projet_eni.bo.Categorie;
-import org.example.super_projet_eni.bo.Utilisateur;
-import org.example.super_projet_eni.dal.AdresseDao;
-import org.example.super_projet_eni.dal.ArticleAVendreDao;
-import org.example.super_projet_eni.dal.CategorieDao;
-import org.example.super_projet_eni.dal.UtilisateurDao;
+import org.example.super_projet_eni.bo.*;
+import org.example.super_projet_eni.dal.*;
 
 import org.springframework.stereotype.Service;
 
@@ -24,6 +18,7 @@ public class ArticleAVendreServiceImpl implements ArticleAVendreService {
     private ArticleAVendreDao articleAVendreDao;
     private AdresseDao adresseDao;
     private CategorieDao categorieDao;
+    private EnchereDao enchereDao;
 
 
     public ArticleAVendreServiceImpl(UtilisateurDao utilisateurDao, ArticleAVendreDao articleAVendreDao, AdresseDao adresseDao, CategorieDao categorieDao) {
@@ -100,5 +95,10 @@ public class ArticleAVendreServiceImpl implements ArticleAVendreService {
         return articleAVendreDao.readAll().stream()
                 .filter(a -> a.getCategorie() != null && a.getCategorie().getId() == categorieId)
                 .toList();
+    }
+
+    @Override
+    public List<Enchere> listeEnchereParUtilisateur(Utilisateur utilisateur) {
+        return enchereDao.readAllByUtilisateur(utilisateur);
     }
 }
