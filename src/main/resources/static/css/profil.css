@@ -1,73 +1,3 @@
-/*
-
-!* Styles spécifiques à la page profil *!
-.page-profil .profil-info p {
-    margin-bottom: 15px;
-    line-height: 1.6; !* contrôle l'espace entre les lignes *!
-}
-
-.page-profil .btn {
-    display: inline-block;
-    padding: 5px 15px; !* boutons un peu moins hauts, plus larges *!
-    font-weight: 600;
-    border-radius: 6px;
-    cursor: pointer;
-    text-decoration: none;
-    text-align: center;
-    color: white;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    user-select: none;
-    border: none;
-    min-width: 140px; !* largeur minimum uniforme *!
-    margin-right: 10px;
-    font-size: 1rem;
-}
-
-.page-profil .btn-primary {
-    background-color: #004aad;
-    color: white;
-}
-
-.page-profil .btn-primary:hover {
-    background-color: #003580;
-}
-
-.page-profil .btn-secondary {
-    background-color: #6c757d;
-    color: white;
-}
-
-.page-profil .btn-secondary:hover {
-    background-color: #565e64;
-}
-
-.page-profil .btn-danger {
-    background-color: #dc3545;
-    color: white;
-}
-
-.page-profil .btn-danger:hover {
-    background-color: #a71d2a;
-}
-
-.page-profil .btn-cancel {
-    background-color: #f0f0f0;
-    color: #333;
-    border: 1px solid #ccc;
-}
-
-.page-profil .btn-cancel:hover {
-    background-color: #ddd;
-}
-
-.page-profil .actions {
-    margin-top: 50px; !* bouton plus bas *!
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-}
-*/
-
 /* Page profil - Styles spécifiques */
 .page-profil main {
     background-color: var(--light-color);
@@ -75,7 +5,7 @@
     border-radius: 8px;
     box-shadow: var(--shadow);
     margin: 2rem auto;
-    max-width: 800px;
+    max-width: 500px;
 }
 
 .page-profil h1 {
