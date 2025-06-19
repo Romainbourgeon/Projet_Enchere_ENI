@@ -52,8 +52,8 @@ public class ArticleAVendreDaoImpl implements ArticleAVendreDao{
         namedParameters.addValue("prix_initial", articleAVendre.getPrixInitial());
         namedParameters.addValue("prix_vente", articleAVendre.getPrixVente());
         namedParameters.addValue("id_utilisateur", vendeur.getPseudo());
-        namedParameters.addValue("no_categorie", categorie.getId()); // ✅
-        namedParameters.addValue("no_adresse_retrait", vendeur.getAdresse().getId()); // ✅
+        namedParameters.addValue("no_categorie", categorie.getId());
+        namedParameters.addValue("no_adresse_retrait", vendeur.getAdresse().getId());
 
         jdbcTemplate.update(INSERT, namedParameters, keyholder);
         return keyholder.getKey().longValue();

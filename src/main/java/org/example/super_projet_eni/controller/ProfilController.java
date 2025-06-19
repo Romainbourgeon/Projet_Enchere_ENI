@@ -22,46 +22,18 @@ public class ProfilController {
   this.utilisateurService = utilisateurService;
  }
 
-/* @GetMapping("/profil")
- public String afficherProfil(Model model) {
-  Utilisateur utilisateur = new Utilisateur();
-  utilisateur.setPseudo("mockUser");
-  utilisateur.setNom("Dupont");
-  utilisateur.setPrenom("Jean");
-  utilisateur.setEmail("jean.dupont@example.com");
-  utilisateur.setTelephone("0123456789");
-  utilisateur.setCredit(100);
-  utilisateur.setAdmin(false);
-
-  Adresse adresse = new Adresse();
-  adresse.setId(1);
-  adresse.setRue("10 rue des Fleurs");
-  adresse.setCodePostal("75000");
-  adresse.setVille("Paris");
-
-  utilisateur.setAdresse(adresse);
-
-  model.addAttribute("utilisateur", utilisateur);
-
-  return "view-profil"; // adapte selon ton fichier Thymeleaf
- }*/
-
-
-
-
-
  @GetMapping("/profil")
  public String afficherProfil(Model model) {
-  // 🔐 Récupération du pseudo de l'utilisateur connecté
+  //  Récupération du pseudo de l'utilisateur connecté
   String pseudo = SecurityContextHolder.getContext().getAuthentication().getName();
 
-  // 🔍 Récupération des infos de l'utilisateur depuis la BDD
+  //  Récupération des infos de l'utilisateur depuis la BDD
   Utilisateur utilisateur = utilisateurService.consulterUtilisateurByPseudo(pseudo);
 
   long adresseID = utilisateur.getAdresse().getId();
   Adresse adresse = utilisateurService.voirAdresseParId((int) adresseID);
 
-  // 📦 Injection dans le modèle
+  //  Injection dans le modèle
   model.addAttribute("utilisateur", utilisateur);
   model.addAttribute("adresse", adresse);
   return "view-profil";
@@ -81,15 +53,7 @@ public class ProfilController {
   return "view-modif-profil";  // le nom de ta vue Thymeleaf
  }
 
- /*@PostMapping("/profil/modifier")
- public String enregistrerModifications(@ModelAttribute Utilisateur utilisateur, Principal principal) {
-  // Ici tu peux vérifier que l'utilisateur modifie bien son propre profil
 
-
-
-  utilisateurService.update(utilisateur);
-  return "redirect:/profil";
- }*/
 
  @PostMapping("/profil/modifier")
  public String enregistrerModifications(@ModelAttribute Utilisateur utilisateurForm, Principal principal) {
@@ -112,9 +76,4 @@ public class ProfilController {
 
   return "redirect:/profil";
  }
-
-
-
-
-
 }

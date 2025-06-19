@@ -16,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
 
 import javax.sql.DataSource;
 
@@ -38,14 +38,6 @@ public class SecurityConfiguration {
         return auth.build();
     }
 
-    // A supprimer car authenticationManager gère déjà l'authentification
-    /*@Bean
-    UserDetailsManager userDetailsManager(DataSource dataSource) {
-        JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager(dataSource);
-        userDetailsManager.setUsersByUsernameQuery("SELECT pseudo,password,1 FROM MEMBRE where pseudo=?");
-        userDetailsManager.setAuthoritiesByUsernameQuery("SELECT role FROM utilisateur_roles WHERE pseudo=?");
-        return userDetailsManager;
-    }*/
 
 
     @Bean
@@ -66,6 +58,7 @@ public class SecurityConfiguration {
                     auth.requestMatchers(HttpMethod.GET, "/").permitAll();
                     auth.requestMatchers(HttpMethod.GET, "/error").permitAll();
                     auth.requestMatchers(HttpMethod.GET, "/images/**").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/Javascript/**").permitAll();
                     auth.requestMatchers(HttpMethod.GET, "/css/**").permitAll();
                     auth.requestMatchers(HttpMethod.GET, "/accueil").permitAll();
                     auth.requestMatchers("/register").permitAll();
@@ -80,15 +73,13 @@ public class SecurityConfiguration {
                     auth.requestMatchers(HttpMethod.POST, "/deleteAccount").hasAnyRole("ADMIN");
                     auth.requestMatchers(HttpMethod.POST, "/desableAccount").hasAnyRole("ADMIN");
                     auth.requestMatchers(HttpMethod.POST, "/gestionCatgArticle").hasAnyRole("ADMIN");
-                    auth.requestMatchers(HttpMethod.GET,"/profil").permitAll();             //hasAnyRole("USER","ADMIN");
+                    auth.requestMatchers(HttpMethod.GET,"/profil").hasAnyRole("USER", "ADMIN");        //hasAnyRole("USER","ADMIN");
 
 
-            auth.anyRequest().permitAll();//authenticated
+            auth.anyRequest().authenticated();
         })
 
-                //version de pages de login par defaut du framework (spring)
-                /*http.formLogin(Customizer.withDefaults());  //Cette ligne active l'authentification par formulaire HTML (form login).
-                http.csrf(c -> c.disable()); //Cela désactive la protection CSRF (Cross-Site Request Forgery).(API REST, tests, outils comme Postman)*/
+
 
                 .csrf(Customizer.withDefaults())
                 .cors(Customizer.withDefaults())
