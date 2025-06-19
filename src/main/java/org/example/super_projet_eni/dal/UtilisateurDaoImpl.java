@@ -141,3 +141,14 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 
 
 }
+
+
+/*
+CREATE TABLE UTILISATEUR_ROLES(
+                                     pseudo    VARCHAR(30) NOT NULL,
+                                     role     NVARCHAR(50) NOT NULL,
+                                     is_admin      bit NOT NULL default 0
+   );
+   ALTER TABLE UTILISATEUR_ROLES ADD CONSTRAINT utilisateurrole_pk PRIMARY KEY (pseudo, role);
+   ALTER TABLE UTILISATEUR_ROLES ADD CONSTRAINT utilisateurrole_fk FOREIGN KEY (pseudo) REFERENCES UTILISATEURS (pseudo)
+*/

@@ -113,6 +113,10 @@ public class ProfilController {
   return "redirect:/profil";
  }
 
+@GetMapping("/maintenance")
+ public String maintenance() {
+  return "page-maintenance";
+ }
 
 
 
